@@ -182,21 +182,23 @@ function Verdict({ r, group, decided, onDecide, nextOpen, leftText, back }: Verd
     const o = outcome(decided.choice, d.verdict);
     return (
       <div className={`verdict resolved ${o.state}`} role="status">
-        <div className="verdict-say">
-          <span className="resolved-mark"><StateIcon state={o.state} size={24} /></span>
-          <div>
-            <p className="status settled">Done at {clockTime(decided.at)}</p>
-            <h2>{o.title}</h2>
+        <div className="res-main">
+          <span className="resolved-mark"><StateIcon state={o.state} size={22} /></span>
+          <div className="res-text">
+            <div className="res-title">
+              <h2>{o.title}</h2>
+              <span className="demo-tag" title="Nothing real was blocked, sent or saved outside this browser tab">Demo</span>
+            </div>
             <p>{o.body}</p>
-            <p className="demo-note">Demo: nothing real was blocked, sent or saved outside this browser tab.</p>
           </div>
+          <span className="res-time">{clockTime(decided.at)}</span>
         </div>
-        <div className="acts">
+        <div className="res-foot">
+          <span className="left">{leftText}</span>
           <div className="acts-row">
-            <button className="btn" onClick={() => onDecide(null)}>Undo</button>
+            <button className="btn quiet" onClick={() => onDecide(null)}>Undo</button>
             {nextOpen ? <a className="btn primary" href={nextOpen}>Next alert</a> : <a className="btn primary" href={back.href}>{back.label}</a>}
           </div>
-          <span className="left">{leftText}</span>
         </div>
       </div>
     );

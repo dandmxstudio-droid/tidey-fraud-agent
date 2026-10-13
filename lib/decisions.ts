@@ -4,8 +4,8 @@ import type { Action, Verdict } from './types';
 export type Choice = 'approve' | 'override' | 'legit' | 'fraud' | 'contact' | 'confirm' | 'reopen';
 export type Decided = { choice: Choice; at: string };
 // Feedback follows the usual UI meaning, whatever the action was:
-// success = done and resolved, info = done but waiting on someone else, warning = back to needing attention.
-export type FeedbackState = 'success' | 'info' | 'warning';
+// success = the call went through, warning = the alert needs a person's attention again.
+export type FeedbackState = 'success' | 'warning';
 
 const KEY = 'tidey-decisions';
 
@@ -61,7 +61,7 @@ export function outcome(choice: Choice, verdict: Verdict): { working: string; ti
     case 'fraud':
       return { working: 'Sending it to the fraud team…', title: 'Escalated as fraud', body: 'The fraud team has the case with Tidey’s notes, and the card is on hold until they review it.', short: 'Escalated', state: 'success' };
     case 'contact':
-      return { working: 'Texting the customer…', title: 'Waiting on the customer', body: 'Tidey texted the customer to confirm the activity. The alert stays open until they reply.', short: 'Waiting on customer', state: 'info' };
+      return { working: 'Texting the customer…', title: 'Customer texted', body: 'Tidey asked the customer to confirm the activity. The alert stays open until they reply.', short: 'Customer texted', state: 'success' };
     case 'confirm':
       return { working: 'Saving your check…', title: 'Spot-checked', body: 'You agreed with Tidey’s close. It’s logged as checked.', short: 'Checked', state: 'success' };
     case 'reopen':

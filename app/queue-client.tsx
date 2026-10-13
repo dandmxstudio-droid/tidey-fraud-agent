@@ -15,24 +15,27 @@ const BRIEFED_KEY = 'tidey-briefed';
 
 // The order Tidey suggests working through the queue.
 const ORDER: Action[] = ['escalate', 'analyst', 'close'];
-const TASK: Record<Action, { label: (n: number) => string; status: string; head: string; voice: string; start: string }> = {
+const TASK: Record<Action, { name: string; short: string; unit: string; head: string; voice: string; start: string }> = {
   escalate: {
-    label: (n) => `fraud ${n === 1 ? 'block' : 'blocks'} to approve`,
-    status: 'Waiting on you',
+    name: 'Fraud to approve',
+    short: 'Fraud',
+    unit: 'left',
     head: 'Fraud, waiting for your approval',
     voice: 'I’ve recommended a block or hold on each. Nothing happens to a card or account until you approve it.',
     start: 'Review in order',
   },
   analyst: {
-    label: (n) => `judgment ${n === 1 ? 'call' : 'calls'}`,
-    status: 'Waiting on you',
+    name: 'Judgment calls',
+    short: 'Judgment',
+    unit: 'left',
     head: 'Needs your call',
     voice: 'Mixed signals on these. For each one I’ve written what doesn’t add up and what I’d check next.',
     start: 'Review in order',
   },
   close: {
-    label: () => 'closed by me',
-    status: 'Spot-check if you like',
+    name: 'Closed by Tidey',
+    short: 'Closed',
+    unit: 'to spot-check',
     head: 'Closed by Tidey',
     voice: 'False alarms I closed on my own. Each one keeps its evidence, so you can check my work.',
     start: 'Spot-check in order',
@@ -109,8 +112,8 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
   const n = rows.length;
   const closed = of('close').length;
   const sub = closed
-    ? `I investigated yesterday’s ${n} alerts and closed the ${plural(closed, 'clear false alarm', 'clear false alarms')} myself. The other ${n - closed} need you. Here’s the order I’d take them in.`
-    : `I investigated yesterday’s ${n} alerts. All of them need you. Here’s the order I’d take them in.`;
+    ? `I investigated yesterday’s ${n} alerts and closed the ${plural(closed, 'clear false alarm', 'clear false alarms')} myself. The other ${n - closed} need you, and I’d start with the fraud approvals.`
+    : `I investigated yesterday’s ${n} alerts. All of them need you, and I’d start with the fraud approvals.`;
   // Alerts still waiting come first; ones the analyst already decided sink to the bottom.
   const list = [...of(tab).filter((a) => !decisions[a.id]), ...of(tab).filter((a) => decisions[a.id])];
   const firstOpen = list.find((a) => !decisions[a.id]);
@@ -126,13 +129,13 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
         <p className="hero-sub"><Reveal text={sub} from={180} /></p>
       </section>
 
-      <Sorter rows={rows} handled={handled} tab={tab} onPick={pick} intro={intro} totalMs={totalMs} decisions={decisions} reviewed={reviewed} />
-
+      <Sorter rows={rows} handled={handled} tab={tab} onPick={pick} intro={intro} totalMs={totalMs} decisions={decisions} reviewed={reviewed}>
       <section className="inbox" id="inbox" role="tabpanel" aria-labelledby={`task-${tab}`}>
         <div className="inbox-head">
           <div>
             <h2>{TASK[tab].head}</h2>
             <p>{TASK[tab].voice}</p>
+            <p className="breakdown">{breakdown(tab, of(tab).map((a) => handled.get(a.id)!))}</p>
           </div>
           {firstOpen
             ? <a className="btn primary" href={`/cases/${firstOpen.id}?view=${tab}`}>{list.some((a) => decisions[a.id]) ? 'Continue' : TASK[tab].start}</a>
@@ -158,6 +161,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
         })}
         {list.length === 0 && <div className="inbox-head"><p>Nothing here.</p></div>}
       </section>
+      </Sorter>
 
       <p className="foot-note">
         {run?.kind === 'official' ? 'This queue shows the official test run.' : 'This queue shows your latest live run.'} Tidewell is fictional and every alert is synthetic.
@@ -206,7 +210,7 @@ function breakdown(k: Action, rs: RunResult[]): string {
 }
 
 // The three groups, in the order Tidey suggests. On a first visit, yesterday's alerts drop into them in time order.
-function Sorter({ rows, handled, tab, onPick, intro, totalMs, decisions, reviewed }: { rows: AlertRow[]; handled: Map<string, RunResult>; tab: Action; onPick: (k: Action) => void; intro: boolean; totalMs: number; decisions: Record<string, Decided>; reviewed: number }) {
+function Sorter({ rows, handled, tab, onPick, intro, totalMs, decisions, reviewed, children }: { rows: AlertRow[]; handled: Map<string, RunResult>; tab: Action; onPick: (k: Action) => void; intro: boolean; totalMs: number; decisions: Record<string, Decided>; reviewed: number; children: React.ReactNode }) {
   const events = useMemo(
     () => rows.map((a) => ({ id: a.id, time: alertTime(handled.get(a.id)!, a), action: handled.get(a.id)!.trace.decision.action })).sort((x, y) => x.time.localeCompare(y.time)),
     [rows, handled],
@@ -234,42 +238,39 @@ function Sorter({ rows, handled, tab, onPick, intro, totalMs, decisions, reviewe
   const clock = landed.length ? landed[landed.length - 1].time : '00:00';
 
   return (
-    <section className="tasks-wrap" aria-label="Your queue">
+    <>
       <p className={`sort-status${sorting ? ' sorting' : ''}`} aria-live="polite">
         <i />
         {sorting
           ? <>Sorting yesterday’s alerts <span className="clock">{clock}</span></>
           : <>All {events.length} sorted, in {secs(totalMs)} of work{reviewed ? <>. You’ve handled {reviewed} so far.</> : null}</>}
       </p>
-      <div className="tasks" role="tablist" aria-label="Alert groups">
-        {ORDER.map((k, idx) => {
-          const mine = events.filter((e) => e.action === k);
-          const done = mine.filter((e) => decisions[e.id]).length;
-          const open = mine.length - done;
-          // Counts climb as alerts land during the replay, then show what is left to do.
-          const shown = sorting ? landed.filter((e) => e.action === k && !decisions[e.id]).length : open;
-          const rs = mine.map((e) => handled.get(e.id)!);
-          const waiting = k !== 'close' && open > 0;
-          const finished = mine.length > 0 && open === 0;
-          return (
-            <button key={k} id={`task-${k}`} role="tab" aria-selected={tab === k} aria-controls="inbox" className={`task ${k}${finished ? ' finished' : ''}`} onClick={() => onPick(k)}>
-              <span className="task-top">
-                <span className="task-n">{finished ? <Check /> : idx + 1}</span>
-                <span className="task-status"><i className={waiting ? 'pulsing' : ''} />{finished ? 'All done' : TASK[k].status}</span>
-              </span>
-              {k === 'close'
-                ? <span className="task-count"><b>{sorting ? shown : mine.length}</b>{TASK[k].label(mine.length)}</span>
-                : <span className="task-count"><b>{shown}</b>{finished ? 'left' : TASK[k].label(open)}</span>}
-              <span className="task-progress">
-                <span className="track"><b style={{ width: `${mine.length ? (100 * done) / mine.length : 0}%` }} /></span>
-                <span className="task-progress-label">{done} of {mine.length} {k === 'close' ? 'spot-checked' : 'reviewed'}</span>
-              </span>
-              <span className="task-note">{breakdown(k, rs)}</span>
-            </button>
-          );
-        })}
+      <div className="queue-panel">
+        <div className="qtabs" role="tablist" aria-label="Alert groups">
+          {ORDER.map((k) => {
+            const mine = events.filter((e) => e.action === k);
+            const done = mine.filter((e) => decisions[e.id]).length;
+            const open = mine.length - done;
+            // Counts climb as alerts land during the replay, then show what is left to do.
+            const shown = sorting ? landed.filter((e) => e.action === k && !decisions[e.id]).length : open;
+            const waiting = k !== 'close' && open > 0;
+            const finished = mine.length > 0 && open === 0;
+            return (
+              <button key={k} id={`task-${k}`} role="tab" aria-selected={tab === k} aria-controls="inbox" className={`qtab ${k}${finished ? ' finished' : ''}`} onClick={() => onPick(k)}>
+                <span className="qtab-name"><i className={waiting ? 'pulsing' : ''} /><span className="long">{TASK[k].name}</span><span className="short" aria-hidden="true">{TASK[k].short}</span></span>
+                <span className="qtab-count">
+                  {finished
+                    ? <span className="qtab-done"><Check />All done</span>
+                    : <><b>{shown}</b><span>of {mine.length} {TASK[k].unit}</span></>}
+                </span>
+                <span className="qtab-bar" aria-hidden="true"><b style={{ width: `${mine.length ? (100 * done) / mine.length : 0}%` }} /></span>
+              </button>
+            );
+          })}
+        </div>
+        {children}
       </div>
-    </section>
+    </>
   );
 }
 
