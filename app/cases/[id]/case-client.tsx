@@ -60,7 +60,7 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
   const caseHref = (id?: string) => (id ? `/cases/${id}${query}` : undefined);
   const prev = caseHref(list[idx - 1]);
   const next = caseHref(list[idx + 1]);
-  const back = from === 'proof' ? { href: '/proof', label: 'Back to test results' } : { href: !view || view === 'analyst' ? '/' : `/?view=${view}`, label: 'Back to the queue' };
+  const back = from === 'proof' ? { href: '/proof', label: 'Back to test results' } : { href: !view || view === 'escalate' ? '/' : `/?view=${view}`, label: 'Back to the queue' };
   const where = from === 'proof' ? 'in the test' : GROUPS.find((g) => g.key === view)?.short ?? '';
 
   return (

@@ -27,10 +27,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="product"><TideyBadge size={30} live />Tidey <small>Fraud alert agent</small></span>
             </a>
             <Suspense fallback={<NavFallback />}><Nav /></Suspense>
-            <div className="me">
-              <span className="duty" title="Tidey is investigating new alerts as they arrive"><i className="pulse-dot" /><span className="duty-text">On duty</span></span>
-              <span className="avatar" title="Signed in as Jordan Reyes, fraud analyst (demo)">JR</span>
-            </div>
           </div>
         </header>
         {mock && (
