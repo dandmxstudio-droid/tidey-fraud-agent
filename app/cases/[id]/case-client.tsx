@@ -5,6 +5,7 @@ import { ANSWER_LABEL, GROUPS, VERDICT_LABEL, isAction, money, secs, usd } from 
 import { isOk, loadLive, loadOfficial, runOne, saveLive, type Pair, type RunFile } from '@/lib/store';
 import type { Action, RunResult, Step, ToolName, Verdict } from '@/lib/types';
 import { TideyBadge } from '../../brand';
+import { CHOICES, loadDecisions, outcome, saveDecision, type Choice, type Decided } from '@/lib/decisions';
 
 type A = { id: string; what_happened: string; amount: number; rule_triggered: string };
 
@@ -25,6 +26,9 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
   const [busy, setBusy] = useState(false);
   const [pass, setPass] = useState('');
   const [err, setErr] = useState('');
+  const [decisions, setDecisions] = useState<Record<string, Decided>>({});
+
+  useEffect(() => setDecisions(loadDecisions()), []);
 
   // Read the same run the previous page showed: the queue prefers the official run, the test results page says which one it showed.
   useEffect(() => {
@@ -62,6 +66,16 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
   const next = caseHref(list[idx + 1]);
   const back = from === 'proof' ? { href: '/proof', label: 'Back to test results' } : { href: !view || view === 'escalate' ? '/' : `/?view=${view}`, label: 'Back to the queue' };
   const where = from === 'proof' ? 'in the test' : GROUPS.find((g) => g.key === view)?.short ?? '';
+  // After a call, "Next alert" skips to the next one nobody has decided yet.
+  const open = list.filter((id) => !decisions[id]);
+  const after = [...list.slice(idx + 1), ...list.slice(0, Math.max(0, idx))].find((id) => !decisions[id] && id !== alert.id);
+  const decide = (d: Decided | null) => setDecisions(saveDecision(alert.id, d));
+  const leftN = open.filter((id) => id !== alert.id).length;
+  const leftText =
+    from === 'proof' ? (leftN ? `${leftN} undecided left in the test` : 'That was the last undecided alert in the test')
+    : view === 'escalate' ? (leftN ? `${leftN} fraud ${leftN === 1 ? 'approval' : 'approvals'} left` : 'That was the last fraud approval')
+    : view === 'analyst' ? (leftN ? `${leftN} judgment ${leftN === 1 ? 'call' : 'calls'} left` : 'That was the last judgment call')
+    : leftN ? `${leftN} left to spot-check` : 'That was the last one to spot-check';
 
   return (
     <>
@@ -101,59 +115,123 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
       )}
 
       {r && !isOk(r) && <div className="panel"><b>This run failed.</b> {r.error}</div>}
-      {r && isOk(r) && <CaseView key={mode} r={r} next={next} />}
+      {r && isOk(r) && (
+        <CaseView
+          key={mode}
+          r={r}
+          verdictSlot={
+            <Verdict
+              r={r}
+              group={pair && isOk(pair.jev) ? pair.jev.trace.decision.action : null}
+              decided={decisions[alert.id]}
+              onDecide={decide}
+              nextOpen={caseHref(after)}
+              leftText={leftText}
+              back={back}
+            />
+          }
+        />
+      )}
     </>
   );
 }
 
-function Verdict({ r, next }: { r: RunResult; next?: string }) {
+type VerdictProps = {
+  r: RunResult;
+  group: Action | null;
+  decided?: Decided;
+  onDecide: (d: Decided | null) => void;
+  nextOpen?: string;
+  leftText: string;
+  back: { href: string; label: string };
+};
+
+const WORK_MS = 1100;
+const clockTime = (iso: string) => new Date(iso).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+// Tidey's call, the analyst's buttons, and what happens after a click: Tidey does the work, then the whole card turns into the result.
+function Verdict({ r, group, decided, onDecide, nextOpen, leftText, back }: VerdictProps) {
   const d = r.trace.decision;
-  const who = r.trace.mode === 'jev' ? 'Tidey' : 'The baseline';
-  const [done, setDone] = useState('');
+  const tidey = r.trace.mode === 'jev';
+  const who = tidey ? 'Tidey' : 'The baseline';
+  const [working, setWorking] = useState<Choice | null>(null);
   const rec = r.trace.summary?.recommendation;
+
   let title = '', body = '';
-  let acts: { label: string; cls: string; result: string }[] = [];
   if (d.action === 'close') {
     title = `${who} closed this as a false alarm`;
-    body = r.trace.mode === 'jev' ? `${closedReason(r)}.` : 'The model judged it legitimate.';
-    acts = [{ label: 'Reopen', cls: 'btn', result: 'Reopened and moved to your queue' }];
+    body = tidey ? `${closedReason(r)}.` : 'The model judged it legitimate.';
   } else if (d.action === 'escalate') {
     title = `${who} found ${FOUND[d.verdict] ?? VERDICT_LABEL[d.verdict].toLowerCase()}`;
     body = rec || 'Recommends blocking the card or holding the transfer.';
-    acts = [
-      { label: 'Approve block', cls: 'btn danger', result: 'Approved. Card blocked and customer notified' },
-      { label: 'Override', cls: 'btn', result: 'Overridden. Alert reopened for review' },
-    ];
   } else {
     title = `${who} needs your call`;
     body = rec || firstSentence(d.reason);
-    acts = [
-      { label: 'Mark legitimate', cls: 'btn', result: 'Marked legitimate and closed' },
-      { label: 'Escalate as fraud', cls: 'btn danger', result: 'Escalated to the fraud team' },
-      { label: 'Contact customer', cls: 'btn primary', result: 'Call task created for the customer' },
-    ];
   }
+
+  const act = (c: Choice) => {
+    setWorking(c);
+    window.setTimeout(() => {
+      onDecide({ choice: c, at: new Date().toISOString() });
+      setWorking(null);
+    }, WORK_MS);
+  };
+
+  // The analyst's calls belong to Tidey's view; the baseline is shown for the test only.
+  if (tidey && decided && !working && group) {
+    const o = outcome(decided.choice, d.verdict);
+    return (
+      <div className={`verdict resolved tone-${o.tone}`} role="status">
+        <div className="verdict-say">
+          <span className="resolved-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+          </span>
+          <div>
+            <p className="status settled"><i />Done at {clockTime(decided.at)}</p>
+            <h2>{o.title}</h2>
+            <p>{o.body}</p>
+            <p className="demo-note">Demo: nothing real was blocked, sent or saved outside this browser tab.</p>
+          </div>
+        </div>
+        <div className="acts">
+          <div className="acts-row">
+            <button className="btn ghost" onClick={() => onDecide(null)}>Undo</button>
+            {nextOpen ? <a className="btn light" href={nextOpen}>Next alert</a> : <a className="btn light" href={back.href}>{back.label}</a>}
+          </div>
+          <span className="left">{leftText}</span>
+        </div>
+      </div>
+    );
+  }
+
+  const o = working ? outcome(working, d.verdict) : null;
   return (
-    <div className={`verdict ${d.action}`}>
+    <div className={`verdict ${d.action}${working ? ' working' : ''}`}>
       <div className="verdict-say">
-        {r.trace.mode === 'jev' && <TideyBadge size={38} />}
+        {tidey && <TideyBadge size={38} live={!!working} />}
         <div>
-          <p className={`status ${done ? 'settled' : d.action}`}>
-            <i className={done || d.action === 'close' ? '' : 'pulsing'} />
-            {done ? 'Done' : d.action === 'close' ? `Closed by ${r.trace.mode === 'jev' ? 'Tidey' : 'the baseline'}` : STATUS[d.action]}
+          <p className={`status ${d.action}`}>
+            <i className={d.action === 'close' || !tidey ? '' : 'pulsing'} />
+            {!tidey ? 'Baseline decision, for the test only' : d.action === 'close' ? 'Closed by Tidey' : STATUS[d.action]}
           </p>
           <h2>{title}</h2>
           <p>{body}</p>
         </div>
       </div>
-      <div className="acts">
-        {done ? <><span className="done">{done} <span className="muted small">(demo, nothing is saved)</span></span>{next && <a className="btn primary" href={next}>Next alert</a>}</> : acts.map((a) => <button key={a.label} className={a.cls} onClick={() => setDone(a.result)}>{a.label}</button>)}
-      </div>
+      {tidey && group && (
+        <div className="acts">
+          {o ? (
+            <span className="working-note" role="status"><span className="spinner" aria-hidden="true" />{o.working}</span>
+          ) : (
+            CHOICES[group].map((a) => <button key={a.choice} className={a.cls} onClick={() => act(a.choice)}>{a.label}</button>)
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
-function CaseView({ r, next }: { r: RunResult; next?: string }) {
+function CaseView({ r, verdictSlot }: { r: RunResult; verdictSlot: React.ReactNode }) {
   const t = r.trace;
   const ctx = t.steps[0]?.data as any; // eslint-disable-line @typescript-eslint/no-explicit-any
   const item = ctx?.triggering_activity?.[ctx.triggering_activity.length - 1];
@@ -162,7 +240,7 @@ function CaseView({ r, next }: { r: RunResult; next?: string }) {
 
   return (
     <>
-      <Verdict r={r} next={next} />
+      {verdictSlot}
       <div className="case-grid">
         <div className="stack">
           {t.summary && (

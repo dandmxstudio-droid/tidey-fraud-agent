@@ -4,6 +4,7 @@ import { closedReason, firstSentence } from '@/lib/headlines';
 import { VERDICT_LABEL, isAction, money, secs } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, type RunFile } from '@/lib/store';
 import type { Action, RunResult, Verdict } from '@/lib/types';
+import { loadDecisions, outcome, type Decided } from '@/lib/decisions';
 
 type AlertRow = { id: string; what_happened: string; amount: number; rule_triggered: string; created_at: string };
 
@@ -48,10 +49,12 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
   const [greeting, setGreeting] = useState('Hello');
   // The sort replays once per visit; coming back from a case shows it settled.
   const [intro, setIntro] = useState(false);
+  const [decisions, setDecisions] = useState<Record<string, Decided>>({});
 
   useEffect(() => {
     const v = new URLSearchParams(window.location.search).get('view');
     if (isAction(v)) setTab(v);
+    setDecisions(loadDecisions());
     const h = new Date().getHours();
     setGreeting(h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening');
     const live = loadLive();
@@ -107,7 +110,10 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
   const sub = closed
     ? `I investigated yesterday’s ${n} alerts and closed the ${plural(closed, 'clear false alarm', 'clear false alarms')} myself. The other ${n - closed} need you. Here’s the order I’d take them in.`
     : `I investigated yesterday’s ${n} alerts. All of them need you. Here’s the order I’d take them in.`;
-  const list = of(tab);
+  // Alerts still waiting come first; ones the analyst already decided sink to the bottom.
+  const list = [...of(tab).filter((a) => !decisions[a.id]), ...of(tab).filter((a) => decisions[a.id])];
+  const firstOpen = list.find((a) => !decisions[a.id]);
+  const reviewed = rows.filter((a) => decisions[a.id]).length;
   const totalMs = rows.reduce((s, x) => s + handled.get(x.id)!.trace.decisionMs, 0);
 
   return (
@@ -119,7 +125,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
         <p className="hero-sub"><Reveal text={sub} from={180} /></p>
       </section>
 
-      <Sorter rows={rows} handled={handled} tab={tab} onPick={pick} intro={intro} totalMs={totalMs} />
+      <Sorter rows={rows} handled={handled} tab={tab} onPick={pick} intro={intro} totalMs={totalMs} decisions={decisions} reviewed={reviewed} />
 
       <section className="inbox" id="inbox" role="tabpanel" aria-labelledby={`task-${tab}`}>
         <div className="inbox-head">
@@ -127,16 +133,20 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
             <h2>{TASK[tab].head}</h2>
             <p>{TASK[tab].voice}</p>
           </div>
-          {list[0] && <a className="btn primary" href={`/cases/${list[0].id}?view=${tab}`}>{TASK[tab].start}</a>}
+          {firstOpen
+            ? <a className="btn primary" href={`/cases/${firstOpen.id}?view=${tab}`}>{list.some((a) => decisions[a.id]) ? 'Continue' : TASK[tab].start}</a>
+            : list.length > 0 && <span className="all-done"><Check />All done</span>}
         </div>
         {list.map((al, i) => {
           const r = handled.get(al.id)!;
+          const dc = decisions[al.id];
+          const o = dc ? outcome(dc.choice, r.trace.decision.verdict) : null;
           return (
-            <a key={`${tab}-${al.id}`} className="item" href={`/cases/${al.id}?view=${tab}`} style={{ '--i': Math.min(i, 12) } as CSSProperties}>
-              <span className={`edge ${tab}`} />
+            <a key={`${tab}-${al.id}`} className={`item${o ? ' done' : ''}`} href={`/cases/${al.id}?view=${tab}`} style={{ '--i': Math.min(i, 12) } as CSSProperties}>
+              <span className={`edge ${o ? 'settled' : tab}`} />
               <span>
                 <div className="what">{al.what_happened}</div>
-                <div className="take">{take(r)}</div>
+                {o ? <div className={`outcome-chip tone-${o.tone}`}><Check />{o.short}</div> : <div className="take">{take(r)}</div>}
               </span>
               <span className="meta">
                 <div className="amt">{money(al.amount)}</div>
@@ -195,7 +205,7 @@ function breakdown(k: Action, rs: RunResult[]): string {
 }
 
 // The three groups, in the order Tidey suggests. On a first visit, yesterday's alerts drop into them in time order.
-function Sorter({ rows, handled, tab, onPick, intro, totalMs }: { rows: AlertRow[]; handled: Map<string, RunResult>; tab: Action; onPick: (k: Action) => void; intro: boolean; totalMs: number }) {
+function Sorter({ rows, handled, tab, onPick, intro, totalMs, decisions, reviewed }: { rows: AlertRow[]; handled: Map<string, RunResult>; tab: Action; onPick: (k: Action) => void; intro: boolean; totalMs: number; decisions: Record<string, Decided>; reviewed: number }) {
   const events = useMemo(
     () => rows.map((a) => ({ id: a.id, time: alertTime(handled.get(a.id)!, a), action: handled.get(a.id)!.trace.decision.action })).sort((x, y) => x.time.localeCompare(y.time)),
     [rows, handled],
@@ -228,23 +238,30 @@ function Sorter({ rows, handled, tab, onPick, intro, totalMs }: { rows: AlertRow
         <i />
         {sorting
           ? <>Sorting yesterday’s alerts <span className="clock">{clock}</span></>
-          : <>All {events.length} sorted, in {secs(totalMs)} of work</>}
+          : <>All {events.length} sorted, in {secs(totalMs)} of work{reviewed ? <>. You’ve handled {reviewed} so far.</> : null}</>}
       </p>
       <div className="tasks" role="tablist" aria-label="Alert groups">
         {ORDER.map((k, idx) => {
           const mine = events.filter((e) => e.action === k);
-          const here = landed.filter((e) => e.action === k).length;
+          const done = mine.filter((e) => decisions[e.id]).length;
+          const open = mine.length - done;
+          // Counts climb as alerts land during the replay, then show what is left to do.
+          const shown = sorting ? landed.filter((e) => e.action === k && !decisions[e.id]).length : open;
           const rs = mine.map((e) => handled.get(e.id)!);
-          const waiting = k !== 'close' && mine.length > 0;
+          const waiting = k !== 'close' && open > 0;
+          const finished = mine.length > 0 && open === 0;
           return (
-            <button key={k} id={`task-${k}`} role="tab" aria-selected={tab === k} aria-controls="inbox" className={`task ${k}`} onClick={() => onPick(k)}>
+            <button key={k} id={`task-${k}`} role="tab" aria-selected={tab === k} aria-controls="inbox" className={`task ${k}${finished ? ' finished' : ''}`} onClick={() => onPick(k)}>
               <span className="task-top">
-                <span className="task-n">{idx + 1}</span>
-                <span className="task-status"><i className={waiting ? 'pulsing' : ''} />{TASK[k].status}</span>
+                <span className="task-n">{finished ? <Check /> : idx + 1}</span>
+                <span className="task-status"><i className={waiting ? 'pulsing' : ''} />{finished ? 'All done' : TASK[k].status}</span>
               </span>
-              <span className="task-count"><b>{here}</b>{TASK[k].label(mine.length)}</span>
-              <span className="pool" aria-hidden="true">
-                {mine.map((e, i) => (i < here ? <i key={e.id} /> : <i key={`${e.id}-empty`} className="empty" />))}
+              {k === 'close'
+                ? <span className="task-count"><b>{sorting ? shown : mine.length}</b>{TASK[k].label(mine.length)}</span>
+                : <span className="task-count"><b>{shown}</b>{finished ? 'left' : TASK[k].label(open)}</span>}
+              <span className="task-progress">
+                <span className="track"><b style={{ width: `${mine.length ? (100 * done) / mine.length : 0}%` }} /></span>
+                <span className="task-progress-label">{done} of {mine.length} {k === 'close' ? 'spot-checked' : 'reviewed'}</span>
               </span>
               <span className="task-note">{breakdown(k, rs)}</span>
             </button>
@@ -268,6 +285,14 @@ function Tide() {
       <g className="tide-a"><path d={wave(80, 16)} /></g>
       <g className="tide-b"><path d={wave(125, 22)} /></g>
       <g className="tide-c"><path d={wave(170, 14)} /></g>
+    </svg>
+  );
+}
+
+function Check() {
+  return (
+    <svg className="check" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+      <path d="M3.5 8.5l3 3 6-6.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
