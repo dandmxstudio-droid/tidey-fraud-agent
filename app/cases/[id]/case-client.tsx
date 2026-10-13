@@ -40,7 +40,7 @@ export function CaseClient({ alert, featured }: { alert: A; featured: boolean })
 
   return (
     <>
-      <a href="/" className="small muted">← All alerts</a>
+      <a href="/" className="small muted">← Queue</a>
       <div className="row" style={{ justifyContent: 'space-between', marginTop: 8 }}>
         <div>
           <div className="eb">Alert {alert.id} · {alert.rule_triggered}</div>
@@ -48,8 +48,8 @@ export function CaseClient({ alert, featured }: { alert: A; featured: boolean })
           {source && <div className="small muted">{source}</div>}
         </div>
         <div className="seg">
-          <button className={mode === 'jev' ? 'on' : ''} onClick={() => setMode('jev')}>A · Jev + code</button>
-          <button className={mode === 'llm' ? 'on' : ''} onClick={() => setMode('llm')}>B · One AI model</button>
+          <button className={mode === 'jev' ? 'on' : ''} onClick={() => setMode('jev')}>Wes</button>
+          <button className={mode === 'llm' ? 'on' : ''} onClick={() => setMode('llm')}>Test baseline: one AI model</button>
         </div>
       </div>
 
@@ -137,7 +137,7 @@ function CaseView({ r }: { r: RunResult }) {
         )}
 
         <div className="card">
-          <div className="eb">Answer key</div>
+          <div className="eb">Test answer key (demo only, not part of the product)</div>
           <div className="answer" style={{ marginTop: 8 }}>
             <b>{ANSWER_LABEL[r.score.label]}</b> {r.score.correct ? <span className="ok">· this version got it right ✓</span> : <span className="no">· this version got it wrong ✗</span>}
             <div className="small muted" style={{ marginTop: 4 }}>{r.score.why}</div>

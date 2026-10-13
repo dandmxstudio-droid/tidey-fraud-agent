@@ -139,3 +139,15 @@ footer { color: var(--muted); font-size: 12.5px; padding: 20px 0 40px; }
   .facts { grid-template-columns: 1fr; }
   input.pass { width: 140px; }
 }
+
+/* queue */
+.qstats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+.qstat { text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; border-left-width: 5px; }
+.qstat b { display: block; font-size: 30px; letter-spacing: -0.02em; line-height: 1.1; }
+.qstat span { font-size: 14px; color: var(--ink-2); font-weight: 600; }
+.qstat.analyst { border-left-color: var(--amber-bar); }
+.qstat.escalate { border-left-color: var(--red); }
+.qstat.close { border-left-color: var(--green); }
+.qstat.on { box-shadow: 0 0 0 2px var(--ink) inset; }
+@media (max-width: 640px) { .qstats { grid-template-columns: 1fr; } .qstat b { font-size: 24px; } }
+table.list td:first-child { white-space: nowrap; }
