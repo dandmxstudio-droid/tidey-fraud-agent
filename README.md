@@ -40,8 +40,8 @@ Environment variables:
 Without both API keys the app runs in **mock mode** with simple stand-in rules and shows a banner. Mock numbers are not results.
 
 ## Running the test
-1. Open the site, enter the passcode, press **Run all 50**.
-2. When it finishes, press **Download results** and commit the file as `public/results/official.json`. The site then shows it as the official run.
+1. Open **Test results**, scroll to **Run the test yourself**, enter the passcode and press **Run all 50**.
+2. When it finishes, press **Download your live run** and commit the file as `public/results/official.json`. The site then shows it as the official run.
 
 ## Local
 ```

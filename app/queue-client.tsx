@@ -1,17 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { closedReason, firstSentence } from '@/lib/headlines';
-import { VERDICT_LABEL, money, secs } from '@/lib/labels';
+import { GROUPS, VERDICT_LABEL, isAction, money, secs } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, type RunFile } from '@/lib/store';
 import type { Action, RunResult } from '@/lib/types';
 
 type AlertRow = { id: string; what_happened: string; amount: number; rule_triggered: string; created_at: string };
-
-const GROUPS: { key: Action; title: string; short: string; blurb: string }[] = [
-  { key: 'analyst', title: 'Needs your call', short: 'need your call', blurb: 'Mixed signals. Tidey explains what is unclear and suggests a next step.' },
-  { key: 'escalate', title: 'Fraud, waiting for your approval', short: 'fraud to approve', blurb: 'Tidey found fraud and recommends a block or hold. Nothing happens until you approve it.' },
-  { key: 'close', title: 'Closed by Tidey', short: 'closed by Tidey', blurb: 'False alarms Tidey closed on its own. Every one keeps its evidence, so you can spot-check.' },
-];
 
 export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolean }) {
   const [run, setRun] = useState<RunFile | null>(null);
@@ -19,6 +13,8 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
   const [tab, setTab] = useState<Action>('analyst');
 
   useEffect(() => {
+    const v = new URLSearchParams(window.location.search).get('view');
+    if (isAction(v)) setTab(v);
     const live = loadLive();
     loadOfficial().then((o) => {
       setRun(o ?? live);
@@ -33,6 +29,11 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
   const count = (k: Action) => of(k).length;
   const avgMs = rows.length ? rows.reduce((s, a) => s + handled.get(a.id)!.trace.decisionMs, 0) / rows.length : 0;
   const group = GROUPS.find((g) => g.key === tab)!;
+  // Keep the open group in the URL, so coming back from a case lands on the same group.
+  const pick = (k: Action) => {
+    setTab(k);
+    window.history.replaceState(null, '', k === 'analyst' ? '/' : `/?view=${k}`);
+  };
   const toHandle = count('analyst') + count('escalate');
 
   const take = (r: RunResult) => {
@@ -52,29 +53,27 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
       </p>
 
       {loaded && rows.length === 0 && (
-        <div className="panel">No alerts have been investigated yet. Run them from the <a href="/proof">Proof</a> page.</div>
+        <div className="panel">No alerts have been investigated yet. Run them from the <a href="/proof">Test results</a> page.</div>
       )}
 
       {rows.length > 0 && (
         <>
-          <div className="tideline" aria-label="How Tidey sorted yesterday's alerts">
+          <div className="tideline" aria-hidden="true">
             <div className="bar">
-              {GROUPS.map((g) => (
-                <button key={g.key} className={g.key} style={{ width: `${(100 * count(g.key)) / rows.length}%` }} onClick={() => setTab(g.key)} aria-label={`${count(g.key)} ${g.short}`} />
-              ))}
-            </div>
-            <div className="keys">
-              {GROUPS.map((g) => (
-                <button key={g.key} className={`key ${tab === g.key ? 'on' : ''}`} onClick={() => setTab(g.key)}>
-                  <i className={`dot-${g.key}`} />
-                  <b>{count(g.key)}</b>
-                  <span>{g.short}</span>
-                </button>
-              ))}
+              {GROUPS.map((g) => <i key={g.key} className={g.key} style={{ width: `${(100 * count(g.key)) / rows.length}%` }} />)}
             </div>
           </div>
 
-          <section className="inbox">
+          <div className="qtabs" role="tablist" aria-label="Alert groups">
+            {GROUPS.map((g) => (
+              <button key={g.key} role="tab" id={`tab-${g.key}`} aria-selected={tab === g.key} aria-controls="inbox" className={`qtab ${g.key}`} onClick={() => pick(g.key)}>
+                <span className="qtab-label"><i className={`dot-${g.key}`} />{g.label}</span>
+                <b>{count(g.key)}</b>
+              </button>
+            ))}
+          </div>
+
+          <section className="inbox" id="inbox" role="tabpanel" aria-labelledby={`tab-${tab}`}>
             <div className="inbox-head">
               <h2>{group.title}</h2>
               <p>{group.blurb}</p>
@@ -83,7 +82,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
               const r = handled.get(a.id)!;
               const ctx = r.trace.steps[0]?.data as { alert_time?: string } | undefined;
               return (
-                <a key={a.id} className="item" href={`/cases/${a.id}`}>
+                <a key={a.id} className="item" href={`/cases/${a.id}?view=${tab}`}>
                   <span className={`edge ${tab}`} />
                   <span>
                     <div className="what">{a.what_happened}</div>
@@ -101,7 +100,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
 
           <p className="foot-note">
             {run?.kind === 'official' ? 'This queue shows the official test run.' : 'This queue shows your latest live run.'} Tidewell is fictional and every alert is synthetic.
-            {mock || run?.mock ? ' Mock mode: decisions come from stand-in rules, not Jev.' : ''} How well Tidey sorts alerts is measured on the <a href="/proof">Proof</a> page.
+            {mock || run?.mock ? ' Mock mode: decisions come from stand-in rules, not Jev.' : ''} How well Tidey sorts alerts is measured on the <a href="/proof">Test results</a> page.
           </p>
         </>
       )}

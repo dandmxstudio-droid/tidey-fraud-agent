@@ -6,12 +6,13 @@ import '@fontsource/ibm-plex-mono/500.css';
 import '@fontsource/ibm-plex-mono/600.css';
 import './globals.css';
 import type { Metadata } from 'next';
-import { Nav } from './nav';
+import { Suspense } from 'react';
+import { Nav, NavFallback } from './nav';
 import { mockMode } from '@/lib/config';
 import { TidewellMark, TideyBadge } from './brand';
 
 export const metadata: Metadata = {
-  title: 'Tidey · Fraud alert agent · Tidewell (fictional bank)',
+  title: 'Tidey, fraud alert agent for Tidewell (fictional bank)',
   description: 'Tidey, a fraud alert investigation agent built two ways: Jev decisions with code rules, vs one AI model doing everything. Synthetic data.',
 };
 
@@ -23,11 +24,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="top">
           <div className="wrap">
             <a className="brand" href="/">
-              <span className="bank"><TidewellMark size={24} />Tidewell</span>
-              <span className="divider" />
-              <span className="product"><TideyBadge />Tidey <small>Fraud alert agent</small></span>
+              <span className="product"><TideyBadge size={30} />Tidey <small>Fraud alert agent</small></span>
             </a>
-            <Nav />
+            <Suspense fallback={<NavFallback />}><Nav /></Suspense>
           </div>
         </header>
         {mock && (
@@ -39,7 +38,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="wrap">{children}</div>
         </main>
         <footer>
-          <div className="wrap">Tidewell is a fictional bank and every customer, transaction and alert here is synthetic. Tidey and this demo were built by Dan Mota.</div>
+          <div className="wrap foot">
+            <span className="bank"><TidewellMark size={22} />Tidewell</span>
+            <p>Tidey is Tidewell’s fraud alert agent. Tidewell is a fictional bank, and every customer, transaction and alert here is synthetic. Designed and built by Dan Mota.</p>
+          </div>
         </footer>
       </body>
     </html>

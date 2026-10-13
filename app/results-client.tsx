@@ -68,80 +68,128 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
   const sl = useMemo(() => summarizeRun(complete.map((p) => p.llm as RunResult)), [shown]); // eslint-disable-line react-hooks/exhaustive-deps
   const byId = new Map(pairs.map((p) => [p.alertId, p]));
 
+  const source = shown
+    ? `${shown.kind === 'official' ? 'Official run' : 'Your live run, kept in this browser tab only'}, ${new Date(shown.run_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. ${complete.length} of ${alerts.length} alerts, with Jev (${shown.settings.jevModel}) and ${shown.settings.openaiModel}.`
+    : '';
+
   return (
     <>
       <p className="kicker">The test behind Tidey</p>
       <h1>How well does Tidey decide?</h1>
       <p className="lead">
-        Tidey runs on <b>Jev</b> plus plain <b>code rules</b>. To test that design, the same agent was also built the obvious way, with <b>one AI model</b> deciding
-        everything. Both ran on the same 50 alerts and were scored against an answer key neither one sees. Analysts only use Tidey; the baseline exists for this test.
+        Tidey runs on Jev plus plain code rules. To test that design, the same agent was also built the obvious way, with one AI model deciding everything.
+        Both versions ran on the same alerts and were scored against an answer key neither one sees. Analysts only use Tidey; the second version exists for this test.
       </p>
 
-      <div className="card">
-        <div className="row" style={{ justifyContent: 'space-between' }}>
-          <div className="row">
-            <button className="btn primary" disabled={busy} onClick={() => start(featured, pass)}>Run the 5 sample alerts live</button>
-            <span className="muted small">or</span>
-            <input className="pass" type="password" placeholder="Owner passcode" value={pass} onChange={(e) => setPass(e.target.value)} />
-            <button className="btn dark" disabled={busy || !pass} onClick={() => start(alerts.map((a) => a.id), pass)}>Run all 50</button>
-            {!busy && failed.length > 0 && <button className="btn" onClick={() => start(failed, pass, live!)}>Retry {failed.length} failed</button>}
-          </div>
-          <div className="row">
-            {official && live && (
-              <div className="seg">
-                <button className={view === 'official' ? 'on' : ''} onClick={() => setView('official')}>Official run</button>
-                <button className={view === 'live' ? 'on' : ''} onClick={() => setView('live')}>Your live run</button>
-              </div>
-            )}
-            {live && !busy && view === 'live' && <button className="btn" onClick={download}>Download results</button>}
-          </div>
-        </div>
-        {busy && (
+      <div className="results-intro">
+        {complete.length > 0 ? (
           <>
-            <div className="progress"><b style={{ width: `${(100 * progress.done) / Math.max(1, progress.total)}%` }} /></div>
-            <div className="small muted" style={{ marginTop: 6 }}>Running {progress.done} of {progress.total} alerts through both versions…</div>
+            <p className="result-line">{headline(sj, sl)}</p>
+            <div className="source-row">
+              <p className="source">{source}{shown?.mock ? ' Mock mode: these are stand-in answers, not real results.' : ''}</p>
+              {official && live && (
+                <div className="seg" role="group" aria-label="Which run to show">
+                  <button className={view === 'official' ? 'on' : ''} aria-pressed={view === 'official'} onClick={() => setView('official')}>Official run</button>
+                  <button className={view === 'live' ? 'on' : ''} aria-pressed={view === 'live'} onClick={() => setView('live')}>Your live run</button>
+                </div>
+              )}
+            </div>
           </>
+        ) : (
+          <p className="result-line quiet">No results yet. <a href="#run">Run the five sample alerts</a> to watch both versions work.</p>
         )}
-        {msg && <div className="small no" style={{ marginTop: 8 }}>{msg}</div>}
-        <div className="small muted" style={{ marginTop: 10 }}>
-          {shown
-            ? <>Showing: <b>{shown.kind === 'official' ? 'Official run' : 'Live run (this browser only)'}</b> · {new Date(shown.run_at).toLocaleString()} · {complete.length} of {alerts.length} alerts · Jev model {shown.settings.jevModel}, AI model {shown.settings.openaiModel}{shown.mock ? ' · MOCK MODE (not real results)' : ''}</>
-            : <>No results yet. Run the sample alerts to watch both versions work.</>}
-        </div>
       </div>
 
-      {complete.length > 0 && <Scoreboard a={sj} b={sl} />}
-
-      <div className="card">
-        <h2>Every alert</h2>
-        <div className="tablewrap">
-        <table className="list">
-          <thead>
-            <tr><th>Alert</th><th>What happened</th><th>Amount</th><th>Tidey (Jev + code)</th><th>Baseline (one AI model)</th><th>Right answer</th></tr>
-          </thead>
-          <tbody>
-            {alerts.map((a) => {
-              const p = byId.get(a.id);
-              const right = isOk(p?.jev) ? p!.jev : isOk(p?.llm) ? p!.llm : null;
-              return (
-                <tr key={a.id} className="click" onClick={() => (window.location.href = `/cases/${a.id}?from=proof`)}>
-                  <td>{a.id} {featured.includes(a.id) && <span className="tag">SAMPLE</span>}</td>
-                  <td>{a.what_happened}</td>
-                  <td>{money(a.amount)}</td>
-                  <td><Cell r={p?.jev} /></td>
-                  <td><Cell r={p?.llm} /></td>
-                  <td>{right ? ANSWER_LABEL[right.score.label] : <span className="muted">—</span>}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        </div>
-      </div>
-
-      {live && view === 'live' && !busy && (
-        <p className="small muted">To publish this run as the official results, download it and add the file to <code>public/results/official.json</code> in the GitHub repo.</p>
+      {complete.length > 0 && (
+        <section className="section">
+          <div className="section-head">
+            <h2>Head to head</h2>
+            <p>Same alerts, same checks and the same ${settings.maxAutoCloseAmount.toLocaleString()} limit on closing an alert alone. On each measure, the better result is marked.</p>
+          </div>
+          <Scoreboard a={sj} b={sl} />
+        </section>
       )}
+
+      <section className="section">
+        <div className="section-head">
+          <h2>Every alert</h2>
+          <p>Open any alert to see how each version investigated it and what the answer key says.</p>
+        </div>
+        <div className="wide tablewrap">
+          <table className="list">
+            <thead>
+              <tr><th>Alert</th><th>What happened</th><th className="num">Amount</th><th>Tidey</th><th>One AI model</th><th>Right answer</th></tr>
+            </thead>
+            <tbody>
+              {alerts.map((a) => {
+                const p = byId.get(a.id);
+                const right = isOk(p?.jev) ? p!.jev : isOk(p?.llm) ? p!.llm : null;
+                return (
+                  <tr key={a.id} className="click" onClick={() => (window.location.href = `/cases/${a.id}?from=proof&run=${shown?.kind ?? 'official'}`)}>
+                    <td><a href={`/cases/${a.id}?from=proof&run=${shown?.kind ?? 'official'}`} onClick={(e) => e.stopPropagation()}>{a.id}</a>{featured.includes(a.id) && <span className="tag">Sample</span>}</td>
+                    <td>{a.what_happened}</td>
+                    <td className="num">{money(a.amount)}</td>
+                    <td><Cell r={p?.jev} /></td>
+                    <td><Cell r={p?.llm} /></td>
+                    <td>{right ? ANSWER_LABEL[right.score.label] : <span className="muted">Not run</span>}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="section" id="run">
+        <div className="section-head">
+          <h2>Run the test yourself</h2>
+          <p>Both versions run side by side on real Jev and OpenAI calls, and the tables above fill in as each alert finishes. A live run stays in this browser tab.</p>
+        </div>
+        <div className="runbox">
+          <div className="run-opt">
+            <h3>Five sample alerts</h3>
+            <p>Open to anyone. A mix of fraud, false alarms and judgment calls. Takes about a minute.</p>
+            <button className="btn primary" disabled={busy} onClick={() => start(featured, pass)}>Run the sample alerts</button>
+          </div>
+          <div className="run-opt">
+            <h3>All {alerts.length} alerts</h3>
+            <p>For the owner. Needs the passcode, because every run costs API credits.</p>
+            <div className="row">
+              <input className="pass" type="password" placeholder="Owner passcode" aria-label="Owner passcode" value={pass} onChange={(e) => setPass(e.target.value)} />
+              <button className="btn" disabled={busy || !pass} onClick={() => start(alerts.map((a) => a.id), pass)}>Run all {alerts.length}</button>
+            </div>
+          </div>
+          {(busy || msg || (live && !busy)) && (
+            <div className="run-status">
+              {busy && (
+                <>
+                  <div className="progress"><b style={{ width: `${(100 * progress.done) / Math.max(1, progress.total)}%` }} /></div>
+                  <p className="small muted">Running {progress.done} of {progress.total} alerts through both versions…</p>
+                </>
+              )}
+              {msg && <p className="small no">{msg}</p>}
+              {live && !busy && (
+                <div className="row">
+                  {failed.length > 0 && <button className="btn" onClick={() => start(failed, pass, live)}>Retry {failed.length} failed</button>}
+                  <button className="btn" onClick={download}>Download your live run</button>
+                  <span className="small muted">To publish it as the official run, add the file to <code>public/results/official.json</code> in the repo.</span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
+
+// One plain sentence pair, built from the numbers, that leads the page.
+function headline(a: RunSummary, b: RunSummary) {
+  const fraud = (n: number) => (n === 0 ? 'no fraud' : `${n} ${n === 1 ? 'fraud' : 'frauds'}`);
+  return (
+    <>
+      Tidey made the right call on <b>{a.correct} of {a.alerts}</b> alerts, compared with <b>{b.correct}</b> for one AI model doing everything. It closed{' '}
+      <b>{fraud(a.missedFraud)}</b> with nobody looking; the single model closed <b>{fraud(b.missedFraud)}</b>.
     </>
   );
 }
@@ -151,9 +199,9 @@ function Cell({ r }: { r?: RunResult | { error: string } }) {
   if (!isOk(r)) return <span className="pill err" title={r.error}>Error</span>;
   const d = r.trace.decision;
   return (
-    <span>
-      <span className={`pill ${d.action}`}>{actionText(d.action, d.verdict)}</span>{' '}
-      {r.score.correct ? <span className="ok">✓</span> : <span className="no">✗</span>}
+    <span className="cell">
+      <span className={`pill ${d.action}`}>{actionText(d.action, d.verdict)}</span>
+      {r.score.correct ? <span className="ok" aria-label="correct">✓</span> : <span className="no" aria-label="wrong">✗</span>}
     </span>
   );
 }
@@ -170,10 +218,9 @@ function Scoreboard({ a, b }: { a: RunSummary; b: RunSummary }) {
   rows.push({ k: 'Time to a decision', av: secs(a.avgDecisionMs), bv: secs(b.avgDecisionMs), better: cmp(a.avgDecisionMs, b.avgDecisionMs, true) });
   rows.push({ k: 'Broken or invalid outputs', av: `${a.invalidOutputs}`, bv: `${b.invalidOutputs}`, better: cmp(a.invalidOutputs, b.invalidOutputs, true) });
   return (
-    <div className="card">
-      <h2>Head to head</h2>
-      <div className="tablewrap"><table className="score" style={{ minWidth: 560 }}>
-        <thead><tr><th style={{ width: '34%' }}>Measure</th><th className="j">Tidey · Jev decides, code acts</th><th>Baseline · one AI model does everything</th></tr></thead>
+    <div className="wide tablewrap">
+      <table className="score" style={{ minWidth: 600 }}>
+        <thead><tr><th style={{ width: '38%' }}>Measure</th><th className="j">Tidey<span className="sub">Jev decides, code acts</span></th><th>One AI model<span className="sub">Does everything, as a baseline</span></th></tr></thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.k}>
@@ -183,7 +230,7 @@ function Scoreboard({ a, b }: { a: RunSummary; b: RunSummary }) {
             </tr>
           ))}
         </tbody>
-      </table></div>
+      </table>
     </div>
   );
 }

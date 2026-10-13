@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { closedReason, firstSentence, toolHeadline } from '@/lib/headlines';
-import { ANSWER_LABEL, VERDICT_LABEL, money, secs, usd } from '@/lib/labels';
+import { ANSWER_LABEL, GROUPS, VERDICT_LABEL, isAction, money, secs, usd } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, runOne, saveLive, type Pair, type RunFile } from '@/lib/store';
 import type { RunResult, Step, ToolName, Verdict } from '@/lib/types';
 
@@ -14,22 +14,26 @@ const TOOL_KEY: Record<string, ToolName> = {
 const FOUND: Partial<Record<Verdict, string>> = { card_not_present_fraud: 'a stolen card used online', account_takeover: 'an account takeover', card_testing: 'card testing on this card' };
 const TOOL_TITLE: Record<string, string> = Object.fromEntries(Object.entries(TOOL_KEY).map(([k, v]) => [v, k]));
 
-export function CaseClient({ alert, featured }: { alert: A; featured: boolean }) {
+const has = (f: RunFile | null, id: string) => f?.results.find((r) => r.alertId === id) ?? null;
+
+export function CaseClient({ alert, featured, from, view: viewParam, runKind }: { alert: A; featured: boolean; from: 'queue' | 'proof'; view?: string; runKind?: string }) {
   const [pair, setPair] = useState<Pair | null>(null);
+  const [run, setRun] = useState<RunFile | null>(null);
   const [mode, setMode] = useState<'jev' | 'llm'>('jev');
   const [busy, setBusy] = useState(false);
   const [pass, setPass] = useState('');
   const [err, setErr] = useState('');
 
+  // Read the same run the previous page showed: the queue prefers the official run, the test results page says which one it showed.
   useEffect(() => {
     const live = loadLive();
-    const p = live?.results.find((r) => r.alertId === alert.id);
-    if (p) { setPair(p); return; }
-    loadOfficial().then((o) => {
-      const q = o?.results.find((r) => r.alertId === alert.id);
-      if (q) setPair(q);
+    loadOfficial().then((official) => {
+      const wanted = from === 'proof' && runKind === 'live' ? live : from === 'proof' && runKind === 'official' ? official : official ?? live;
+      const file = has(wanted, alert.id) ? wanted : has(live, alert.id) ? live : has(official, alert.id) ? official : wanted;
+      setRun(file);
+      setPair(has(file, alert.id));
     });
-  }, [alert.id]);
+  }, [alert.id, from, runKind]);
 
   async function runThis() {
     setBusy(true); setErr('');
@@ -40,14 +44,35 @@ export function CaseClient({ alert, featured }: { alert: A; featured: boolean })
     const live: RunFile = loadLive() ?? { kind: 'live', run_at: new Date().toISOString(), mock: (isOk(jev) && jev.trace.mock) || false, settings: { closeAt: 0, unexplainedMax: 0, escalateAt: 0, scamRiskAt: 0, maxAutoCloseAmount: 0, checkAt: 0, jevModel: isOk(jev) ? jev.trace.models.jev ?? '' : '', openaiModel: isOk(llm) ? llm.trace.models.openai ?? '' : '' }, results: [] };
     live.results = [...live.results.filter((r) => r.alertId !== alert.id), p];
     saveLive(live);
+    if (!run) setRun(live);
     setBusy(false);
   }
 
   const r = pair ? (mode === 'jev' ? pair.jev : pair.llm) : undefined;
 
+  // Previous and next stay inside the group (or the test list) the analyst came from.
+  const view = from === 'proof' ? null : isAction(viewParam) ? viewParam : pair && isOk(pair.jev) ? pair.jev.trace.decision.action : null;
+  const list = (run?.results ?? []).filter((p) => (from === 'proof' ? true : view && isOk(p.jev) && p.jev.trace.decision.action === view)).map((p) => p.alertId);
+  const idx = list.indexOf(alert.id);
+  const query = from === 'proof' ? `?from=proof&run=${run?.kind ?? 'official'}` : view ? `?view=${view}` : '';
+  const caseHref = (id?: string) => (id ? `/cases/${id}${query}` : undefined);
+  const prev = caseHref(list[idx - 1]);
+  const next = caseHref(list[idx + 1]);
+  const back = from === 'proof' ? { href: '/proof', label: 'Back to test results' } : { href: !view || view === 'analyst' ? '/' : `/?view=${view}`, label: 'Back to the queue' };
+  const where = from === 'proof' ? 'in the test' : GROUPS.find((g) => g.key === view)?.short ?? '';
+
   return (
     <>
-      <a href="/" className="back">← Back to the queue</a>
+      <div className="case-nav">
+        <a href={back.href} className="back"><Chevron dir="left" />{back.label}</a>
+        {idx >= 0 && list.length > 1 && (
+          <div className="pager" aria-label="Move between alerts">
+            <span className="pager-count">{idx + 1} of {list.length}<span className="pager-where"> {where}</span></span>
+            {prev ? <a className="btn pager-btn" href={prev}><Chevron dir="left" />Previous</a> : <span className="btn pager-btn" aria-disabled="true"><Chevron dir="left" />Previous</span>}
+            {next ? <a className="btn pager-btn" href={next}>Next<Chevron dir="right" /></a> : <span className="btn pager-btn" aria-disabled="true">Next<Chevron dir="right" /></span>}
+          </div>
+        )}
+      </div>
       <div className="case-head">
         <div>
           <p className="kicker">{alert.id}, flagged by the rule “{alert.rule_triggered}”</p>
@@ -74,12 +99,12 @@ export function CaseClient({ alert, featured }: { alert: A; featured: boolean })
       )}
 
       {r && !isOk(r) && <div className="panel"><b>This run failed.</b> {r.error}</div>}
-      {r && isOk(r) && <CaseView key={mode} r={r} />}
+      {r && isOk(r) && <CaseView key={mode} r={r} next={next} />}
     </>
   );
 }
 
-function Verdict({ r }: { r: RunResult }) {
+function Verdict({ r, next }: { r: RunResult; next?: string }) {
   const d = r.trace.decision;
   const who = r.trace.mode === 'jev' ? 'Tidey' : 'The baseline';
   const [done, setDone] = useState('');
@@ -113,13 +138,13 @@ function Verdict({ r }: { r: RunResult }) {
         <p>{body}</p>
       </div>
       <div className="acts">
-        {done ? <span className="done">{done} <span className="muted small">(demo, nothing is saved)</span></span> : acts.map((a) => <button key={a.label} className={a.cls} onClick={() => setDone(a.result)}>{a.label}</button>)}
+        {done ? <><span className="done">{done} <span className="muted small">(demo, nothing is saved)</span></span>{next && <a className="btn primary" href={next}>Next alert</a>}</> : acts.map((a) => <button key={a.label} className={a.cls} onClick={() => setDone(a.result)}>{a.label}</button>)}
       </div>
     </div>
   );
 }
 
-function CaseView({ r }: { r: RunResult }) {
+function CaseView({ r, next }: { r: RunResult; next?: string }) {
   const t = r.trace;
   const ctx = t.steps[0]?.data as any; // eslint-disable-line @typescript-eslint/no-explicit-any
   const item = ctx?.triggering_activity?.[ctx.triggering_activity.length - 1];
@@ -128,7 +153,7 @@ function CaseView({ r }: { r: RunResult }) {
 
   return (
     <>
-      <Verdict r={r} />
+      <Verdict r={r} next={next} />
       <div className="case-grid">
         <div className="stack">
           {t.summary && (
@@ -252,5 +277,13 @@ function ModelAnswer({ r }: { r: RunResult }) {
 function Bar({ label, v, warn }: { label: string; v: number; warn?: boolean }) {
   return (
     <div className="opt"><span>{label}</span><div className={`track ${warn ? 'warn' : ''}`}><b style={{ width: `${Math.max(0, Math.min(1, v)) * 100}%` }} /></div><span>{v.toFixed(2)}</span></div>
+  );
+}
+
+function Chevron({ dir }: { dir: 'left' | 'right' }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" className="chev">
+      <path d={dir === 'left' ? 'M10 3 5 8l5 5' : 'M6 3l5 5-5 5'} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
