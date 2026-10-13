@@ -38,6 +38,7 @@ export async function jev(state: unknown, questions: Record<string, JevQuestion>
       const j = await res.json();
       return { model: j.model, answers: j.answers, usage: j.usage ?? { input_tokens: 0, output_tokens: 0 }, ms: Date.now() - t0 };
     }
+    if (res.status === 401) throw new Error('Jev rejected the API key (401). Check TYPESAFE_API_KEY in Vercel.');
     lastErr = `${res.status} ${await res.text()}`;
     if (res.status === 429 || res.status === 529 || res.status >= 500) {
       await sleep(400 * 2 ** attempt);

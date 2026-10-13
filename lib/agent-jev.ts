@@ -133,14 +133,21 @@ export async function runJevAgent(alertId: string): Promise<Trace> {
   const decisionMs = Date.now() - t0;
 
   // 5. Only cases a person will read get a written summary.
+  // If the summary call fails, the decision still stands: the summary is a convenience for the analyst, not part of the decision.
   let summary: Trace['summary'];
+  let summaryError: string | undefined;
   if (decision.action !== 'close') {
-    const s = await summarize(ctx, evidence, decision, { evidence });
-    tokens.openaiIn += s.usage.prompt_tokens;
-    tokens.openaiOut += s.usage.completion_tokens;
-    models.openai = s.model;
-    summary = { text: s.summary, recommendation: s.recommendation };
-    steps.push({ kind: 'summary', label: 'AI model wrote the analyst summary', ms: s.ms });
+    try {
+      const s = await summarize(ctx, evidence, decision, { evidence });
+      tokens.openaiIn += s.usage.prompt_tokens;
+      tokens.openaiOut += s.usage.completion_tokens;
+      models.openai = s.model;
+      summary = { text: s.summary, recommendation: s.recommendation };
+      steps.push({ kind: 'summary', label: 'AI model wrote the analyst summary', ms: s.ms });
+    } catch (e) {
+      summaryError = (e as Error).message;
+      steps.push({ kind: 'summary', label: 'Summary could not be written (the decision still stands)', detail: summaryError.slice(0, 160) });
+    }
   }
 
   const costUsd =
@@ -152,6 +159,7 @@ export async function runJevAgent(alertId: string): Promise<Trace> {
     alertId, mode: 'jev', mock: mockMode(), models, steps, toolsUsed,
     jev: { plan: plan.answers, decision: dec.answers },
     decision, summary, costUsd, decisionMs, totalMs: Date.now() - t0, tokens, invalidOutput: false,
+    ...(summaryError ? { summaryError } : {}),
   };
 }
 

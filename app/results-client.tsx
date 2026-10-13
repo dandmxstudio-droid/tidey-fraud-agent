@@ -46,6 +46,8 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
     };
     await Promise.all([worker(), worker(), worker(), worker()]);
     const f = file();
+    const errs = f.results.flatMap((p) => [p.jev, p.llm]).filter((r) => r && !isOk(r)) as { error: string }[];
+    if (errs.length) setMsg(`${errs.length} runs failed. First error: ${errs[0].error.slice(0, 200)}`);
     saveLive(f); setLive(f); setBusy(false);
   }
 

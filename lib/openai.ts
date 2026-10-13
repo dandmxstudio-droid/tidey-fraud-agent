@@ -29,6 +29,7 @@ export async function chat(body: { messages: ChatMessage[]; tools?: unknown[]; r
       const j = await res.json();
       return { message: j.choices[0].message, usage: j.usage ?? { prompt_tokens: 0, completion_tokens: 0 }, model: j.model, ms: Date.now() - t0 };
     }
+    if (res.status === 401) throw new Error('OpenAI rejected the API key (401). Check OPENAI_API_KEY in Vercel: it should be an OpenAI key that starts with "sk-".');
     lastErr = `${res.status} ${await res.text()}`;
     if (res.status === 429 || res.status >= 500) {
       await sleep(600 * 2 ** attempt);

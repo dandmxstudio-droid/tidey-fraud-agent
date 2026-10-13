@@ -44,6 +44,7 @@ export type Trace = {
   tokens: { jevIn: number; openaiIn: number; openaiOut: number };
   invalidOutput: boolean;
   error?: string;
+  summaryError?: string;
 };
 
 export type Score = {

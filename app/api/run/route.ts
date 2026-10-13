@@ -34,6 +34,8 @@ export async function POST(req: Request) {
 
   try {
     const trace = mode === 'jev' ? await runJevAgent(alertId) : await runLlmAgent(alertId);
+    // An API failure is not a decision: report it as a failed run so it can be retried, instead of scoring it.
+    if (trace.error) return NextResponse.json({ error: trace.error }, { status: 502 });
     return NextResponse.json({ trace, score: score(alertId, trace.decision) });
   } catch (e) {
     return NextResponse.json({ error: (e as Error).message }, { status: 502 });
