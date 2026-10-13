@@ -1,0 +1,240 @@
+[
+ {
+  "id": "M01",
+  "name": "FreshCart Grocery",
+  "category": "groceries",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M02",
+  "name": "Greenleaf Market",
+  "category": "groceries",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M03",
+  "name": "Sunline Fuel",
+  "category": "gas",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M04",
+  "name": "QuickStop Gas",
+  "category": "gas",
+  "online": false,
+  "fraud_reports_90d": 1
+ },
+ {
+  "id": "M05",
+  "name": "Harbor Grill",
+  "category": "restaurant",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M06",
+  "name": "Noodle Corner",
+  "category": "restaurant",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M07",
+  "name": "Bean & Bloom Coffee",
+  "category": "coffee",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M08",
+  "name": "WellPoint Pharmacy",
+  "category": "pharmacy",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M09",
+  "name": "StreamBox",
+  "category": "subscription",
+  "online": true,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M10",
+  "name": "CloudDrive Pro",
+  "category": "subscription",
+  "online": true,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M11",
+  "name": "Brightwire Electric",
+  "category": "utilities",
+  "online": true,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M12",
+  "name": "Metro Mobile",
+  "category": "utilities",
+  "online": true,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M13",
+  "name": "HomeNest Furniture",
+  "category": "furniture",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M14",
+  "name": "Outfield Sports",
+  "category": "sporting goods",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M15",
+  "name": "Pagewise Books",
+  "category": "books",
+  "online": true,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M16",
+  "name": "VoltHub Electronics",
+  "category": "electronics",
+  "online": true,
+  "fraud_reports_90d": 2
+ },
+ {
+  "id": "M17",
+  "name": "GadgetVault Online",
+  "category": "electronics",
+  "online": true,
+  "fraud_reports_90d": 14
+ },
+ {
+  "id": "M18",
+  "name": "GiftCardDepot Online",
+  "category": "gift cards",
+  "online": true,
+  "fraud_reports_90d": 22
+ },
+ {
+  "id": "M19",
+  "name": "Maison Avery",
+  "category": "luxury goods",
+  "online": true,
+  "fraud_reports_90d": 3
+ },
+ {
+  "id": "M20",
+  "name": "SkyWay Airlines",
+  "category": "airline",
+  "online": true,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M21",
+  "name": "Lodgewell Hotels",
+  "category": "hotel",
+  "online": true,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M22",
+  "name": "RideNow",
+  "category": "rideshare",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M23",
+  "name": "PixelForge Games",
+  "category": "video games",
+  "online": true,
+  "fraud_reports_90d": 6
+ },
+ {
+  "id": "M24",
+  "name": "HelpingHands Donations",
+  "category": "donations",
+  "online": true,
+  "fraud_reports_90d": 31
+ },
+ {
+  "id": "M25",
+  "name": "TinyApps Store",
+  "category": "app store",
+  "online": true,
+  "fraud_reports_90d": 18
+ },
+ {
+  "id": "M26",
+  "name": "QuickTip Charity",
+  "category": "donations",
+  "online": true,
+  "fraud_reports_90d": 27
+ },
+ {
+  "id": "M27",
+  "name": "Demo Bank ATM",
+  "category": "atm",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M28",
+  "name": "Riverside Night Market",
+  "category": "market vendors",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M29",
+  "name": "Circuit Corner",
+  "category": "electronics",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M30",
+  "name": "Oakline Cafe",
+  "category": "restaurant",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M31",
+  "name": "Casa Lume",
+  "category": "restaurant",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M32",
+  "name": "Maple & Main Diner",
+  "category": "restaurant",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M33",
+  "name": "Mile High Grill",
+  "category": "restaurant",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M34",
+  "name": "Playa Azul Restaurant",
+  "category": "restaurant",
+  "online": false,
+  "fraud_reports_90d": 0
+ }
+]

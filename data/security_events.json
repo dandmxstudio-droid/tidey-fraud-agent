@@ -1,0 +1,2644 @@
+[
+ {
+  "id": "E-00001",
+  "customer_id": "C-2001",
+  "timestamp": "2026-07-29T13:03:00",
+  "type": "login",
+  "device_id": "D-00002",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00002",
+  "customer_id": "C-2001",
+  "timestamp": "2026-08-05T11:21:00",
+  "type": "login",
+  "device_id": "D-00002",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00003",
+  "customer_id": "C-2001",
+  "timestamp": "2026-08-07T14:48:00",
+  "type": "login",
+  "device_id": "D-00001",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00004",
+  "customer_id": "C-2001",
+  "timestamp": "2026-08-30T21:23:00",
+  "type": "login",
+  "device_id": "D-00001",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00005",
+  "customer_id": "C-2001",
+  "timestamp": "2026-09-30T09:30:00",
+  "type": "login",
+  "device_id": "D-00001",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00006",
+  "customer_id": "C-2002",
+  "timestamp": "2026-07-20T12:57:00",
+  "type": "login",
+  "device_id": "D-00003",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00007",
+  "customer_id": "C-2002",
+  "timestamp": "2026-07-22T10:31:00",
+  "type": "login",
+  "device_id": "D-00003",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00008",
+  "customer_id": "C-2002",
+  "timestamp": "2026-08-13T18:17:00",
+  "type": "login",
+  "device_id": "D-00003",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00009",
+  "customer_id": "C-2002",
+  "timestamp": "2026-09-02T14:45:00",
+  "type": "login",
+  "device_id": "D-00003",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00010",
+  "customer_id": "C-2002",
+  "timestamp": "2026-09-04T12:16:00",
+  "type": "login",
+  "device_id": "D-00003",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00011",
+  "customer_id": "C-2002",
+  "timestamp": "2026-10-04T20:42:00",
+  "type": "login",
+  "device_id": "D-00003",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00012",
+  "customer_id": "C-2003",
+  "timestamp": "2026-07-19T16:47:00",
+  "type": "login",
+  "device_id": "D-00004",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00013",
+  "customer_id": "C-2003",
+  "timestamp": "2026-07-24T11:53:00",
+  "type": "login",
+  "device_id": "D-00004",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00014",
+  "customer_id": "C-2003",
+  "timestamp": "2026-07-25T21:01:00",
+  "type": "login",
+  "device_id": "D-00004",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00015",
+  "customer_id": "C-2003",
+  "timestamp": "2026-09-15T09:42:00",
+  "type": "login",
+  "device_id": "D-00004",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00016",
+  "customer_id": "C-2003",
+  "timestamp": "2026-09-24T18:11:00",
+  "type": "login",
+  "device_id": "D-00005",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00017",
+  "customer_id": "C-2004",
+  "timestamp": "2026-07-24T08:30:00",
+  "type": "login",
+  "device_id": "D-00006",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00018",
+  "customer_id": "C-2004",
+  "timestamp": "2026-07-29T21:37:00",
+  "type": "login",
+  "device_id": "D-00006",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00019",
+  "customer_id": "C-2004",
+  "timestamp": "2026-08-03T20:01:00",
+  "type": "login",
+  "device_id": "D-00006",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00020",
+  "customer_id": "C-2004",
+  "timestamp": "2026-08-16T15:21:00",
+  "type": "login",
+  "device_id": "D-00006",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00021",
+  "customer_id": "C-2004",
+  "timestamp": "2026-08-18T14:05:00",
+  "type": "login",
+  "device_id": "D-00006",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00022",
+  "customer_id": "C-2004",
+  "timestamp": "2026-09-16T08:34:00",
+  "type": "login",
+  "device_id": "D-00006",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00023",
+  "customer_id": "C-2004",
+  "timestamp": "2026-09-28T20:58:00",
+  "type": "login",
+  "device_id": "D-00006",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00024",
+  "customer_id": "C-2005",
+  "timestamp": "2026-07-31T11:29:00",
+  "type": "login",
+  "device_id": "D-00008",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00025",
+  "customer_id": "C-2005",
+  "timestamp": "2026-08-05T13:22:00",
+  "type": "login",
+  "device_id": "D-00008",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00026",
+  "customer_id": "C-2005",
+  "timestamp": "2026-08-27T18:18:00",
+  "type": "login",
+  "device_id": "D-00008",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00027",
+  "customer_id": "C-2005",
+  "timestamp": "2026-09-05T19:05:00",
+  "type": "login",
+  "device_id": "D-00008",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00028",
+  "customer_id": "C-2005",
+  "timestamp": "2026-09-13T08:51:00",
+  "type": "login",
+  "device_id": "D-00007",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00029",
+  "customer_id": "C-2006",
+  "timestamp": "2026-07-29T08:43:00",
+  "type": "login",
+  "device_id": "D-00009",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00030",
+  "customer_id": "C-2006",
+  "timestamp": "2026-08-15T11:12:00",
+  "type": "login",
+  "device_id": "D-00009",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00031",
+  "customer_id": "C-2006",
+  "timestamp": "2026-09-15T08:05:00",
+  "type": "login",
+  "device_id": "D-00009",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00032",
+  "customer_id": "C-2006",
+  "timestamp": "2026-09-30T19:26:00",
+  "type": "login",
+  "device_id": "D-00009",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00033",
+  "customer_id": "C-2007",
+  "timestamp": "2026-07-24T16:44:00",
+  "type": "login",
+  "device_id": "D-00011",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00034",
+  "customer_id": "C-2007",
+  "timestamp": "2026-07-27T08:29:00",
+  "type": "login",
+  "device_id": "D-00010",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00035",
+  "customer_id": "C-2007",
+  "timestamp": "2026-08-01T21:55:00",
+  "type": "login",
+  "device_id": "D-00010",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00036",
+  "customer_id": "C-2007",
+  "timestamp": "2026-08-21T16:48:00",
+  "type": "login",
+  "device_id": "D-00011",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00037",
+  "customer_id": "C-2007",
+  "timestamp": "2026-08-22T12:53:00",
+  "type": "login",
+  "device_id": "D-00010",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00038",
+  "customer_id": "C-2007",
+  "timestamp": "2026-09-02T10:11:00",
+  "type": "login",
+  "device_id": "D-00011",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00039",
+  "customer_id": "C-2007",
+  "timestamp": "2026-09-29T19:48:00",
+  "type": "login",
+  "device_id": "D-00010",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00040",
+  "customer_id": "C-2007",
+  "timestamp": "2026-10-12T09:05:00",
+  "type": "login",
+  "device_id": "D-00012",
+  "ip_city": "Atlanta, GA",
+  "details": "New device sign-in passed two-factor check sent to phone number on file"
+ },
+ {
+  "id": "E-00041",
+  "customer_id": "C-2008",
+  "timestamp": "2026-08-15T20:05:00",
+  "type": "login",
+  "device_id": "D-00014",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00042",
+  "customer_id": "C-2008",
+  "timestamp": "2026-08-22T14:40:00",
+  "type": "login",
+  "device_id": "D-00013",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00043",
+  "customer_id": "C-2008",
+  "timestamp": "2026-09-03T21:10:00",
+  "type": "login",
+  "device_id": "D-00014",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00044",
+  "customer_id": "C-2008",
+  "timestamp": "2026-10-10T15:52:00",
+  "type": "login",
+  "device_id": "D-00014",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00045",
+  "customer_id": "C-2008",
+  "timestamp": "2026-10-12T09:05:00",
+  "type": "login",
+  "device_id": "D-00015",
+  "ip_city": "Columbus, OH",
+  "details": "New device sign-in passed two-factor check sent to phone number on file"
+ },
+ {
+  "id": "E-00046",
+  "customer_id": "C-2009",
+  "timestamp": "2026-07-17T16:56:00",
+  "type": "login",
+  "device_id": "D-00017",
+  "ip_city": "Charlotte, NC"
+ },
+ {
+  "id": "E-00047",
+  "customer_id": "C-2009",
+  "timestamp": "2026-07-24T18:26:00",
+  "type": "login",
+  "device_id": "D-00017",
+  "ip_city": "Charlotte, NC"
+ },
+ {
+  "id": "E-00048",
+  "customer_id": "C-2009",
+  "timestamp": "2026-08-16T17:11:00",
+  "type": "login",
+  "device_id": "D-00017",
+  "ip_city": "Charlotte, NC"
+ },
+ {
+  "id": "E-00049",
+  "customer_id": "C-2009",
+  "timestamp": "2026-08-29T12:01:00",
+  "type": "login",
+  "device_id": "D-00016",
+  "ip_city": "Charlotte, NC"
+ },
+ {
+  "id": "E-00050",
+  "customer_id": "C-2009",
+  "timestamp": "2026-10-12T09:05:00",
+  "type": "login",
+  "device_id": "D-00018",
+  "ip_city": "Charlotte, NC",
+  "details": "New device sign-in passed two-factor check sent to phone number on file"
+ },
+ {
+  "id": "E-00051",
+  "customer_id": "C-2010",
+  "timestamp": "2026-07-25T20:38:00",
+  "type": "login",
+  "device_id": "D-00019",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00052",
+  "customer_id": "C-2010",
+  "timestamp": "2026-08-17T18:48:00",
+  "type": "login",
+  "device_id": "D-00020",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00053",
+  "customer_id": "C-2010",
+  "timestamp": "2026-09-05T08:45:00",
+  "type": "login",
+  "device_id": "D-00019",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00054",
+  "customer_id": "C-2010",
+  "timestamp": "2026-09-14T19:32:00",
+  "type": "login",
+  "device_id": "D-00020",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00055",
+  "customer_id": "C-2011",
+  "timestamp": "2026-07-24T18:49:00",
+  "type": "login",
+  "device_id": "D-00022",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00056",
+  "customer_id": "C-2011",
+  "timestamp": "2026-08-04T18:37:00",
+  "type": "login",
+  "device_id": "D-00021",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00057",
+  "customer_id": "C-2011",
+  "timestamp": "2026-08-11T18:33:00",
+  "type": "login",
+  "device_id": "D-00021",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00058",
+  "customer_id": "C-2011",
+  "timestamp": "2026-08-23T12:39:00",
+  "type": "login",
+  "device_id": "D-00021",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00059",
+  "customer_id": "C-2011",
+  "timestamp": "2026-10-11T12:25:00",
+  "type": "login",
+  "device_id": "D-00021",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00060",
+  "customer_id": "C-2012",
+  "timestamp": "2026-08-02T19:19:00",
+  "type": "login",
+  "device_id": "D-00024",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00061",
+  "customer_id": "C-2012",
+  "timestamp": "2026-08-13T12:00:00",
+  "type": "login",
+  "device_id": "D-00023",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00062",
+  "customer_id": "C-2012",
+  "timestamp": "2026-08-23T08:21:00",
+  "type": "login",
+  "device_id": "D-00023",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00063",
+  "customer_id": "C-2012",
+  "timestamp": "2026-09-09T18:44:00",
+  "type": "login",
+  "device_id": "D-00023",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00064",
+  "customer_id": "C-2012",
+  "timestamp": "2026-09-16T19:47:00",
+  "type": "login",
+  "device_id": "D-00023",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00065",
+  "customer_id": "C-2012",
+  "timestamp": "2026-09-17T12:14:00",
+  "type": "login",
+  "device_id": "D-00023",
+  "ip_city": "Chicago, IL"
+ },
+ {
+  "id": "E-00066",
+  "customer_id": "C-2013",
+  "timestamp": "2026-07-30T08:33:00",
+  "type": "login",
+  "device_id": "D-00025",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00067",
+  "customer_id": "C-2013",
+  "timestamp": "2026-08-16T17:42:00",
+  "type": "login",
+  "device_id": "D-00025",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00068",
+  "customer_id": "C-2013",
+  "timestamp": "2026-09-04T14:02:00",
+  "type": "login",
+  "device_id": "D-00025",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00069",
+  "customer_id": "C-2013",
+  "timestamp": "2026-09-12T15:13:00",
+  "type": "login",
+  "device_id": "D-00025",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00070",
+  "customer_id": "C-2013",
+  "timestamp": "2026-09-22T12:37:00",
+  "type": "login",
+  "device_id": "D-00025",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00071",
+  "customer_id": "C-2014",
+  "timestamp": "2026-08-08T20:13:00",
+  "type": "login",
+  "device_id": "D-00026",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00072",
+  "customer_id": "C-2014",
+  "timestamp": "2026-08-11T20:06:00",
+  "type": "login",
+  "device_id": "D-00026",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00073",
+  "customer_id": "C-2014",
+  "timestamp": "2026-08-18T21:57:00",
+  "type": "login",
+  "device_id": "D-00026",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00074",
+  "customer_id": "C-2014",
+  "timestamp": "2026-10-08T21:32:00",
+  "type": "login",
+  "device_id": "D-00027",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00075",
+  "customer_id": "C-2014",
+  "timestamp": "2026-10-09T20:41:00",
+  "type": "login",
+  "device_id": "D-00026",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00076",
+  "customer_id": "C-2014",
+  "timestamp": "2026-10-10T09:39:00",
+  "type": "login",
+  "device_id": "D-00027",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00077",
+  "customer_id": "C-2014",
+  "timestamp": "2026-10-11T10:15:00",
+  "type": "branch_verified_call",
+  "device_id": null,
+  "ip_city": "Austin, TX",
+  "details": "Customer called; identity verified by phone agent; password reset requested by customer"
+ },
+ {
+  "id": "E-00078",
+  "customer_id": "C-2014",
+  "timestamp": "2026-10-11T10:20:00",
+  "type": "password_reset",
+  "device_id": "D-00026",
+  "ip_city": "Austin, TX",
+  "details": "Reset link used on known phone"
+ },
+ {
+  "id": "E-00079",
+  "customer_id": "C-2014",
+  "timestamp": "2026-10-11T10:22:00",
+  "type": "login",
+  "device_id": "D-00026",
+  "ip_city": "Austin, TX",
+  "details": "Signed in after password reset"
+ },
+ {
+  "id": "E-00080",
+  "customer_id": "C-2014",
+  "timestamp": "2026-10-12T08:36:00",
+  "type": "login",
+  "device_id": "D-00026",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00081",
+  "customer_id": "C-2014",
+  "timestamp": "2026-10-12T08:40:00",
+  "type": "payee_added",
+  "device_id": "D-00026",
+  "ip_city": "Austin, TX",
+  "details": "Payee: Oakview Property Mgmt"
+ },
+ {
+  "id": "E-00082",
+  "customer_id": "C-2015",
+  "timestamp": "2026-07-19T15:49:00",
+  "type": "login",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00083",
+  "customer_id": "C-2015",
+  "timestamp": "2026-07-23T12:20:00",
+  "type": "login",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00084",
+  "customer_id": "C-2015",
+  "timestamp": "2026-08-02T18:38:00",
+  "type": "login",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00085",
+  "customer_id": "C-2015",
+  "timestamp": "2026-08-07T18:25:00",
+  "type": "login",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00086",
+  "customer_id": "C-2015",
+  "timestamp": "2026-08-14T11:20:00",
+  "type": "login",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00087",
+  "customer_id": "C-2015",
+  "timestamp": "2026-09-08T20:59:00",
+  "type": "login",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00088",
+  "customer_id": "C-2015",
+  "timestamp": "2026-09-12T14:32:00",
+  "type": "login",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00089",
+  "customer_id": "C-2015",
+  "timestamp": "2026-10-11T10:15:00",
+  "type": "branch_verified_call",
+  "device_id": null,
+  "ip_city": "San Diego, CA",
+  "details": "Customer called; identity verified by phone agent; password reset requested by customer"
+ },
+ {
+  "id": "E-00090",
+  "customer_id": "C-2015",
+  "timestamp": "2026-10-11T10:20:00",
+  "type": "password_reset",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA",
+  "details": "Reset link used on known phone"
+ },
+ {
+  "id": "E-00091",
+  "customer_id": "C-2015",
+  "timestamp": "2026-10-11T10:22:00",
+  "type": "login",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA",
+  "details": "Signed in after password reset"
+ },
+ {
+  "id": "E-00092",
+  "customer_id": "C-2015",
+  "timestamp": "2026-10-12T08:36:00",
+  "type": "login",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00093",
+  "customer_id": "C-2015",
+  "timestamp": "2026-10-12T08:40:00",
+  "type": "payee_added",
+  "device_id": "D-00028",
+  "ip_city": "San Diego, CA",
+  "details": "Payee: Lakeside Residences LLC"
+ },
+ {
+  "id": "E-00094",
+  "customer_id": "C-2016",
+  "timestamp": "2026-07-21T14:57:00",
+  "type": "login",
+  "device_id": "D-00030",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00095",
+  "customer_id": "C-2016",
+  "timestamp": "2026-07-28T17:36:00",
+  "type": "login",
+  "device_id": "D-00030",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00096",
+  "customer_id": "C-2016",
+  "timestamp": "2026-08-11T10:00:00",
+  "type": "login",
+  "device_id": "D-00030",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00097",
+  "customer_id": "C-2016",
+  "timestamp": "2026-08-25T19:41:00",
+  "type": "login",
+  "device_id": "D-00030",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00098",
+  "customer_id": "C-2016",
+  "timestamp": "2026-09-01T09:11:00",
+  "type": "login",
+  "device_id": "D-00030",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00099",
+  "customer_id": "C-2016",
+  "timestamp": "2026-09-12T14:01:00",
+  "type": "login",
+  "device_id": "D-00030",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00100",
+  "customer_id": "C-2016",
+  "timestamp": "2026-09-30T16:47:00",
+  "type": "login",
+  "device_id": "D-00029",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00101",
+  "customer_id": "C-2017",
+  "timestamp": "2026-07-28T18:22:00",
+  "type": "login",
+  "device_id": "D-00031",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00102",
+  "customer_id": "C-2017",
+  "timestamp": "2026-09-04T13:34:00",
+  "type": "login",
+  "device_id": "D-00031",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00103",
+  "customer_id": "C-2017",
+  "timestamp": "2026-09-06T17:31:00",
+  "type": "login",
+  "device_id": "D-00031",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00104",
+  "customer_id": "C-2017",
+  "timestamp": "2026-09-11T18:13:00",
+  "type": "login",
+  "device_id": "D-00031",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00105",
+  "customer_id": "C-2017",
+  "timestamp": "2026-09-18T21:12:00",
+  "type": "login",
+  "device_id": "D-00031",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00106",
+  "customer_id": "C-2018",
+  "timestamp": "2026-08-08T15:44:00",
+  "type": "login",
+  "device_id": "D-00032",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00107",
+  "customer_id": "C-2018",
+  "timestamp": "2026-08-14T13:39:00",
+  "type": "login",
+  "device_id": "D-00032",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00108",
+  "customer_id": "C-2018",
+  "timestamp": "2026-08-19T18:32:00",
+  "type": "login",
+  "device_id": "D-00032",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00109",
+  "customer_id": "C-2018",
+  "timestamp": "2026-09-16T18:46:00",
+  "type": "login",
+  "device_id": "D-00032",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00110",
+  "customer_id": "C-2018",
+  "timestamp": "2026-09-21T12:28:00",
+  "type": "login",
+  "device_id": "D-00032",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00111",
+  "customer_id": "C-2018",
+  "timestamp": "2026-09-25T21:01:00",
+  "type": "login",
+  "device_id": "D-00032",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00112",
+  "customer_id": "C-2018",
+  "timestamp": "2026-10-01T14:41:00",
+  "type": "login",
+  "device_id": "D-00032",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00113",
+  "customer_id": "C-2019",
+  "timestamp": "2026-07-23T16:41:00",
+  "type": "login",
+  "device_id": "D-00033",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00114",
+  "customer_id": "C-2019",
+  "timestamp": "2026-07-28T16:53:00",
+  "type": "login",
+  "device_id": "D-00034",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00115",
+  "customer_id": "C-2019",
+  "timestamp": "2026-09-06T10:58:00",
+  "type": "login",
+  "device_id": "D-00033",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00116",
+  "customer_id": "C-2019",
+  "timestamp": "2026-09-19T19:18:00",
+  "type": "login",
+  "device_id": "D-00033",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00117",
+  "customer_id": "C-2019",
+  "timestamp": "2026-10-08T12:42:00",
+  "type": "login",
+  "device_id": "D-00033",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00118",
+  "customer_id": "C-2020",
+  "timestamp": "2026-07-31T15:05:00",
+  "type": "login",
+  "device_id": "D-00035",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00119",
+  "customer_id": "C-2020",
+  "timestamp": "2026-08-03T14:22:00",
+  "type": "login",
+  "device_id": "D-00035",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00120",
+  "customer_id": "C-2020",
+  "timestamp": "2026-08-18T10:50:00",
+  "type": "login",
+  "device_id": "D-00035",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00121",
+  "customer_id": "C-2020",
+  "timestamp": "2026-08-24T09:04:00",
+  "type": "login",
+  "device_id": "D-00035",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00122",
+  "customer_id": "C-2020",
+  "timestamp": "2026-09-04T20:28:00",
+  "type": "login",
+  "device_id": "D-00035",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00123",
+  "customer_id": "C-2020",
+  "timestamp": "2026-09-23T10:09:00",
+  "type": "login",
+  "device_id": "D-00035",
+  "ip_city": "Boston, MA"
+ },
+ {
+  "id": "E-00124",
+  "customer_id": "C-2021",
+  "timestamp": "2026-07-24T20:42:00",
+  "type": "login",
+  "device_id": "D-00036",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00125",
+  "customer_id": "C-2021",
+  "timestamp": "2026-08-17T16:46:00",
+  "type": "login",
+  "device_id": "D-00036",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00126",
+  "customer_id": "C-2021",
+  "timestamp": "2026-08-26T17:12:00",
+  "type": "login",
+  "device_id": "D-00036",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00127",
+  "customer_id": "C-2021",
+  "timestamp": "2026-09-03T12:36:00",
+  "type": "login",
+  "device_id": "D-00037",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00128",
+  "customer_id": "C-2021",
+  "timestamp": "2026-09-05T18:10:00",
+  "type": "login",
+  "device_id": "D-00037",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00129",
+  "customer_id": "C-2021",
+  "timestamp": "2026-09-23T08:30:00",
+  "type": "login",
+  "device_id": "D-00037",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00130",
+  "customer_id": "C-2021",
+  "timestamp": "2026-09-25T11:24:00",
+  "type": "login",
+  "device_id": "D-00037",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00131",
+  "customer_id": "C-2022",
+  "timestamp": "2026-07-26T18:19:00",
+  "type": "login",
+  "device_id": "D-00038",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00132",
+  "customer_id": "C-2022",
+  "timestamp": "2026-08-08T08:15:00",
+  "type": "login",
+  "device_id": "D-00038",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00133",
+  "customer_id": "C-2022",
+  "timestamp": "2026-08-14T10:59:00",
+  "type": "login",
+  "device_id": "D-00038",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00134",
+  "customer_id": "C-2022",
+  "timestamp": "2026-08-19T13:47:00",
+  "type": "login",
+  "device_id": "D-00038",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00135",
+  "customer_id": "C-2022",
+  "timestamp": "2026-09-25T13:15:00",
+  "type": "login",
+  "device_id": "D-00038",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00136",
+  "customer_id": "C-2022",
+  "timestamp": "2026-09-26T14:24:00",
+  "type": "login",
+  "device_id": "D-00038",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00137",
+  "customer_id": "C-2022",
+  "timestamp": "2026-09-29T13:03:00",
+  "type": "login",
+  "device_id": "D-00038",
+  "ip_city": "San Diego, CA"
+ },
+ {
+  "id": "E-00138",
+  "customer_id": "C-2023",
+  "timestamp": "2026-07-22T15:26:00",
+  "type": "login",
+  "device_id": "D-00039",
+  "ip_city": "Charlotte, NC"
+ },
+ {
+  "id": "E-00139",
+  "customer_id": "C-2023",
+  "timestamp": "2026-08-13T16:40:00",
+  "type": "login",
+  "device_id": "D-00039",
+  "ip_city": "Charlotte, NC"
+ },
+ {
+  "id": "E-00140",
+  "customer_id": "C-2023",
+  "timestamp": "2026-08-14T18:06:00",
+  "type": "login",
+  "device_id": "D-00039",
+  "ip_city": "Charlotte, NC"
+ },
+ {
+  "id": "E-00141",
+  "customer_id": "C-2023",
+  "timestamp": "2026-09-17T08:46:00",
+  "type": "login",
+  "device_id": "D-00039",
+  "ip_city": "Charlotte, NC"
+ },
+ {
+  "id": "E-00142",
+  "customer_id": "C-2023",
+  "timestamp": "2026-09-21T10:52:00",
+  "type": "login",
+  "device_id": "D-00039",
+  "ip_city": "Charlotte, NC"
+ },
+ {
+  "id": "E-00143",
+  "customer_id": "C-2023",
+  "timestamp": "2026-09-21T11:00:00",
+  "type": "authorized_user_added",
+  "device_id": "D-00039",
+  "ip_city": "Charlotte, NC",
+  "details": "Authorized user added: daughter, lives in Austin, TX; second card ending 4514 issued"
+ },
+ {
+  "id": "E-00144",
+  "customer_id": "C-2024",
+  "timestamp": "2026-07-30T12:33:00",
+  "type": "login",
+  "device_id": "D-00040",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00145",
+  "customer_id": "C-2024",
+  "timestamp": "2026-08-07T13:47:00",
+  "type": "login",
+  "device_id": "D-00040",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00146",
+  "customer_id": "C-2024",
+  "timestamp": "2026-08-16T11:22:00",
+  "type": "login",
+  "device_id": "D-00040",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00147",
+  "customer_id": "C-2024",
+  "timestamp": "2026-08-18T12:19:00",
+  "type": "login",
+  "device_id": "D-00040",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00148",
+  "customer_id": "C-2024",
+  "timestamp": "2026-09-10T20:02:00",
+  "type": "login",
+  "device_id": "D-00040",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00150",
+  "customer_id": "C-2024",
+  "timestamp": "2026-09-21T10:52:00",
+  "type": "login",
+  "device_id": "D-00040",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00151",
+  "customer_id": "C-2024",
+  "timestamp": "2026-09-21T11:00:00",
+  "type": "authorized_user_added",
+  "device_id": "D-00040",
+  "ip_city": "Atlanta, GA",
+  "details": "Authorized user added: son, lives in Seattle, WA; second card ending 2641 issued"
+ },
+ {
+  "id": "E-00149",
+  "customer_id": "C-2024",
+  "timestamp": "2026-09-26T13:58:00",
+  "type": "login",
+  "device_id": "D-00040",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00152",
+  "customer_id": "C-2025",
+  "timestamp": "2026-07-20T17:57:00",
+  "type": "login",
+  "device_id": "D-00042",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00153",
+  "customer_id": "C-2025",
+  "timestamp": "2026-07-23T13:35:00",
+  "type": "login",
+  "device_id": "D-00042",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00154",
+  "customer_id": "C-2025",
+  "timestamp": "2026-08-21T13:21:00",
+  "type": "login",
+  "device_id": "D-00042",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00155",
+  "customer_id": "C-2025",
+  "timestamp": "2026-09-03T20:56:00",
+  "type": "login",
+  "device_id": "D-00041",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00156",
+  "customer_id": "C-2025",
+  "timestamp": "2026-09-17T20:52:00",
+  "type": "login",
+  "device_id": "D-00041",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00157",
+  "customer_id": "C-2025",
+  "timestamp": "2026-10-10T12:31:00",
+  "type": "login",
+  "device_id": "D-00041",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00158",
+  "customer_id": "C-2026",
+  "timestamp": "2026-07-19T18:36:00",
+  "type": "login",
+  "device_id": "D-00044",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00159",
+  "customer_id": "C-2026",
+  "timestamp": "2026-08-03T12:59:00",
+  "type": "login",
+  "device_id": "D-00044",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00160",
+  "customer_id": "C-2026",
+  "timestamp": "2026-08-28T21:05:00",
+  "type": "login",
+  "device_id": "D-00044",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00161",
+  "customer_id": "C-2026",
+  "timestamp": "2026-09-05T10:40:00",
+  "type": "login",
+  "device_id": "D-00045",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00162",
+  "customer_id": "C-2026",
+  "timestamp": "2026-09-30T12:31:00",
+  "type": "login",
+  "device_id": "D-00044",
+  "ip_city": "Melbourne, FL"
+ },
+ {
+  "id": "E-00163",
+  "customer_id": "C-2027",
+  "timestamp": "2026-07-17T13:14:00",
+  "type": "login",
+  "device_id": "D-00047",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00164",
+  "customer_id": "C-2027",
+  "timestamp": "2026-07-19T08:01:00",
+  "type": "login",
+  "device_id": "D-00047",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00165",
+  "customer_id": "C-2027",
+  "timestamp": "2026-08-11T16:54:00",
+  "type": "login",
+  "device_id": "D-00047",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00166",
+  "customer_id": "C-2027",
+  "timestamp": "2026-08-16T12:26:00",
+  "type": "login",
+  "device_id": "D-00047",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00167",
+  "customer_id": "C-2027",
+  "timestamp": "2026-09-06T15:13:00",
+  "type": "login",
+  "device_id": "D-00047",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00168",
+  "customer_id": "C-2027",
+  "timestamp": "2026-10-08T17:32:00",
+  "type": "login",
+  "device_id": "D-00047",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00169",
+  "customer_id": "C-2028",
+  "timestamp": "2026-07-22T14:05:00",
+  "type": "login",
+  "device_id": "D-00049",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00170",
+  "customer_id": "C-2028",
+  "timestamp": "2026-08-28T08:22:00",
+  "type": "login",
+  "device_id": "D-00049",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00171",
+  "customer_id": "C-2028",
+  "timestamp": "2026-09-07T18:31:00",
+  "type": "login",
+  "device_id": "D-00049",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00172",
+  "customer_id": "C-2028",
+  "timestamp": "2026-09-20T20:38:00",
+  "type": "login",
+  "device_id": "D-00049",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00173",
+  "customer_id": "C-2028",
+  "timestamp": "2026-09-29T17:26:00",
+  "type": "login",
+  "device_id": "D-00049",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00174",
+  "customer_id": "C-2028",
+  "timestamp": "2026-10-03T21:52:00",
+  "type": "login",
+  "device_id": "D-00049",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00175",
+  "customer_id": "C-2029",
+  "timestamp": "2026-07-18T19:11:00",
+  "type": "login",
+  "device_id": "D-00052",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00176",
+  "customer_id": "C-2029",
+  "timestamp": "2026-07-21T16:22:00",
+  "type": "login",
+  "device_id": "D-00052",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00177",
+  "customer_id": "C-2029",
+  "timestamp": "2026-08-23T09:53:00",
+  "type": "login",
+  "device_id": "D-00051",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00178",
+  "customer_id": "C-2029",
+  "timestamp": "2026-09-19T09:52:00",
+  "type": "login",
+  "device_id": "D-00052",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00179",
+  "customer_id": "C-2030",
+  "timestamp": "2026-07-17T13:11:00",
+  "type": "login",
+  "device_id": "D-00055",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00180",
+  "customer_id": "C-2030",
+  "timestamp": "2026-09-08T10:28:00",
+  "type": "login",
+  "device_id": "D-00054",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00181",
+  "customer_id": "C-2030",
+  "timestamp": "2026-09-19T09:19:00",
+  "type": "login",
+  "device_id": "D-00055",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00182",
+  "customer_id": "C-2030",
+  "timestamp": "2026-10-03T14:47:00",
+  "type": "login",
+  "device_id": "D-00055",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00183",
+  "customer_id": "C-2031",
+  "timestamp": "2026-07-25T16:08:00",
+  "type": "login",
+  "device_id": "D-00058",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00184",
+  "customer_id": "C-2031",
+  "timestamp": "2026-07-31T20:38:00",
+  "type": "login",
+  "device_id": "D-00057",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00185",
+  "customer_id": "C-2031",
+  "timestamp": "2026-08-02T13:08:00",
+  "type": "login",
+  "device_id": "D-00058",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00186",
+  "customer_id": "C-2031",
+  "timestamp": "2026-09-15T16:54:00",
+  "type": "login",
+  "device_id": "D-00057",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00187",
+  "customer_id": "C-2031",
+  "timestamp": "2026-09-23T15:19:00",
+  "type": "login",
+  "device_id": "D-00058",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00188",
+  "customer_id": "C-2032",
+  "timestamp": "2026-07-29T13:28:00",
+  "type": "login",
+  "device_id": "D-00060",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00189",
+  "customer_id": "C-2032",
+  "timestamp": "2026-08-09T19:39:00",
+  "type": "login",
+  "device_id": "D-00060",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00190",
+  "customer_id": "C-2032",
+  "timestamp": "2026-09-07T09:42:00",
+  "type": "login",
+  "device_id": "D-00060",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00191",
+  "customer_id": "C-2032",
+  "timestamp": "2026-09-27T11:49:00",
+  "type": "login",
+  "device_id": "D-00060",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00192",
+  "customer_id": "C-2032",
+  "timestamp": "2026-10-10T14:46:00",
+  "type": "login",
+  "device_id": "D-00060",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00193",
+  "customer_id": "C-2032",
+  "timestamp": "2026-10-11T11:16:00",
+  "type": "login",
+  "device_id": "D-00060",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00194",
+  "customer_id": "C-2033",
+  "timestamp": "2026-07-26T15:58:00",
+  "type": "login",
+  "device_id": "D-00063",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00195",
+  "customer_id": "C-2033",
+  "timestamp": "2026-07-28T21:52:00",
+  "type": "login",
+  "device_id": "D-00063",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00196",
+  "customer_id": "C-2033",
+  "timestamp": "2026-08-16T12:12:00",
+  "type": "login",
+  "device_id": "D-00062",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00197",
+  "customer_id": "C-2033",
+  "timestamp": "2026-08-25T09:32:00",
+  "type": "login",
+  "device_id": "D-00063",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00198",
+  "customer_id": "C-2033",
+  "timestamp": "2026-09-17T13:38:00",
+  "type": "login",
+  "device_id": "D-00062",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00199",
+  "customer_id": "C-2033",
+  "timestamp": "2026-09-27T21:31:00",
+  "type": "login",
+  "device_id": "D-00062",
+  "ip_city": "Atlanta, GA"
+ },
+ {
+  "id": "E-00200",
+  "customer_id": "C-2033",
+  "timestamp": "2026-10-12T01:33:00",
+  "type": "login",
+  "device_id": "D-00064",
+  "ip_city": "Las Vegas, NV",
+  "details": "Sign-in from new device; two-factor code entered after 3 failed attempts"
+ },
+ {
+  "id": "E-00201",
+  "customer_id": "C-2033",
+  "timestamp": "2026-10-12T01:53:00",
+  "type": "password_reset",
+  "device_id": "D-00064",
+  "ip_city": "Las Vegas, NV"
+ },
+ {
+  "id": "E-00202",
+  "customer_id": "C-2033",
+  "timestamp": "2026-10-12T01:56:00",
+  "type": "phone_changed",
+  "device_id": "D-00064",
+  "ip_city": "Las Vegas, NV",
+  "details": "Phone on file replaced"
+ },
+ {
+  "id": "E-00203",
+  "customer_id": "C-2033",
+  "timestamp": "2026-10-12T01:58:00",
+  "type": "payee_added",
+  "device_id": "D-00064",
+  "ip_city": "Las Vegas, NV",
+  "details": "Payee: M. Brandt"
+ },
+ {
+  "id": "E-00204",
+  "customer_id": "C-2034",
+  "timestamp": "2026-08-13T11:59:00",
+  "type": "login",
+  "device_id": "D-00066",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00205",
+  "customer_id": "C-2034",
+  "timestamp": "2026-08-18T16:44:00",
+  "type": "login",
+  "device_id": "D-00066",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00206",
+  "customer_id": "C-2034",
+  "timestamp": "2026-08-19T14:26:00",
+  "type": "login",
+  "device_id": "D-00066",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00207",
+  "customer_id": "C-2034",
+  "timestamp": "2026-08-29T17:18:00",
+  "type": "login",
+  "device_id": "D-00066",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00208",
+  "customer_id": "C-2034",
+  "timestamp": "2026-10-12T00:23:00",
+  "type": "login",
+  "device_id": "D-00067",
+  "ip_city": "Unknown (anonymizing proxy)",
+  "details": "Sign-in from new device; two-factor code entered on first try"
+ },
+ {
+  "id": "E-00209",
+  "customer_id": "C-2034",
+  "timestamp": "2026-10-12T00:25:00",
+  "type": "password_reset",
+  "device_id": "D-00067",
+  "ip_city": "Unknown (anonymizing proxy)"
+ },
+ {
+  "id": "E-00210",
+  "customer_id": "C-2034",
+  "timestamp": "2026-10-12T00:27:00",
+  "type": "email_changed",
+  "device_id": "D-00067",
+  "ip_city": "Unknown (anonymizing proxy)",
+  "details": "Email on file replaced"
+ },
+ {
+  "id": "E-00211",
+  "customer_id": "C-2034",
+  "timestamp": "2026-10-12T00:42:00",
+  "type": "payee_added",
+  "device_id": "D-00067",
+  "ip_city": "Unknown (anonymizing proxy)",
+  "details": "Payee: S. Okafor"
+ },
+ {
+  "id": "E-00212",
+  "customer_id": "C-2035",
+  "timestamp": "2026-07-17T08:03:00",
+  "type": "login",
+  "device_id": "D-00069",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00213",
+  "customer_id": "C-2035",
+  "timestamp": "2026-07-31T11:19:00",
+  "type": "login",
+  "device_id": "D-00069",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00214",
+  "customer_id": "C-2035",
+  "timestamp": "2026-08-03T08:45:00",
+  "type": "login",
+  "device_id": "D-00069",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00215",
+  "customer_id": "C-2035",
+  "timestamp": "2026-08-06T09:09:00",
+  "type": "login",
+  "device_id": "D-00068",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00216",
+  "customer_id": "C-2035",
+  "timestamp": "2026-08-13T10:00:00",
+  "type": "login",
+  "device_id": "D-00069",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00217",
+  "customer_id": "C-2035",
+  "timestamp": "2026-08-21T18:07:00",
+  "type": "login",
+  "device_id": "D-00069",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00218",
+  "customer_id": "C-2035",
+  "timestamp": "2026-10-03T08:58:00",
+  "type": "login",
+  "device_id": "D-00069",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00219",
+  "customer_id": "C-2035",
+  "timestamp": "2026-10-12T02:20:00",
+  "type": "login",
+  "device_id": "D-00070",
+  "ip_city": "Phoenix, AZ",
+  "details": "Sign-in from new device; two-factor code entered after 3 failed attempts"
+ },
+ {
+  "id": "E-00220",
+  "customer_id": "C-2035",
+  "timestamp": "2026-10-12T02:29:00",
+  "type": "password_reset",
+  "device_id": "D-00070",
+  "ip_city": "Phoenix, AZ"
+ },
+ {
+  "id": "E-00221",
+  "customer_id": "C-2035",
+  "timestamp": "2026-10-12T02:30:00",
+  "type": "email_changed",
+  "device_id": "D-00070",
+  "ip_city": "Phoenix, AZ",
+  "details": "Email on file replaced"
+ },
+ {
+  "id": "E-00222",
+  "customer_id": "C-2035",
+  "timestamp": "2026-10-12T02:42:00",
+  "type": "payee_added",
+  "device_id": "D-00070",
+  "ip_city": "Phoenix, AZ",
+  "details": "Payee: M. Brandt"
+ },
+ {
+  "id": "E-00223",
+  "customer_id": "C-2036",
+  "timestamp": "2026-08-02T08:19:00",
+  "type": "login",
+  "device_id": "D-00072",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00224",
+  "customer_id": "C-2036",
+  "timestamp": "2026-08-14T20:13:00",
+  "type": "login",
+  "device_id": "D-00072",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00225",
+  "customer_id": "C-2036",
+  "timestamp": "2026-08-15T14:24:00",
+  "type": "login",
+  "device_id": "D-00071",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00226",
+  "customer_id": "C-2036",
+  "timestamp": "2026-08-21T17:16:00",
+  "type": "login",
+  "device_id": "D-00072",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00227",
+  "customer_id": "C-2036",
+  "timestamp": "2026-09-17T16:06:00",
+  "type": "login",
+  "device_id": "D-00072",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00228",
+  "customer_id": "C-2036",
+  "timestamp": "2026-09-20T08:05:00",
+  "type": "login",
+  "device_id": "D-00071",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00229",
+  "customer_id": "C-2036",
+  "timestamp": "2026-10-09T15:49:00",
+  "type": "login",
+  "device_id": "D-00071",
+  "ip_city": "Tampa, FL"
+ },
+ {
+  "id": "E-00230",
+  "customer_id": "C-2036",
+  "timestamp": "2026-10-12T02:06:00",
+  "type": "login",
+  "device_id": "D-00073",
+  "ip_city": "Unknown (anonymizing proxy)",
+  "details": "Sign-in from new device; two-factor code entered on first try"
+ },
+ {
+  "id": "E-00231",
+  "customer_id": "C-2036",
+  "timestamp": "2026-10-12T02:10:00",
+  "type": "password_reset",
+  "device_id": "D-00073",
+  "ip_city": "Unknown (anonymizing proxy)"
+ },
+ {
+  "id": "E-00232",
+  "customer_id": "C-2036",
+  "timestamp": "2026-10-12T02:11:00",
+  "type": "phone_changed",
+  "device_id": "D-00073",
+  "ip_city": "Unknown (anonymizing proxy)",
+  "details": "Phone on file replaced"
+ },
+ {
+  "id": "E-00233",
+  "customer_id": "C-2036",
+  "timestamp": "2026-10-12T02:22:00",
+  "type": "payee_added",
+  "device_id": "D-00073",
+  "ip_city": "Unknown (anonymizing proxy)",
+  "details": "Payee: J. Carter"
+ },
+ {
+  "id": "E-00234",
+  "customer_id": "C-2037",
+  "timestamp": "2026-08-05T18:16:00",
+  "type": "login",
+  "device_id": "D-00074",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00235",
+  "customer_id": "C-2037",
+  "timestamp": "2026-08-18T18:49:00",
+  "type": "login",
+  "device_id": "D-00075",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00236",
+  "customer_id": "C-2037",
+  "timestamp": "2026-08-23T17:19:00",
+  "type": "login",
+  "device_id": "D-00075",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00237",
+  "customer_id": "C-2037",
+  "timestamp": "2026-08-25T19:45:00",
+  "type": "login",
+  "device_id": "D-00075",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00238",
+  "customer_id": "C-2037",
+  "timestamp": "2026-09-16T14:41:00",
+  "type": "login",
+  "device_id": "D-00075",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00239",
+  "customer_id": "C-2037",
+  "timestamp": "2026-09-18T09:59:00",
+  "type": "login",
+  "device_id": "D-00074",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00240",
+  "customer_id": "C-2037",
+  "timestamp": "2026-10-12T02:19:00",
+  "type": "login",
+  "device_id": "D-00076",
+  "ip_city": "Columbus, OH",
+  "details": "Sign-in from new device; two-factor code entered on first try"
+ },
+ {
+  "id": "E-00241",
+  "customer_id": "C-2037",
+  "timestamp": "2026-10-12T02:21:00",
+  "type": "password_reset",
+  "device_id": "D-00076",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00242",
+  "customer_id": "C-2037",
+  "timestamp": "2026-10-12T02:22:00",
+  "type": "email_changed",
+  "device_id": "D-00076",
+  "ip_city": "Columbus, OH",
+  "details": "Email on file replaced"
+ },
+ {
+  "id": "E-00243",
+  "customer_id": "C-2037",
+  "timestamp": "2026-10-12T02:30:00",
+  "type": "payee_added",
+  "device_id": "D-00076",
+  "ip_city": "Columbus, OH",
+  "details": "Payee: J. Carter"
+ },
+ {
+  "id": "E-00244",
+  "customer_id": "C-2038",
+  "timestamp": "2026-07-18T08:53:00",
+  "type": "login",
+  "device_id": "D-00078",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00245",
+  "customer_id": "C-2038",
+  "timestamp": "2026-07-21T09:54:00",
+  "type": "login",
+  "device_id": "D-00077",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00246",
+  "customer_id": "C-2038",
+  "timestamp": "2026-08-24T15:31:00",
+  "type": "login",
+  "device_id": "D-00077",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00247",
+  "customer_id": "C-2038",
+  "timestamp": "2026-09-03T12:38:00",
+  "type": "login",
+  "device_id": "D-00077",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00248",
+  "customer_id": "C-2038",
+  "timestamp": "2026-09-19T14:08:00",
+  "type": "login",
+  "device_id": "D-00078",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00249",
+  "customer_id": "C-2038",
+  "timestamp": "2026-09-23T09:18:00",
+  "type": "login",
+  "device_id": "D-00077",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00250",
+  "customer_id": "C-2038",
+  "timestamp": "2026-10-03T10:09:00",
+  "type": "login",
+  "device_id": "D-00077",
+  "ip_city": "Raleigh, NC"
+ },
+ {
+  "id": "E-00251",
+  "customer_id": "C-2039",
+  "timestamp": "2026-08-03T20:06:00",
+  "type": "login",
+  "device_id": "D-00081",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00252",
+  "customer_id": "C-2039",
+  "timestamp": "2026-08-25T16:16:00",
+  "type": "login",
+  "device_id": "D-00081",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00253",
+  "customer_id": "C-2039",
+  "timestamp": "2026-09-10T19:07:00",
+  "type": "login",
+  "device_id": "D-00081",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00254",
+  "customer_id": "C-2039",
+  "timestamp": "2026-09-11T21:22:00",
+  "type": "login",
+  "device_id": "D-00081",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00255",
+  "customer_id": "C-2039",
+  "timestamp": "2026-09-20T13:53:00",
+  "type": "login",
+  "device_id": "D-00081",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00256",
+  "customer_id": "C-2040",
+  "timestamp": "2026-08-06T19:34:00",
+  "type": "login",
+  "device_id": "D-00084",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00257",
+  "customer_id": "C-2040",
+  "timestamp": "2026-08-13T14:24:00",
+  "type": "login",
+  "device_id": "D-00084",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00258",
+  "customer_id": "C-2040",
+  "timestamp": "2026-08-22T17:17:00",
+  "type": "login",
+  "device_id": "D-00083",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00259",
+  "customer_id": "C-2040",
+  "timestamp": "2026-09-16T15:17:00",
+  "type": "login",
+  "device_id": "D-00083",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00260",
+  "customer_id": "C-2040",
+  "timestamp": "2026-09-26T08:56:00",
+  "type": "login",
+  "device_id": "D-00083",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00261",
+  "customer_id": "C-2040",
+  "timestamp": "2026-09-29T15:34:00",
+  "type": "login",
+  "device_id": "D-00083",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00262",
+  "customer_id": "C-2041",
+  "timestamp": "2026-07-31T21:21:00",
+  "type": "login",
+  "device_id": "D-00086",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00263",
+  "customer_id": "C-2041",
+  "timestamp": "2026-08-08T17:23:00",
+  "type": "login",
+  "device_id": "D-00086",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00264",
+  "customer_id": "C-2041",
+  "timestamp": "2026-08-24T18:14:00",
+  "type": "login",
+  "device_id": "D-00086",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00265",
+  "customer_id": "C-2041",
+  "timestamp": "2026-08-26T18:49:00",
+  "type": "login",
+  "device_id": "D-00086",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00266",
+  "customer_id": "C-2041",
+  "timestamp": "2026-09-09T10:37:00",
+  "type": "login",
+  "device_id": "D-00086",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00267",
+  "customer_id": "C-2041",
+  "timestamp": "2026-09-28T21:54:00",
+  "type": "login",
+  "device_id": "D-00086",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00268",
+  "customer_id": "C-2041",
+  "timestamp": "2026-10-02T21:10:00",
+  "type": "login",
+  "device_id": "D-00086",
+  "ip_city": "Seattle, WA"
+ },
+ {
+  "id": "E-00269",
+  "customer_id": "C-2042",
+  "timestamp": "2026-08-02T08:49:00",
+  "type": "login",
+  "device_id": "D-00088",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00270",
+  "customer_id": "C-2042",
+  "timestamp": "2026-08-12T20:09:00",
+  "type": "login",
+  "device_id": "D-00089",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00271",
+  "customer_id": "C-2042",
+  "timestamp": "2026-08-16T12:50:00",
+  "type": "login",
+  "device_id": "D-00089",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00272",
+  "customer_id": "C-2042",
+  "timestamp": "2026-08-23T20:14:00",
+  "type": "login",
+  "device_id": "D-00088",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00273",
+  "customer_id": "C-2042",
+  "timestamp": "2026-08-27T18:44:00",
+  "type": "login",
+  "device_id": "D-00088",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00274",
+  "customer_id": "C-2042",
+  "timestamp": "2026-10-05T18:03:00",
+  "type": "login",
+  "device_id": "D-00088",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00275",
+  "customer_id": "C-2042",
+  "timestamp": "2026-10-08T16:28:00",
+  "type": "login",
+  "device_id": "D-00088",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00276",
+  "customer_id": "C-2043",
+  "timestamp": "2026-07-20T11:18:00",
+  "type": "login",
+  "device_id": "D-00091",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00277",
+  "customer_id": "C-2043",
+  "timestamp": "2026-08-23T19:56:00",
+  "type": "login",
+  "device_id": "D-00091",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00278",
+  "customer_id": "C-2043",
+  "timestamp": "2026-08-28T11:48:00",
+  "type": "login",
+  "device_id": "D-00091",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00279",
+  "customer_id": "C-2043",
+  "timestamp": "2026-08-29T18:57:00",
+  "type": "login",
+  "device_id": "D-00091",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00280",
+  "customer_id": "C-2043",
+  "timestamp": "2026-10-01T21:39:00",
+  "type": "login",
+  "device_id": "D-00092",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00281",
+  "customer_id": "C-2044",
+  "timestamp": "2026-07-17T17:11:00",
+  "type": "login",
+  "device_id": "D-00094",
+  "ip_city": "Miami, FL"
+ },
+ {
+  "id": "E-00282",
+  "customer_id": "C-2044",
+  "timestamp": "2026-07-29T20:34:00",
+  "type": "login",
+  "device_id": "D-00095",
+  "ip_city": "Miami, FL"
+ },
+ {
+  "id": "E-00283",
+  "customer_id": "C-2044",
+  "timestamp": "2026-09-10T18:45:00",
+  "type": "login",
+  "device_id": "D-00094",
+  "ip_city": "Miami, FL"
+ },
+ {
+  "id": "E-00284",
+  "customer_id": "C-2044",
+  "timestamp": "2026-09-13T09:00:00",
+  "type": "login",
+  "device_id": "D-00095",
+  "ip_city": "Miami, FL"
+ },
+ {
+  "id": "E-00285",
+  "customer_id": "C-2044",
+  "timestamp": "2026-09-24T17:04:00",
+  "type": "login",
+  "device_id": "D-00094",
+  "ip_city": "Miami, FL"
+ },
+ {
+  "id": "E-00286",
+  "customer_id": "C-2045",
+  "timestamp": "2026-08-01T11:26:00",
+  "type": "login",
+  "device_id": "D-00096",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00287",
+  "customer_id": "C-2045",
+  "timestamp": "2026-09-03T18:49:00",
+  "type": "login",
+  "device_id": "D-00096",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00288",
+  "customer_id": "C-2045",
+  "timestamp": "2026-09-16T12:59:00",
+  "type": "login",
+  "device_id": "D-00096",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00289",
+  "customer_id": "C-2045",
+  "timestamp": "2026-10-09T13:11:00",
+  "type": "login",
+  "device_id": "D-00096",
+  "ip_city": "Orlando, FL"
+ },
+ {
+  "id": "E-00290",
+  "customer_id": "C-2045",
+  "timestamp": "2026-10-12T01:02:00",
+  "type": "password_reset",
+  "device_id": "D-00096",
+  "ip_city": "Orlando, FL",
+  "details": "Reset link used on known phone"
+ },
+ {
+  "id": "E-00291",
+  "customer_id": "C-2045",
+  "timestamp": "2026-10-12T01:04:00",
+  "type": "login",
+  "device_id": "D-00096",
+  "ip_city": "Orlando, FL",
+  "details": "Signed in after password reset"
+ },
+ {
+  "id": "E-00292",
+  "customer_id": "C-2045",
+  "timestamp": "2026-10-12T01:09:00",
+  "type": "payee_added",
+  "device_id": "D-00096",
+  "ip_city": "Orlando, FL",
+  "details": "Payee: D. Whitfield"
+ },
+ {
+  "id": "E-00300",
+  "customer_id": "C-2046",
+  "timestamp": "2025-08-14T15:00:00",
+  "type": "authorized_user_added",
+  "device_id": "D-00097",
+  "ip_city": "New York, NY",
+  "details": "Authorized user added: son; second card issued"
+ },
+ {
+  "id": "E-00293",
+  "customer_id": "C-2046",
+  "timestamp": "2026-07-25T10:43:00",
+  "type": "login",
+  "device_id": "D-00097",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00294",
+  "customer_id": "C-2046",
+  "timestamp": "2026-08-29T09:35:00",
+  "type": "login",
+  "device_id": "D-00098",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00295",
+  "customer_id": "C-2046",
+  "timestamp": "2026-09-10T11:28:00",
+  "type": "login",
+  "device_id": "D-00097",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00296",
+  "customer_id": "C-2046",
+  "timestamp": "2026-09-12T08:09:00",
+  "type": "login",
+  "device_id": "D-00098",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00297",
+  "customer_id": "C-2046",
+  "timestamp": "2026-09-17T11:14:00",
+  "type": "login",
+  "device_id": "D-00097",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00298",
+  "customer_id": "C-2046",
+  "timestamp": "2026-10-05T14:10:00",
+  "type": "login",
+  "device_id": "D-00098",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00299",
+  "customer_id": "C-2046",
+  "timestamp": "2026-10-11T08:41:00",
+  "type": "login",
+  "device_id": "D-00097",
+  "ip_city": "New York, NY"
+ },
+ {
+  "id": "E-00301",
+  "customer_id": "C-2047",
+  "timestamp": "2026-08-11T15:55:00",
+  "type": "login",
+  "device_id": "D-00100",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00302",
+  "customer_id": "C-2047",
+  "timestamp": "2026-08-17T13:51:00",
+  "type": "login",
+  "device_id": "D-00099",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00303",
+  "customer_id": "C-2047",
+  "timestamp": "2026-09-08T15:44:00",
+  "type": "login",
+  "device_id": "D-00100",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00304",
+  "customer_id": "C-2047",
+  "timestamp": "2026-09-18T16:00:00",
+  "type": "login",
+  "device_id": "D-00099",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00305",
+  "customer_id": "C-2047",
+  "timestamp": "2026-10-07T15:40:00",
+  "type": "login",
+  "device_id": "D-00099",
+  "ip_city": "Denver, CO"
+ },
+ {
+  "id": "E-00306",
+  "customer_id": "C-2048",
+  "timestamp": "2026-07-23T19:52:00",
+  "type": "login",
+  "device_id": "D-00102",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00307",
+  "customer_id": "C-2048",
+  "timestamp": "2026-08-17T17:58:00",
+  "type": "login",
+  "device_id": "D-00102",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00308",
+  "customer_id": "C-2048",
+  "timestamp": "2026-08-29T09:40:00",
+  "type": "login",
+  "device_id": "D-00101",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00309",
+  "customer_id": "C-2048",
+  "timestamp": "2026-09-13T16:13:00",
+  "type": "login",
+  "device_id": "D-00102",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00310",
+  "customer_id": "C-2048",
+  "timestamp": "2026-09-24T16:13:00",
+  "type": "login",
+  "device_id": "D-00102",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00311",
+  "customer_id": "C-2048",
+  "timestamp": "2026-10-06T15:35:00",
+  "type": "login",
+  "device_id": "D-00101",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00312",
+  "customer_id": "C-2049",
+  "timestamp": "2026-07-17T13:38:00",
+  "type": "login",
+  "device_id": "D-00104",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00313",
+  "customer_id": "C-2049",
+  "timestamp": "2026-09-03T08:01:00",
+  "type": "login",
+  "device_id": "D-00103",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00314",
+  "customer_id": "C-2049",
+  "timestamp": "2026-09-11T16:01:00",
+  "type": "login",
+  "device_id": "D-00104",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00315",
+  "customer_id": "C-2049",
+  "timestamp": "2026-09-21T14:40:00",
+  "type": "login",
+  "device_id": "D-00103",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00316",
+  "customer_id": "C-2049",
+  "timestamp": "2026-10-11T18:26:00",
+  "type": "login",
+  "device_id": "D-00104",
+  "ip_city": "Austin, TX"
+ },
+ {
+  "id": "E-00317",
+  "customer_id": "C-2049",
+  "timestamp": "2026-10-11T18:30:00",
+  "type": "mailing_address_changed",
+  "device_id": "D-00104",
+  "ip_city": "Austin, TX",
+  "details": "Mailing address changed to an address in Las Vegas, NV"
+ },
+ {
+  "id": "E-00318",
+  "customer_id": "C-2050",
+  "timestamp": "2026-07-28T17:45:00",
+  "type": "login",
+  "device_id": "D-00105",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00319",
+  "customer_id": "C-2050",
+  "timestamp": "2026-08-02T16:08:00",
+  "type": "login",
+  "device_id": "D-00105",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00320",
+  "customer_id": "C-2050",
+  "timestamp": "2026-08-21T20:54:00",
+  "type": "login",
+  "device_id": "D-00105",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00321",
+  "customer_id": "C-2050",
+  "timestamp": "2026-08-27T08:01:00",
+  "type": "login",
+  "device_id": "D-00105",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00322",
+  "customer_id": "C-2050",
+  "timestamp": "2026-09-13T08:01:00",
+  "type": "login",
+  "device_id": "D-00105",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00323",
+  "customer_id": "C-2050",
+  "timestamp": "2026-09-28T09:13:00",
+  "type": "login",
+  "device_id": "D-00105",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00324",
+  "customer_id": "C-2050",
+  "timestamp": "2026-10-04T10:05:00",
+  "type": "login",
+  "device_id": "D-00105",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00325",
+  "customer_id": "C-2050",
+  "timestamp": "2026-10-12T10:02:00",
+  "type": "login",
+  "device_id": "D-00105",
+  "ip_city": "Columbus, OH"
+ },
+ {
+  "id": "E-00326",
+  "customer_id": "C-2050",
+  "timestamp": "2026-10-12T10:05:00",
+  "type": "email_changed",
+  "device_id": "D-00105",
+  "ip_city": "Columbus, OH",
+  "details": "Email on file replaced"
+ }
+]
