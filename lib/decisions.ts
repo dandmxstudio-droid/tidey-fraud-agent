@@ -3,7 +3,9 @@ import type { Action, Verdict } from './types';
 
 export type Choice = 'approve' | 'override' | 'legit' | 'fraud' | 'contact' | 'confirm' | 'reopen';
 export type Decided = { choice: Choice; at: string };
-export type Tone = 'escalate' | 'close' | 'ocean' | 'review';
+// Feedback follows the usual UI meaning, whatever the action was:
+// success = done and resolved, info = done but waiting on someone else, warning = back to needing attention.
+export type FeedbackState = 'success' | 'info' | 'warning';
 
 const KEY = 'tidey-decisions';
 
@@ -45,24 +47,24 @@ export const CHOICES: Record<Action, { choice: Choice; label: string; cls: strin
 };
 
 // What happens after a call: what Tidey says while it works, and the result.
-export function outcome(choice: Choice, verdict: Verdict): { working: string; title: string; body: string; short: string; tone: Tone } {
+export function outcome(choice: Choice, verdict: Verdict): { working: string; title: string; body: string; short: string; state: FeedbackState } {
   const takeover = verdict === 'account_takeover';
   switch (choice) {
     case 'approve':
       return takeover
-        ? { working: 'Freezing online banking and holding the transfer…', title: 'Account frozen', body: 'Online banking is locked, the transfer is on hold, and Tidey asked the customer to call the bank to verify.', short: 'Account frozen', tone: 'escalate' }
-        : { working: 'Blocking the card…', title: 'Card blocked', body: 'Tidey blocked the card, ordered a replacement and texted the customer.', short: 'Card blocked', tone: 'escalate' };
+        ? { working: 'Freezing online banking and holding the transfer…', title: 'Account frozen', body: 'Online banking is locked, the transfer is on hold, and Tidey asked the customer to call the bank to verify.', short: 'Account frozen', state: 'success' }
+        : { working: 'Blocking the card…', title: 'Card blocked', body: 'Tidey blocked the card, ordered a replacement and texted the customer.', short: 'Card blocked', state: 'success' };
     case 'override':
-      return { working: 'Closing the alert…', title: 'Closed as not fraud', body: 'Nothing was blocked. Your call is logged next to Tidey’s, so the disagreement can be reviewed.', short: 'Closed, not fraud', tone: 'close' };
+      return { working: 'Closing the alert…', title: 'Closed as not fraud', body: 'Nothing was blocked. Your call is logged next to Tidey’s, so the disagreement can be reviewed.', short: 'Closed, not fraud', state: 'success' };
     case 'legit':
-      return { working: 'Closing the alert…', title: 'Closed as legitimate', body: 'No action on the account. Your call is logged with Tidey’s notes.', short: 'Legitimate', tone: 'close' };
+      return { working: 'Closing the alert…', title: 'Closed as legitimate', body: 'No action on the account. Your call is logged with Tidey’s notes.', short: 'Legitimate', state: 'success' };
     case 'fraud':
-      return { working: 'Sending it to the fraud team…', title: 'Escalated as fraud', body: 'The fraud team has the case with Tidey’s notes, and the card is on hold until they review it.', short: 'Escalated', tone: 'escalate' };
+      return { working: 'Sending it to the fraud team…', title: 'Escalated as fraud', body: 'The fraud team has the case with Tidey’s notes, and the card is on hold until they review it.', short: 'Escalated', state: 'success' };
     case 'contact':
-      return { working: 'Texting the customer…', title: 'Customer contacted', body: 'Tidey texted the customer to confirm the activity. The alert stays open until they reply.', short: 'Waiting on customer', tone: 'ocean' };
+      return { working: 'Texting the customer…', title: 'Waiting on the customer', body: 'Tidey texted the customer to confirm the activity. The alert stays open until they reply.', short: 'Waiting on customer', state: 'info' };
     case 'confirm':
-      return { working: 'Saving your check…', title: 'Spot-checked', body: 'You agreed with Tidey’s close. It’s logged as checked.', short: 'Checked', tone: 'close' };
+      return { working: 'Saving your check…', title: 'Spot-checked', body: 'You agreed with Tidey’s close. It’s logged as checked.', short: 'Checked', state: 'success' };
     case 'reopen':
-      return { working: 'Reopening…', title: 'Reopened', body: 'Tidey’s close is marked as overturned and the alert is flagged for a second look.', short: 'Reopened', tone: 'review' };
+      return { working: 'Reopening…', title: 'Reopened for a second look', body: 'Tidey’s close is marked as overturned and the alert needs a person to decide it.', short: 'Reopened', state: 'warning' };
   }
 }

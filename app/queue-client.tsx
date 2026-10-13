@@ -5,6 +5,7 @@ import { VERDICT_LABEL, isAction, money, secs } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, type RunFile } from '@/lib/store';
 import type { Action, RunResult, Verdict } from '@/lib/types';
 import { loadDecisions, outcome, type Decided } from '@/lib/decisions';
+import { StateIcon } from './brand';
 
 type AlertRow = { id: string; what_happened: string; amount: number; rule_triggered: string; created_at: string };
 
@@ -146,7 +147,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
               <span className={`edge ${o ? 'settled' : tab}`} />
               <span>
                 <div className="what">{al.what_happened}</div>
-                {o ? <div className={`outcome-chip tone-${o.tone}`}><Check />{o.short}</div> : <div className="take">{take(r)}</div>}
+                {o ? <div className={`outcome-chip ${o.state}`}><StateIcon state={o.state} />{o.short}</div> : <div className="take">{take(r)}</div>}
               </span>
               <span className="meta">
                 <div className="amt">{money(al.amount)}</div>

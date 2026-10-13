@@ -25,3 +25,13 @@ export function TideyBadge({ size = 26, live = false }: { size?: number; live?: 
     </span>
   );
 }
+
+// Icons for the three feedback states: a check (done), a clock (waiting on someone else), a return arrow (needs attention again).
+export function StateIcon({ state, size = 14 }: { state: 'success' | 'info' | 'warning'; size?: number }) {
+  const d = state === 'success' ? 'M5 12.5l4.5 4.5L19 7.5' : state === 'info' ? 'M12 7v5l3 2M12 3.5a8.5 8.5 0 1 0 0 17a8.5 8.5 0 0 0 0-17' : 'M4 9h11a5 5 0 0 1 0 10H9M4 9l4-4M4 9l4 4';
+  return (
+    <svg className="state-icon" viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
+      <path d={d} fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}

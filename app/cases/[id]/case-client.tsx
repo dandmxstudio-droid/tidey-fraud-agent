@@ -4,7 +4,7 @@ import { closedReason, firstSentence, toolHeadline } from '@/lib/headlines';
 import { ANSWER_LABEL, GROUPS, VERDICT_LABEL, isAction, money, secs, usd } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, runOne, saveLive, type Pair, type RunFile } from '@/lib/store';
 import type { Action, RunResult, Step, ToolName, Verdict } from '@/lib/types';
-import { TideyBadge } from '../../brand';
+import { StateIcon, TideyBadge } from '../../brand';
 import { CHOICES, loadDecisions, outcome, saveDecision, type Choice, type Decided } from '@/lib/decisions';
 
 type A = { id: string; what_happened: string; amount: number; rule_triggered: string };
@@ -181,13 +181,11 @@ function Verdict({ r, group, decided, onDecide, nextOpen, leftText, back }: Verd
   if (tidey && decided && !working && group) {
     const o = outcome(decided.choice, d.verdict);
     return (
-      <div className={`verdict resolved tone-${o.tone}`} role="status">
+      <div className={`verdict resolved ${o.state}`} role="status">
         <div className="verdict-say">
-          <span className="resolved-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="26" height="26"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-          </span>
+          <span className="resolved-mark"><StateIcon state={o.state} size={24} /></span>
           <div>
-            <p className="status settled"><i />Done at {clockTime(decided.at)}</p>
+            <p className="status settled">Done at {clockTime(decided.at)}</p>
             <h2>{o.title}</h2>
             <p>{o.body}</p>
             <p className="demo-note">Demo: nothing real was blocked, sent or saved outside this browser tab.</p>
@@ -195,8 +193,8 @@ function Verdict({ r, group, decided, onDecide, nextOpen, leftText, back }: Verd
         </div>
         <div className="acts">
           <div className="acts-row">
-            <button className="btn ghost" onClick={() => onDecide(null)}>Undo</button>
-            {nextOpen ? <a className="btn light" href={nextOpen}>Next alert</a> : <a className="btn light" href={back.href}>{back.label}</a>}
+            <button className="btn" onClick={() => onDecide(null)}>Undo</button>
+            {nextOpen ? <a className="btn primary" href={nextOpen}>Next alert</a> : <a className="btn primary" href={back.href}>{back.label}</a>}
           </div>
           <span className="left">{leftText}</span>
         </div>
