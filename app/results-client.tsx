@@ -70,12 +70,11 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
 
   return (
     <>
-      <div className="eb">Proof · 50 synthetic fraud alerts with an answer key</div>
+      <p className="kicker">The test behind Tidey</p>
       <h1>How well does Tidey decide?</h1>
       <p className="lead">
-        Tidey runs on <b>Jev</b> plus plain <b>code rules</b>: Jev answers typed questions with probabilities, and the rules decide what happens. To test that
-        design, the same agent was also built the obvious way, with <b>one AI model</b> deciding everything. Both ran on the same 50 alerts and were scored
-        against an answer key neither one sees. Analysts only ever use the first version; the second exists for this test.
+        Tidey runs on <b>Jev</b> plus plain <b>code rules</b>. To test that design, the same agent was also built the obvious way, with <b>one AI model</b> deciding
+        everything. Both ran on the same 50 alerts and were scored against an answer key neither one sees. Analysts only use Tidey; the baseline exists for this test.
       </p>
 
       <div className="card">
