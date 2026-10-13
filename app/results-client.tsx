@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { ANSWER_LABEL, actionText, money, secs, usd } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, runOne, saveLive, type Pair, type RunFile, type Settings } from '@/lib/store';
 import { summarizeRun, type RunSummary } from '@/lib/summary';
@@ -81,24 +81,32 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
         Both versions ran on the same alerts and were scored against an answer key neither one sees. Analysts only use Tidey; the second version exists for this test.
       </p>
 
-      <div className="results-intro">
-        {complete.length > 0 ? (
-          <>
-            <p className="result-line">{headline(sj, sl)}</p>
-            <div className="source-row">
-              <p className="source">{source}{shown?.mock ? ' Mock mode: these are stand-in answers, not real results.' : ''}</p>
-              {official && live && (
-                <div className="seg" role="group" aria-label="Which run to show">
-                  <button className={view === 'official' ? 'on' : ''} aria-pressed={view === 'official'} onClick={() => setView('official')}>Official run</button>
-                  <button className={view === 'live' ? 'on' : ''} aria-pressed={view === 'live'} onClick={() => setView('live')}>Your live run</button>
-                </div>
-              )}
+      <section className="outcomes" aria-label="Every decision, one bar per alert">
+        <div className="outcomes-head">
+          <p className="outcomes-title">{shown ? <>Every decision, one bar per alert</> : <>No results yet</>}</p>
+          <ul className="legend">
+            <li><i className="sw close" />Closed as a false alarm</li>
+            <li><i className="sw escalate" />Escalated as fraud</li>
+            <li><i className="sw analyst" />Sent to a person</li>
+            <li><i className="sw wrong" />Wrong call</li>
+            <li><i className="sw missed" />Risky alert closed alone</li>
+          </ul>
+        </div>
+        <OutcomeStrips key={`${view}-${shown?.run_at ?? 'none'}`} alerts={alerts} byId={byId} a={sj} b={sl} hasRun={complete.length > 0} runKind={shown?.kind ?? 'official'} />
+        <div className="source-row">
+          <p className="source">
+            {shown
+              ? <>{source}{shown.mock ? ' Mock mode: these are stand-in answers, not real results.' : ''}</>
+              : <>Run the five sample alerts in <a href="#run">Run the test yourself</a> and watch the bars fill in.</>}
+          </p>
+          {official && live && (
+            <div className="seg" role="group" aria-label="Which run to show">
+              <button className={view === 'official' ? 'on' : ''} aria-pressed={view === 'official'} onClick={() => setView('official')}>Official run</button>
+              <button className={view === 'live' ? 'on' : ''} aria-pressed={view === 'live'} onClick={() => setView('live')}>Your live run</button>
             </div>
-          </>
-        ) : (
-          <p className="result-line quiet">No results yet. <a href="#run">Run the five sample alerts</a> to watch both versions work.</p>
-        )}
-      </div>
+          )}
+        </div>
+      </section>
 
       {complete.length > 0 && (
         <section className="section">
@@ -183,17 +191,6 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
   );
 }
 
-// One plain sentence pair, built from the numbers, that leads the page.
-function headline(a: RunSummary, b: RunSummary) {
-  const fraud = (n: number) => (n === 0 ? 'no fraud' : `${n} ${n === 1 ? 'fraud' : 'frauds'}`);
-  return (
-    <>
-      Tidey made the right call on <b>{a.correct} of {a.alerts}</b> alerts, compared with <b>{b.correct}</b> for one AI model doing everything. It closed{' '}
-      <b>{fraud(a.missedFraud)}</b> with nobody looking; the single model closed <b>{fraud(b.missedFraud)}</b>.
-    </>
-  );
-}
-
 function Cell({ r }: { r?: RunResult | { error: string } }) {
   if (!r) return <span className="pill none">Not run</span>;
   if (!isOk(r)) return <span className="pill err" title={r.error}>Error</span>;
@@ -210,7 +207,7 @@ function Scoreboard({ a, b }: { a: RunSummary; b: RunSummary }) {
   const rows: { k: string; sub?: string; av: string; bv: string; better?: 'a' | 'b' }[] = [];
   const cmp = (x: number, y: number, lower = false) => (x === y ? undefined : (lower ? x < y : x > y) ? 'a' : 'b');
   rows.push({ k: 'Correct decisions', av: `${a.correct} / ${a.alerts}`, bv: `${b.correct} / ${b.alerts}`, better: cmp(a.correct, b.correct) });
-  rows.push({ k: 'Fraud closed with no person looking', sub: 'The costly mistake. Lower is better.', av: `${a.missedFraud}`, bv: `${b.missedFraud}`, better: cmp(a.missedFraud, b.missedFraud, true) });
+  rows.push({ k: 'Risky alerts closed with nobody looking', sub: 'Fraud or unclear cases. The costly mistake. Lower is better.', av: `${a.missedFraud}`, bv: `${b.missedFraud}`, better: cmp(a.missedFraud, b.missedFraud, true) });
   rows.push({ k: 'Unclear cases a person saw', av: `${a.unclearSentToPerson} / ${a.unclearTotal}`, bv: `${b.unclearSentToPerson} / ${b.unclearTotal}`, better: cmp(a.unclearSentToPerson, b.unclearSentToPerson) });
   rows.push({ k: 'Legitimate alerts sent to a person', sub: 'Extra analyst work. Lower is better.', av: `${a.unnecessaryReviews}`, bv: `${b.unnecessaryReviews}`, better: cmp(a.unnecessaryReviews, b.unnecessaryReviews, true) });
   rows.push({ k: 'Right fraud type (when escalated)', av: `${a.typeCorrect} / ${a.typeTotal}`, bv: `${b.typeCorrect} / ${b.typeTotal}` });
@@ -231,6 +228,82 @@ function Scoreboard({ a, b }: { a: RunSummary; b: RunSummary }) {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+type Bucket = 'legit' | 'fraud' | 'unclear' | 'notrun';
+const BUCKETS: { key: Bucket; label: string }[] = [
+  { key: 'legit', label: 'Legitimate' },
+  { key: 'fraud', label: 'Fraud' },
+  { key: 'unclear', label: 'Unclear' },
+  { key: 'notrun', label: 'Not run yet' },
+];
+const EXPECTED: Record<Exclude<Bucket, 'notrun'>, string> = { legit: 'close', fraud: 'escalate', unclear: 'analyst' };
+
+// The page's main picture: alerts grouped by the right answer, one bar each, colored by what each version did.
+function OutcomeStrips({ alerts, byId, a, b, hasRun, runKind }: { alerts: AlertRow[]; byId: Map<string, Pair>; a: RunSummary; b: RunSummary; hasRun: boolean; runKind: string }) {
+  const bucketOf = (id: string): Bucket => {
+    const p = byId.get(id);
+    const r = isOk(p?.jev) ? p!.jev : isOk(p?.llm) ? p!.llm : null;
+    if (!r) return 'notrun';
+    return r.score.label === 'legitimate' ? 'legit' : r.score.label === 'unclear' ? 'unclear' : 'fraud';
+  };
+  const groups = BUCKETS.map((g) => ({ ...g, ids: alerts.filter((x) => bucketOf(x.id) === g.key).map((x) => x.id) })).filter((g) => g.ids.length);
+  const cols = groups.map((g) => `${g.ids.length}fr`).join(' ');
+  const what = new Map(alerts.map((x) => [x.id, x.what_happened]));
+  const href = (id: string) => `/cases/${id}?from=proof&run=${runKind}`;
+  const said = (r?: RunResult | { error: string }) => (!r ? 'not run' : !isOk(r) ? 'failed' : `${actionText(r.trace.decision.action, r.trace.decision.verdict).toLowerCase()}${r.score.correct ? ', right' : ', wrong'}`);
+  const missed = (n: number) => (n === 0 ? 'No risky alert closed alone' : `${n} risky ${n === 1 ? 'alert' : 'alerts'} closed alone`);
+
+  const rows: { name: string; note: string[]; cell: (id: string) => { cls: string; tip: string } }[] = [
+    {
+      name: 'The right answer',
+      note: [hasRun ? 'From the answer key' : 'Revealed after a run'],
+      cell: (id) => {
+        const k = bucketOf(id);
+        return { cls: k === 'notrun' ? 'none' : EXPECTED[k], tip: k === 'notrun' ? 'not run yet' : BUCKETS.find((x) => x.key === k)!.label.toLowerCase() };
+      },
+    },
+    ...(['jev', 'llm'] as const).map((m) => ({
+      name: m === 'jev' ? 'Tidey' : 'One AI model',
+      note: hasRun ? [`${(m === 'jev' ? a : b).correct} of ${(m === 'jev' ? a : b).alerts} right`, missed((m === 'jev' ? a : b).missedFraud)] : ['Not run yet'],
+      cell: (id: string) => {
+        const r = byId.get(id)?.[m];
+        if (!r) return { cls: 'none', tip: 'not run' };
+        if (!isOk(r)) return { cls: 'err', tip: 'failed' };
+        return { cls: `${r.trace.decision.action}${r.score.correct ? '' : ' wrong'}${r.score.missedFraud ? ' missed' : ''}`, tip: said(r) };
+      },
+    })),
+  ];
+
+  let n = 0;
+  return (
+    <div className="strips">
+      <div className="strip-row head">
+        <span />
+        <div className="strip" style={{ gridTemplateColumns: cols }}>
+          {groups.map((g) => <span key={g.key} className="group-label"><b>{g.ids.length}</b> {g.label.toLowerCase()}</span>)}
+        </div>
+      </div>
+      {rows.map((row, ri) => (
+        <div key={row.name} className={`strip-row${ri === 1 ? ' tidey-row' : ''}`}>
+          <div className="strip-name"><b>{row.name}</b>{row.note.map((t) => <span key={t}>{t}</span>)}</div>
+          <div className="strip" style={{ gridTemplateColumns: cols }}>
+            {groups.map((g) => (
+              <div key={g.key} className="strip-group" style={{ gridTemplateColumns: `repeat(${g.ids.length}, minmax(0, 1fr))` }}>
+                {g.ids.map((id, i) => {
+                  const c = row.cell(id);
+                  n += 1;
+                  return (
+                    <a key={id} href={href(id)} className={`bar-cell ${c.cls}`} title={`${id}: ${what.get(id)}. ${row.name}: ${c.tip}.`} aria-label={`${id}, ${row.name}: ${c.tip}`} style={{ '--i': n - ri * alerts.length, '--r': ri } as CSSProperties} />
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

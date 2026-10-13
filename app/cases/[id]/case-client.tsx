@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { closedReason, firstSentence, toolHeadline } from '@/lib/headlines';
 import { ANSWER_LABEL, GROUPS, VERDICT_LABEL, isAction, money, secs, usd } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, runOne, saveLive, type Pair, type RunFile } from '@/lib/store';
-import type { RunResult, Step, ToolName, Verdict } from '@/lib/types';
+import type { Action, RunResult, Step, ToolName, Verdict } from '@/lib/types';
+import { TideyBadge } from '../../brand';
 
 type A = { id: string; what_happened: string; amount: number; rule_triggered: string };
 
@@ -11,6 +12,7 @@ const TOOL_KEY: Record<string, ToolName> = {
   'Transaction history': 'transaction_history', 'Devices and sign-ins': 'devices_and_signins', 'Account changes': 'account_changes',
   'Past alerts': 'prior_alerts', 'Merchant check': 'merchant_profile', 'Payee check': 'payee_details',
 };
+const STATUS: Record<Exclude<Action, 'close'>, string> = { escalate: 'Waiting for your approval', analyst: 'Waiting for your decision' };
 const FOUND: Partial<Record<Verdict, string>> = { card_not_present_fraud: 'a stolen card used online', account_takeover: 'an account takeover', card_testing: 'card testing on this card' };
 const TOOL_TITLE: Record<string, string> = Object.fromEntries(Object.entries(TOOL_KEY).map(([k, v]) => [v, k]));
 
@@ -133,9 +135,16 @@ function Verdict({ r, next }: { r: RunResult; next?: string }) {
   }
   return (
     <div className={`verdict ${d.action}`}>
-      <div>
-        <h2>{title}</h2>
-        <p>{body}</p>
+      <div className="verdict-say">
+        {r.trace.mode === 'jev' && <TideyBadge size={38} />}
+        <div>
+          <p className={`status ${done ? 'settled' : d.action}`}>
+            <i className={done || d.action === 'close' ? '' : 'pulsing'} />
+            {done ? 'Done' : d.action === 'close' ? `Closed by ${r.trace.mode === 'jev' ? 'Tidey' : 'the baseline'}` : STATUS[d.action]}
+          </p>
+          <h2>{title}</h2>
+          <p>{body}</p>
+        </div>
       </div>
       <div className="acts">
         {done ? <><span className="done">{done} <span className="muted small">(demo, nothing is saved)</span></span>{next && <a className="btn primary" href={next}>Next alert</a>}</> : acts.map((a) => <button key={a.label} className={a.cls} onClick={() => setDone(a.result)}>{a.label}</button>)}

@@ -1,26 +1,69 @@
 import keyJson from '@/data/answer_key.json';
+import example from '@/lib/example-case.json';
 import { config } from '@/lib/config';
 import { VERDICT_CRITERIA } from '@/lib/agent-jev';
+import { toolHeadline } from '@/lib/headlines';
 import { TOOLS, TOOL_NAMES } from '@/lib/tools';
-import { VERDICT_LABEL } from '@/lib/labels';
-import type { AnswerKey, ToolName, Verdict } from '@/lib/types';
+import { VERDICT_LABEL, actionText, money } from '@/lib/labels';
+import type { Action, AnswerKey, ToolName, Verdict } from '@/lib/types';
+import { Pipeline, type PipeStep } from './pipeline';
 
-type Who = 'code' | 'jev' | 'ai' | 'person';
-const WHO: Record<Who, string> = { code: 'Code', jev: 'Jev', ai: 'AI model', person: 'Person' };
+const ALWAYS: Partial<Record<ToolName, string>> = { transaction_history: 'Always runs', payee_details: 'Always for transfers', account_changes: 'Always for transfers' };
+const TITLE_TO_TOOL = Object.fromEntries(TOOL_NAMES.map((n) => [TOOLS[n].title, n])) as Record<string, ToolName>;
 
-const STEPS: { who: Who[]; title: string; body: string }[] = [
-  { who: ['code'], title: 'Read the alert', body: 'Pulls the alert and works out the facts: how far from home it happened, whether the device is new, and how the amount compares with what the customer usually spends.' },
-  { who: ['jev'], title: 'Choose the checks', body: `Some checks always run. For each of the others, Jev answers a yes or no question about whether it is worth running, and code runs it when the answer is yes with probability ${config.checkAt} or more.` },
-  { who: ['code'], title: 'Run the checks', body: 'Plain code reads the bank’s records. No model counts, adds up or looks anything up.' },
-  { who: ['jev'], title: 'Answer the decision questions', body: 'Who most likely did this, whether anything is out of character and unexplained, and whether the customer could be the victim of a scam. Every answer comes with a probability for each option.' },
-  { who: ['code'], title: 'Apply the rules', body: 'Code turns those probabilities into one of three outcomes: close the alert, escalate it as fraud, or send it to an analyst.' },
-  { who: ['ai', 'person'], title: 'Write it up and decide', body: 'For anything Tidey doesn’t close, an AI model writes the summary the analyst reads. A person approves every card block or account freeze.' },
-];
-
-const ALWAYS: Partial<Record<ToolName, string>> = { transaction_history: 'Always runs', payee_details: 'Always runs for transfers', account_changes: 'Always runs for transfers' };
-
-function Chips({ who }: { who: Who[] }) {
-  return <span className="chips">{who.map((w) => <span key={w} className={`who-chip ${w}`}>{WHO[w]}</span>)}</span>;
+// The walkthrough uses one real investigation from the development test run (lib/example-case.json).
+function exampleSteps(): PipeStep[] {
+  const ctx = example.context;
+  const t = ctx.triggering_activity[ctx.triggering_activity.length - 1];
+  const plan = Object.entries(example.plan as Record<string, number>).sort((a, b) => b[1] - a[1]);
+  const verdict = Object.entries(example.decide.verdict as Record<string, number>).sort((a, b) => b[1] - a[1]);
+  const d = example.decision as { action: Action; verdict: Verdict };
+  return [
+    {
+      lane: 'code', title: 'Read the alert',
+      body: 'Plain code pulls the alert and works out the facts before any model sees it: how far from home, whether the device is new, how the amount compares with normal.',
+      example: { kind: 'facts', rows: [
+        ['What happened', `${money(t.amount)} ${t.channel} purchase at ${t.merchant}`],
+        ['When', `${t.time.slice(11)}, a ${t.hour_of_day < 6 ? 'middle-of-the-night' : 'daytime'} purchase`],
+        ['Where', `${t.location}, ${t.distance_from_home_miles.toLocaleString()} miles from home in ${ctx.customer.home_city}`],
+        ['Device', `${t.device.label}, first seen that day`],
+        ['Amount', `${t.times_customer_average_purchase} times the usual ${money(ctx.customer_average_purchase_90d)}`],
+      ] },
+    },
+    {
+      lane: 'jev', title: 'Choose the checks',
+      body: `Some checks always run. For each of the others, Jev answers one yes or no question: is this check worth running? Code runs it when the answer is yes with probability ${config.checkAt} or more.`,
+      example: { kind: 'bars', question: 'Is this check worth running?', threshold: config.checkAt,
+        rows: plan.map(([k, v]) => ({ label: TOOLS[k as ToolName].title, value: v, tag: v >= config.checkAt ? 'Runs' : 'Skipped' })),
+        foot: 'Transaction history always runs.' },
+    },
+    {
+      lane: 'code', title: 'Run the checks',
+      body: 'Code reads the bank’s records for each chosen check. No model counts, adds up or looks anything up, so the facts are exact.',
+      example: { kind: 'lines', rows: example.tools.map((x) => ({ label: x.label, text: toolHeadline(TITLE_TO_TOOL[x.label], x.data as Record<string, unknown>) })) },
+    },
+    {
+      lane: 'jev', title: 'Answer the decision questions',
+      body: 'Jev reads the alert and the evidence and answers fixed questions. Every option gets a probability, so the next step has numbers to work with instead of prose.',
+      example: { kind: 'bars', question: 'Who most likely carried out this activity?',
+        rows: [...verdict.map(([k, v]) => ({ label: VERDICT_LABEL[k as Verdict], value: v })), { label: 'Could it be a scam?', value: example.decide.scam_risk }] },
+    },
+    {
+      lane: 'code', title: 'Apply the rules',
+      body: 'Code turns the probabilities into one of three outcomes: close the alert, escalate it as fraud, or send it to an analyst. The same numbers always give the same outcome.',
+      example: { kind: 'outcome', pill: actionText(d.action, d.verdict), text: example.rule },
+    },
+    {
+      lane: 'ai', title: 'Write the summary',
+      body: 'For anything Tidey doesn’t close, an AI model writes the summary and the suggested next step the analyst reads. It writes; it doesn’t decide.',
+      example: { kind: 'quote', text: example.summary.text, rec: example.summary.recommendation },
+    },
+    {
+      lane: 'person', title: 'Approve or decide',
+      body: 'A person approves every card block or account freeze, and makes the call on every case Tidey wasn’t sure about.',
+      example: { kind: 'approve', title: 'Tidey found a stolen card used online', body: 'Nothing happens to the card until an analyst approves the block.' },
+    },
+  ];
 }
 
 export default function How() {
@@ -29,48 +72,55 @@ export default function How() {
   const legit = n((k) => k.label === 'legitimate');
   const unclear = n((k) => k.label === 'unclear');
   const fraud = key.length - legit - unclear;
-  const v = (x: number | string) => <span className="num-chip">{x}</span>;
   const limit = `$${config.maxAutoCloseAmount.toLocaleString()}`;
+  const esc = 1 - config.escalateAt; // legit probability at or below which a fraud verdict escalates
+  const exLegit = (example.decide.verdict as Record<string, number>).legitimate;
 
   return (
-    <div className="longform">
+    <>
       <p className="kicker">How it works</p>
       <h1>Each part of Tidey has one job</h1>
       <p className="lead">
-        Bank fraud rules flag far more activity than is really fraud, and analysts spend their days clearing alerts. Tidey investigates each one, closes the clear
-        false alarms, lines up clear fraud for approval, and sends anything uncertain to a person. Jev makes the judgment calls, code does everything that has to be exact,
-        and a person keeps the final say.
+        Jev makes the judgment calls, plain code does everything that has to be exact, an AI model writes for people, and a person keeps the final say.
+        Follow one real alert from the test as it moves through.
       </p>
 
-      <section className="section">
-        <div className="section-head">
-          <h2>The investigation, step by step</h2>
-          <p>Every alert goes through the same six steps. Each step names who does it.</p>
-        </div>
-        <ol className="steps-v">
-          {STEPS.map((s, i) => (
-            <li key={s.title}>
-              <div className="step-title">
-                <span className="num">{i + 1}</span>
-                <div><Chips who={s.who} /><h3>{s.title}</h3></div>
-              </div>
-              <p>{s.body}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <Pipeline steps={exampleSteps()} alertLabel={`alert ${example.alertId}, a real case from the test`} />
 
       <section className="section">
         <div className="section-head">
-          <h2>The rules code applies</h2>
-          <p>Jev only answers questions. These rules, written in plain code, decide what happens with the answers, so every outcome can be traced to a number.</p>
+          <h2>Where the lines are drawn</h2>
+          <p>Jev only answers questions. These rules, written in plain code, decide what happens with the answers. They’re the same for every alert, so every outcome traces back to a number.</p>
         </div>
-        <dl className="rules">
-          <div><dt>Close it alone</dt><dd>Jev picks legitimate with probability {v(config.closeAt)} or more, and the chance that something is out of character and unexplained is {v(config.unexplainedMax)} or less.</dd></div>
-          <div><dt>Escalate as fraud</dt><dd>Jev picks a fraud type and the probability of fraud is {v(config.escalateAt)} or more. A person approves any block or freeze.</dd></div>
-          <div><dt>Send to an analyst</dt><dd>Everything else, with a written summary and a suggested next step.</dd></div>
-          <div><dt>Never closed alone</dt><dd>Alerts of {v(limit)} or more, and any alert where the chance of a scam is {v(config.scamRiskAt)} or more.</dd></div>
-        </dl>
+        <div className="scale-card">
+          <p className="scale-q">How likely Jev thinks the activity is legitimate</p>
+          <div className="scale" style={{ gridTemplateColumns: `${esc}fr ${config.closeAt - esc}fr ${1 - config.closeAt}fr` }}>
+            <div className="zone escalate"><b>Escalate as fraud</b><span>A person approves any block</span></div>
+            <div className="zone analyst"><b>Send to an analyst</b><span>With a summary and a next step</span></div>
+            <div className="zone close"><b>Close it alone</b><span>Only if the checks below pass</span></div>
+            <span className="marker" style={{ left: `${exLegit * 100}%` }}><i />{example.alertId}</span>
+          </div>
+          <div className="scale-ticks">
+            <span style={{ left: '0%' }}>0</span>
+            <span style={{ left: `${esc * 100}%` }}>{esc.toFixed(2)}</span>
+            <span style={{ left: `${config.closeAt * 100}%` }}>{config.closeAt}</span>
+            <span style={{ left: '100%' }}>1</span>
+          </div>
+          <div className="gates">
+            <div>
+              <b>To close it alone, Tidey also needs</b>
+              <ul>
+                <li>The chance that something is out of character and unexplained at <span className="num-chip">{config.unexplainedMax}</span> or less</li>
+                <li>An amount under <span className="num-chip">{limit}</span></li>
+                <li>A scam risk under <span className="num-chip">{config.scamRiskAt}</span></li>
+              </ul>
+            </div>
+            <div>
+              <b>Anything that misses a rule</b>
+              <p>Goes to an analyst. When Tidey isn’t sure, a person decides, which is the safe way to be wrong.</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="section">
@@ -78,30 +128,41 @@ export default function How() {
           <h2>What Jev is asked</h2>
           <p>Three questions with fixed options. Jev returns a probability for every option and can’t answer outside them, so there is nothing to parse or repair.</p>
         </div>
-        <div className="qa">
-          <div className="qq">
-            <h3>Who most likely carried out this activity?<span className="type">Pick one</span></h3>
-            <div className="opts">
+        <div className="asks">
+          <div className="ask big">
+            <p className="ask-type">Pick one</p>
+            <h3>Who most likely carried out this activity?</h3>
+            <div className="ask-opts">
               {(Object.keys(VERDICT_CRITERIA) as Verdict[]).map((k) => (
-                <div key={k} className="opt-row"><b>{VERDICT_LABEL[k]}</b><span>{VERDICT_CRITERIA[k]}</span></div>
+                <div key={k}><b>{VERDICT_LABEL[k]}</b><span>{VERDICT_CRITERIA[k]}</span></div>
               ))}
             </div>
+            <p className="ask-use">Places the alert on the scale above.</p>
           </div>
-          <div className="qq"><h3>Is anything out of character that the evidence doesn’t explain?<span className="type">Yes or no</span></h3></div>
-          <div className="qq"><h3>Could the customer be the victim of a scam?<span className="type">Yes or no</span></h3></div>
+          <div className="ask">
+            <p className="ask-type">Yes or no</p>
+            <h3>Is anything out of character that the evidence doesn’t explain?</h3>
+            <p className="ask-use">Tidey only closes an alert when this is {config.unexplainedMax} or less.</p>
+          </div>
+          <div className="ask">
+            <p className="ask-type">Yes or no</p>
+            <h3>Could the customer be the victim of a scam?</h3>
+            <p className="ask-use">At {config.scamRiskAt} or more, a person always sees it.</p>
+          </div>
         </div>
       </section>
 
       <section className="section">
         <div className="section-head">
           <h2>The checks</h2>
-          <p>Six read-only lookups into the bank’s records. Both versions of the agent get exactly the same ones.</p>
+          <p>Six read-only lookups into the bank’s records. Both versions of the agent in the test get exactly the same ones.</p>
         </div>
-        <div className="checks">
+        <div className="check-grid">
           {TOOL_NAMES.map((t) => (
             <div key={t}>
-              <b>{TOOLS[t].title}{ALWAYS[t] && <span className="tag">{ALWAYS[t]}</span>}</b>
-              <span>{TOOLS[t].description}</span>
+              <b>{TOOLS[t].title}</b>
+              {ALWAYS[t] && <span className="tag">{ALWAYS[t]}</span>}
+              <p>{TOOLS[t].description}</p>
             </div>
           ))}
         </div>
@@ -111,17 +172,17 @@ export default function How() {
         <div className="section-head">
           <h2>The test</h2>
           <p>
-            {key.length} synthetic alerts for a fictional bank: {legit} legitimate (travel, new phones, big but normal purchases, verified changes), {fraud} fraud
-            (stolen cards used online, account takeovers and card-testing bursts) and {unclear} unclear cases with mixed signals that a person should see. Each alert has an answer key
-            that neither version sees.
+            {key.length} synthetic alerts for a fictional bank: {legit} legitimate, {fraud} fraud and {unclear} unclear cases with mixed signals that a person should see.
+            Each has an answer key that neither version sees. The comparison is the same agent built the obvious way, with one AI model ({config.openaiModel}) choosing checks and
+            deciding everything, with the same tools and the same {limit} limit.
           </p>
         </div>
-        <dl className="rules">
-          <div><dt>A correct decision</dt><dd>Closes a legitimate alert, escalates fraud, or sends an unclear case to a person.</dd></div>
-          <div><dt>The costly mistake</dt><dd>Fraud closed with nobody looking.</dd></div>
-          <div><dt>The comparison</dt><dd>The same agent built the obvious way, with one AI model ({config.openaiModel}) choosing checks and deciding everything. Same tools, same definitions, same {limit} limit. See the <a href="/proof">test results</a>.</dd></div>
-        </dl>
+        <div className="test-facts">
+          <div><b>A right call</b><p>Closes a legitimate alert, escalates fraud, or sends an unclear case to a person.</p></div>
+          <div><b>The costly mistake</b><p>Fraud, or an unclear case, closed with nobody looking.</p></div>
+          <div><b>The results</b><p>Every decision, scored, on the <a href="/proof">Test results</a> page.</p></div>
+        </div>
       </section>
-    </div>
+    </>
   );
 }

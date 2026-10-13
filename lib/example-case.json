@@ -1,0 +1,321 @@
+{
+ "note": "Extracted from results-archive/dev-run-v1.json (a real development test run) for the How it works walkthrough.",
+ "alertId": "A-1005",
+ "context": {
+  "alert_id": "A-1005",
+  "rule_triggered": "Unusual online purchase: new device, high amount",
+  "alert_time": "2026-10-12 03:37",
+  "what_happened": "$1,640 online purchase at VoltHub Electronics",
+  "customer": {
+   "name": "Victor R.",
+   "home_city": "Orlando, FL",
+   "customer_since": "2020-03-01",
+   "account_type": "Checking account with debit card"
+  },
+  "customer_average_purchase_90d": 54.96,
+  "triggering_activity": [
+   {
+    "time": "2026-10-12 03:35",
+    "hour_of_day": 3,
+    "amount": 1640,
+    "status": "approved",
+    "channel": "online",
+    "merchant": "VoltHub Electronics",
+    "merchant_category": "electronics",
+    "payee": null,
+    "location": "New York, NY",
+    "distance_from_home_miles": 939,
+    "location_hidden_by_proxy": false,
+    "device": {
+     "label": "Unrecognized browser",
+     "first_seen": "2026-10-12",
+     "first_seen_today": true
+    },
+    "memo": null,
+    "times_customer_average_purchase": 29.8
+   }
+  ],
+  "approved_total": 1640,
+  "declined_count": 0
+ },
+ "plan": {
+  "devices_and_signins": 0.92,
+  "account_changes": 0.85,
+  "prior_alerts": 0.52,
+  "merchant_profile": 0.65,
+  "payee_details": 0.14
+ },
+ "tools": [
+  {
+   "label": "Transaction history",
+   "data": {
+    "window": "90 days before the alert (triggering activity excluded)",
+    "purchase_count": 68,
+    "average_purchase": 54.96,
+    "largest_purchase": 153,
+    "top_categories": [
+     {
+      "category": "groceries",
+      "count": 23
+     },
+     {
+      "category": "restaurant",
+      "count": 13
+     },
+     {
+      "category": "gas",
+      "count": 10
+     },
+     {
+      "category": "coffee",
+      "count": 6
+     },
+     {
+      "category": "utilities",
+      "count": 6
+     },
+     {
+      "category": "pharmacy",
+      "count": 4
+     }
+    ],
+    "in_person_locations": [
+     {
+      "city": "Orlando, FL",
+      "count": 59,
+      "last_seen": "2026-10-11"
+     }
+    ],
+    "travel_bookings": [],
+    "recent_activity": [
+     {
+      "time": "2026-09-30 11:30",
+      "amount": 70.65,
+      "merchant": "Greenleaf Market",
+      "channel": "in_store",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": null
+     },
+     {
+      "time": "2026-10-01 12:47",
+      "amount": 23.18,
+      "merchant": "Bean & Bloom Coffee",
+      "channel": "in_store",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": null
+     },
+     {
+      "time": "2026-10-03 09:10",
+      "amount": 15.99,
+      "merchant": "StreamBox",
+      "channel": "online",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": "Monthly plan"
+     },
+     {
+      "time": "2026-10-03 12:03",
+      "amount": 48.94,
+      "merchant": "Bean & Bloom Coffee",
+      "channel": "in_store",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": null
+     },
+     {
+      "time": "2026-10-04 14:11",
+      "amount": 77.84,
+      "merchant": "Greenleaf Market",
+      "channel": "in_store",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": null
+     },
+     {
+      "time": "2026-10-05 10:37",
+      "amount": 127.93,
+      "merchant": "Brightwire Electric",
+      "channel": "online",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": "Autopay"
+     },
+     {
+      "time": "2026-10-06 19:23",
+      "amount": 89.18,
+      "merchant": "Greenleaf Market",
+      "channel": "in_store",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": null
+     },
+     {
+      "time": "2026-10-07 18:56",
+      "amount": 87.02,
+      "merchant": "Greenleaf Market",
+      "channel": "in_store",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": null
+     },
+     {
+      "time": "2026-10-08 10:31",
+      "amount": 65,
+      "merchant": "Metro Mobile",
+      "channel": "online",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": "Autopay"
+     },
+     {
+      "time": "2026-10-08 13:00",
+      "amount": 24.1,
+      "merchant": "WellPoint Pharmacy",
+      "channel": "in_store",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": null
+     },
+     {
+      "time": "2026-10-10 12:00",
+      "amount": 71.41,
+      "merchant": "FreshCart Grocery",
+      "channel": "in_store",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": null
+     },
+     {
+      "time": "2026-10-11 11:44",
+      "amount": 48.08,
+      "merchant": "Sunline Fuel",
+      "channel": "in_store",
+      "location": "Orlando, FL",
+      "status": "approved",
+      "memo": null
+     }
+    ],
+    "trigger_comparison": [
+     {
+      "trigger": "2026-10-12 03:35 VoltHub Electronics $1640",
+      "purchases_at_this_merchant_before": 0,
+      "last_purchase_at_this_merchant": null,
+      "earlier_activity_in_this_location": 0
+     }
+    ]
+   }
+  },
+  {
+   "label": "Devices and sign-ins",
+   "data": {
+    "devices": [
+     {
+      "label": "Android phone",
+      "first_seen": "2021-05-03",
+      "last_seen": "2026-10-11",
+      "first_seen_today": false
+     },
+     {
+      "label": "Mac laptop",
+      "first_seen": "2022-06-09",
+      "last_seen": "2026-10-08",
+      "first_seen_today": false
+     },
+     {
+      "label": "Unrecognized browser",
+      "first_seen": "2026-10-12",
+      "last_seen": "2026-10-12",
+      "first_seen_today": true
+     }
+    ],
+    "recent_sign_ins": [
+     {
+      "time": "2026-07-17 13:11",
+      "device": "Mac laptop",
+      "device_first_seen_today": false,
+      "location": "Orlando, FL",
+      "details": null
+     },
+     {
+      "time": "2026-09-08 10:28",
+      "device": "Android phone",
+      "device_first_seen_today": false,
+      "location": "Orlando, FL",
+      "details": null
+     },
+     {
+      "time": "2026-09-19 09:19",
+      "device": "Mac laptop",
+      "device_first_seen_today": false,
+      "location": "Orlando, FL",
+      "details": null
+     },
+     {
+      "time": "2026-10-03 14:47",
+      "device": "Mac laptop",
+      "device_first_seen_today": false,
+      "location": "Orlando, FL",
+      "details": null
+     }
+    ]
+   }
+  },
+  {
+   "label": "Account changes",
+   "data": {
+    "window": "last 30 days (authorized users: any time)",
+    "changes": [],
+    "none_found": true
+   }
+  },
+  {
+   "label": "Past alerts",
+   "data": {
+    "prior_alerts": [],
+    "none_found": true
+   }
+  },
+  {
+   "label": "Merchant check",
+   "data": {
+    "merchants": [
+     {
+      "name": "VoltHub Electronics",
+      "category": "electronics",
+      "online_only": true,
+      "fraud_reports_last_90_days_across_bank": 2,
+      "this_customer_purchases_here_90d": 0,
+      "last_purchase": null
+     }
+    ],
+    "not_applicable": false
+   }
+  }
+ ],
+ "decide": {
+  "verdict": {
+   "legitimate": 0,
+   "card_not_present_fraud": 1,
+   "account_takeover": 0,
+   "card_testing": 0
+  },
+  "scam_risk": 0.14
+ },
+ "rule": "Fraud 1.00 \u2265 0.85, so it goes to the fraud team with a recommendation. A person approves any card block or freeze.",
+ "decision": {
+  "action": "escalate",
+  "verdict": "card_not_present_fraud",
+  "confidence": 1,
+  "reason": "Fraud 1.00 \u2265 0.85, so it goes to the fraud team with a recommendation. A person approves any card block or freeze."
+ },
+ "summary": {
+  "text": "Victor R. made a $1,640 online purchase at VoltHub Electronics on 2026-10-12 03:35 from New York, NY using an unrecognized browser. This amount is far above the customer\u2019s 90-day average purchase of $54.96, and there were no prior purchases at this merchant.",
+  "recommendation": "Escalate for fraud review and consider contacting the customer to verify the transaction."
+ },
+ "models": {
+  "jev": "jev-1.13.0",
+  "openai": "gpt-5.4-mini-2026-03-17"
+ }
+}
