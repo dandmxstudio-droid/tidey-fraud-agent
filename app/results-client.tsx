@@ -68,10 +68,10 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
 
   return (
     <>
-      <div className="eb">Agent test · 50 synthetic fraud alerts</div>
-      <h1>Same agent, two ways to decide</h1>
+      <div className="eb">Wes · agent test · 50 synthetic fraud alerts</div>
+      <h1>Wes, built two ways</h1>
       <p className="lead">
-        Each alert is investigated by the same checks. In version A, <b>Jev</b> answers typed questions with probabilities and plain <b>code rules</b> decide
+        Wes is a fraud alert agent. It investigates each alert with the same checks either way. In version A, <b>Jev</b> answers typed questions with probabilities and plain <b>code rules</b> decide
         what happens. In version B, <b>one AI model</b> picks the checks and decides everything. Both are scored against an answer key neither one sees.
       </p>
 

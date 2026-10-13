@@ -98,7 +98,7 @@ function CaseView({ r }: { r: RunResult }) {
         </div>
 
         <div className="card">
-          <div className="eb">What the agent checked</div>
+          <div className="eb">What Wes checked</div>
           <ul className="steps" style={{ marginTop: 8 }}>
             {checks.map((s, i) => (
               <li key={i}>

@@ -1,8 +1,8 @@
 {
-  "name": "fraud-alert-agent",
+  "name": "wes-fraud-agent",
   "version": "1.0.0",
   "private": true,
-  "description": "Demo Bank (fictional) fraud alert agent: Jev decisions + code rules vs a single AI model. Synthetic data only.",
+  "description": "Wes, a fraud alert agent for Demo Bank (fictional): Jev decisions + code rules vs a single AI model. Synthetic data only.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

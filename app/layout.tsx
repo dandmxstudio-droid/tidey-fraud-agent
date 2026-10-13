@@ -4,8 +4,8 @@ import { Nav } from './nav';
 import { mockMode } from '@/lib/config';
 
 export const metadata: Metadata = {
-  title: 'Fraud Alert Agent · Demo Bank (fictional)',
-  description: 'A fraud alert investigation agent built two ways: Jev decisions with code rules, vs one AI model doing everything. Synthetic data.',
+  title: 'Wes · Fraud alert agent · Demo Bank (fictional)',
+  description: 'Wes, a fraud alert investigation agent built two ways: Jev decisions with code rules, vs one AI model doing everything. Synthetic data.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -16,8 +16,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="top">
           <div className="wrap">
             <a className="brand" href="/">
-              <span className="logo">DB</span>
-              Fraud Alert Agent <small>Demo Bank (fictional)</small>
+              <span className="logo">W</span>
+              Wes <small>Fraud alert agent · Demo Bank (fictional)</small>
             </a>
             <Nav />
           </div>
