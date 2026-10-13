@@ -18,10 +18,15 @@ export const DECISION_QUESTIONS: Record<string, JevQuestion> = {
     instructions: 'Given everything in `evidence`, who most likely carried out the activity in `alert`?',
     criteria: VERDICT_CRITERIA,
   },
-  explained: {
+  // v2: v1 asked "is every unusual thing explained?", which Jev read literally and answered "no" for most ordinary,
+  // legitimate alerts. This asks the question the rule actually needs: is anything out of character AND unaccounted for?
+  unexplained: {
     type: 'noul',
-    instructions: 'Every unusual thing about the activity in `alert` is explained by something in `evidence`, such as travel bookings, a new device that passed a two-factor check, earlier purchases at the same place, an authorized user, or a change the bank verified with the customer.',
-    criteria: { true: 'Fully explained by the evidence', false: 'At least one unusual thing is not explained' },
+    instructions: 'Something about the activity in `alert` is out of character for this customer, and nothing in `evidence` accounts for it.',
+    criteria: {
+      true: 'Out of character and not accounted for: for example a place the customer has never been with no travel plans, a device never seen with no verified sign-in, a large purchase at a merchant they have never used, or account changes nobody verified.',
+      false: "It fits the customer's normal behavior, or the evidence accounts for it: for example travel bookings, a store they already use, a similar purchase before, a new device that passed a two-factor check, an authorized user, an annual renewal, or a change the bank verified with the customer.",
+    },
   },
   scam_risk: {
     type: 'noul',
@@ -46,14 +51,14 @@ function planQuestions(optional: ToolName[]): Record<string, JevQuestion> {
 }
 
 /** The code rules. Jev gives probabilities; this function decides what happens. */
-export function decide(p: { legit: number; verdict: Verdict; explained: number; scam: number; amount: number }): Decision {
+export function decide(p: { legit: number; verdict: Verdict; unexplained: number; scam: number; amount: number }): Decision {
   const pFraud = 1 - p.legit;
   const guard: string[] = [];
   if (p.amount >= config.maxAutoCloseAmount) guard.push(`amount is $${config.maxAutoCloseAmount.toLocaleString()} or more`);
   if (p.scam >= config.scamRiskAt) guard.push(`scam risk ${p.scam.toFixed(2)} ≥ ${config.scamRiskAt}`);
 
-  if (p.verdict === 'legitimate' && p.legit >= config.closeAt && p.explained >= config.explainedAt && guard.length === 0) {
-    return { action: 'close', verdict: 'legitimate', confidence: p.legit, reason: `Legitimate ${p.legit.toFixed(2)} ≥ ${config.closeAt} and explained ${p.explained.toFixed(2)} ≥ ${config.explainedAt}, so Wes closes it on its own.` };
+  if (p.verdict === 'legitimate' && p.legit >= config.closeAt && p.unexplained <= config.unexplainedMax && guard.length === 0) {
+    return { action: 'close', verdict: 'legitimate', confidence: p.legit, reason: `Legitimate ${p.legit.toFixed(2)} ≥ ${config.closeAt} and nothing out of character left unexplained (${p.unexplained.toFixed(2)} ≤ ${config.unexplainedMax}), so Wes closes it on its own.` };
   }
   if (p.verdict !== 'legitimate' && pFraud >= config.escalateAt) {
     return { action: 'escalate', verdict: p.verdict, confidence: pFraud, reason: `Fraud ${pFraud.toFixed(2)} ≥ ${config.escalateAt}, so it goes to the fraud team with a recommendation. A person approves any card block or freeze.` };
@@ -61,7 +66,7 @@ export function decide(p: { legit: number; verdict: Verdict; explained: number; 
   const why = guard.length
     ? `Guardrail: ${guard.join('; ')}. Wes may not close this alone.`
     : p.verdict === 'legitimate'
-      ? `Leans legitimate (${p.legit.toFixed(2)}), but below the bar to close alone (legitimate ≥ ${config.closeAt} and explained ≥ ${config.explainedAt}).`
+      ? `Leans legitimate (${p.legit.toFixed(2)}), but below the bar to close alone (legitimate ≥ ${config.closeAt} and unexplained ≤ ${config.unexplainedMax}; this case: ${p.unexplained.toFixed(2)}).`
       : `Leans ${p.verdict.replace(/_/g, ' ')} (${pFraud.toFixed(2)}), but below the ${config.escalateAt} bar to escalate as confirmed fraud.`;
   return { action: 'analyst', verdict: p.verdict, confidence: Math.max(p.legit, pFraud), reason: `${why} Sent to an analyst.` };
 }
@@ -123,12 +128,12 @@ export async function runJevAgent(alertId: string): Promise<Trace> {
   const probs = (v?.probabilities ?? {}) as Record<Verdict, number>;
   const verdict = (v?.choice ?? 'legitimate') as Verdict;
   const legit = probs.legitimate ?? (verdict === 'legitimate' ? v?.confidence ?? 0 : 0);
-  const explained = dec.answers.explained?.noul ?? 0;
+  const unexplained = dec.answers.unexplained?.noul ?? 1;
   const scam = dec.answers.scam_risk?.noul ?? 0;
-  steps.push({ kind: 'decide', label: 'Jev answered the decision questions', ms: dec.ms, data: { verdict: probs, explained, scam_risk: scam } });
+  steps.push({ kind: 'decide', label: 'Jev answered the decision questions', ms: dec.ms, data: { verdict: probs, unexplained, scam_risk: scam } });
 
   // 4. Code rules turn probabilities into an action.
-  const decision = decide({ legit, verdict, explained, scam, amount: ctx.approved_total || ctx.triggering_activity.reduce((s, x) => s + x.amount, 0) });
+  const decision = decide({ legit, verdict, unexplained, scam, amount: ctx.approved_total || ctx.triggering_activity.reduce((s, x) => s + x.amount, 0) });
   steps.push({ kind: 'rule', label: actionLabel(decision.action, decision.verdict), detail: decision.reason });
   const decisionMs = Date.now() - t0;
 

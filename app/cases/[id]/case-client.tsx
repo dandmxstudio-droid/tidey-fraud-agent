@@ -30,7 +30,7 @@ export function CaseClient({ alert, featured }: { alert: A; featured: boolean })
     const p: Pair = { alertId: alert.id, jev, llm };
     if (!isOk(jev) && !isOk(llm)) setErr((jev as { error: string }).error);
     setPair(p); setSource('Live run (this browser)');
-    const live: RunFile = loadLive() ?? { kind: 'live', run_at: new Date().toISOString(), mock: (isOk(jev) && jev.trace.mock) || false, settings: { closeAt: 0, explainedAt: 0, escalateAt: 0, scamRiskAt: 0, maxAutoCloseAmount: 0, checkAt: 0, jevModel: isOk(jev) ? jev.trace.models.jev ?? '' : '', openaiModel: isOk(llm) ? llm.trace.models.openai ?? '' : '' }, results: [] };
+    const live: RunFile = loadLive() ?? { kind: 'live', run_at: new Date().toISOString(), mock: (isOk(jev) && jev.trace.mock) || false, settings: { closeAt: 0, unexplainedMax: 0, escalateAt: 0, scamRiskAt: 0, maxAutoCloseAmount: 0, checkAt: 0, jevModel: isOk(jev) ? jev.trace.models.jev ?? '' : '', openaiModel: isOk(llm) ? llm.trace.models.openai ?? '' : '' }, results: [] };
     live.results = [...live.results.filter((r) => r.alertId !== alert.id), p];
     saveLive(live);
     setBusy(false);
@@ -167,7 +167,7 @@ function PlanBars({ data }: { data: Record<string, number | null> }) {
 }
 
 function JevDecision({ step, ms }: { step?: Step; ms?: number }) {
-  const d = (step?.data ?? {}) as { verdict?: Record<string, number>; explained?: number; scam_risk?: number };
+  const d = (step?.data ?? {}) as { verdict?: Record<string, number>; unexplained?: number; scam_risk?: number };
   const verdict = Object.entries(d.verdict ?? {}).sort((a, b) => b[1] - a[1]);
   return (
     <>
@@ -177,8 +177,8 @@ function JevDecision({ step, ms }: { step?: Step; ms?: number }) {
         {verdict.map(([k, v]) => <Bar key={k} label={VERDICT_LABEL[k as Verdict] ?? k} v={v} />)}
       </div>
       <div className="q">
-        <div className="qt">Is everything unusual explained by the evidence?<span>yes / no</span></div>
-        <Bar label="Yes" v={d.explained ?? 0} />
+        <div className="qt">Is anything out of character that the evidence doesn&apos;t explain?<span>yes / no</span></div>
+        <Bar label="Yes" v={d.unexplained ?? 0} amber />
       </div>
       <div className="q">
         <div className="qt">Could the customer be the victim of a scam?<span>yes / no</span></div>

@@ -20,7 +20,7 @@ Set in `lib/config.ts`, or override with environment variables:
 | Rule | Default | Env var |
 |---|---|---|
 | Close only if P(legitimate) ≥ | 0.85 | `CLOSE_AT` |
-| …and P(everything explained) ≥ | 0.70 | `EXPLAINED_AT` |
+| …and P(out of character and unexplained) ≤ | 0.30 | `UNEXPLAINED_MAX` |
 | Escalate if P(fraud) ≥ | 0.85 | `ESCALATE_AT` |
 | Scam risk that forces a person | 0.60 | `SCAM_RISK_AT` |
 | Never auto-close at or above | $5,000 | `MAX_AUTO_CLOSE_AMOUNT` |

@@ -60,7 +60,7 @@ export function mockJev(state: any, questions: Record<string, JevQuestion>): { m
     probs[others[1]] = r2(1 - probs.legitimate - probs[fraudType] - probs[others[0]]);
     const choice = Object.entries(probs).sort((a, b) => b[1] - a[1])[0][0];
     answers.verdict = { type: 'choice', choice, probabilities: probs, confidence: r2(Math.abs(probs[choice] - 0.25) / 0.75) };
-    answers.explained = { type: 'noul', noul: r2(r < -0.5 ? 0.9 : r < 1 ? 0.55 : 0.08) };
+    answers.unexplained = { type: 'noul', noul: r2(r < -0.5 ? 0.1 : r < 1 ? 0.45 : 0.92) };
     const t = ctx.triggering_activity[ctx.triggering_activity.length - 1];
     const scam = (t.memo && /urgent|investment/i.test(t.memo)) || (t.merchant_category === 'gift cards' && !t.device?.first_seen_today);
     answers.scam_risk = { type: 'noul', noul: scam ? 0.72 : 0.08 };

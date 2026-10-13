@@ -2,7 +2,7 @@
 import type { RunResult } from './types';
 
 export type Settings = {
-  closeAt: number; explainedAt: number; escalateAt: number; scamRiskAt: number; maxAutoCloseAmount: number; checkAt: number;
+  closeAt: number; unexplainedMax: number; escalateAt: number; scamRiskAt: number; maxAutoCloseAmount: number; checkAt: number;
   jevModel: string; openaiModel: string;
 };
 export type Failed = { error: string };
