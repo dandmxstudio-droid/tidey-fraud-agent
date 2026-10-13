@@ -1,7 +1,14 @@
+import '@fontsource/outfit/400.css';
+import '@fontsource/outfit/500.css';
+import '@fontsource/outfit/600.css';
+import '@fontsource/outfit/700.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Nav } from './nav';
 import { mockMode } from '@/lib/config';
+import { TidewellMark, TideyBadge } from './brand';
 
 export const metadata: Metadata = {
   title: 'Tidey · Fraud alert agent · Tidewell (fictional bank)',
@@ -16,8 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="top">
           <div className="wrap">
             <a className="brand" href="/">
-              <span className="logo">T</span>
-              Tidey <small>Fraud alert agent · Tidewell (fictional bank)</small>
+              <span className="bank"><TidewellMark size={24} />Tidewell</span>
+              <span className="divider" />
+              <span className="product"><TideyBadge />Tidey <small>Fraud alert agent</small></span>
             </a>
             <Nav />
           </div>
@@ -31,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="wrap">{children}</div>
         </main>
         <footer>
-          <div className="wrap">All customers, transactions and alerts are synthetic. Tidewell is fictional. Built by Dan Mota.</div>
+          <div className="wrap">Tidewell is a fictional bank and every customer, transaction and alert here is synthetic. Tidey and this demo were built by Dan Mota.</div>
         </footer>
       </body>
     </html>

@@ -1,14 +1,16 @@
 :root {
-  --bg: #eef0f3;
-  --card: #ffffff;
-  --ink: #14171c;
-  --ink-2: #3a404a;
-  --muted: #6a717d;
-  --line: #e3e6eb;
-  --line-2: #eef0f3;
-  --blue: #2f55d4;
-  --blue-tint: #f1f4ff;
-  --blue-ink: #2340a8;
+  /* Tidewell brand (fictional bank): deep navy, ocean blue, mist */
+  --bg: oklch(0.97 0.012 235);
+  --card: oklch(0.995 0.004 235);
+  --ink: oklch(0.3 0.08 255);
+  --ink-2: oklch(0.42 0.04 250);
+  --muted: oklch(0.5 0.035 250);
+  --line: oklch(0.91 0.02 240);
+  --line-2: oklch(0.955 0.01 240);
+  --blue: oklch(0.55 0.14 238);
+  --blue-light: oklch(0.76 0.12 228);
+  --blue-tint: oklch(0.95 0.03 235);
+  --blue-ink: oklch(0.4 0.11 250);
   --green: #1e7546;
   --green-tint: #e7f5ec;
   --red: #b3261e;
@@ -16,9 +18,9 @@
   --amber: #8a5a00;
   --amber-tint: #fff3dc;
   --amber-bar: #d08a1c;
-  --navy: #0f2b46;
-  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, Helvetica, Arial, sans-serif;
+  --navy: oklch(0.27 0.075 255);
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.45; }
@@ -30,18 +32,21 @@ button { font: inherit; cursor: pointer; }
 .top { background: var(--card); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; text-decoration: none; }
-.brand .logo { width: 30px; height: 30px; border-radius: 8px; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 13px; }
+.brand .bank { display: flex; align-items: center; gap: 7px; font-weight: 600; font-size: 19px; letter-spacing: -0.02em; color: var(--ink); }
+.brand .divider { width: 1px; height: 22px; background: var(--line); margin: 0 4px; }
+.brand .product { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; }
+.brand .tidey { width: 26px; height: 26px; border-radius: 8px; background: var(--ink); display: grid; place-items: center; }
 .brand small { font-weight: 400; color: var(--muted); font-size: 12.5px; }
 .nav { display: flex; gap: 4px; }
 .nav a { text-decoration: none; font-size: 14px; padding: 7px 12px; border-radius: 8px; color: var(--ink-2); }
-.nav a.on { background: var(--ink); color: #fff; }
+.nav a.on { background: var(--ink); color: var(--card); }
 .banner { background: var(--amber-tint); color: var(--amber); border-bottom: 1px solid #f1d38f; font-size: 13.5px; }
 .banner .wrap { padding: 8px 24px; }
 
 /* layout */
 main { padding: 28px 0 60px; }
-h1 { font-size: 30px; letter-spacing: -0.02em; margin: 0 0 6px; line-height: 1.15; }
-h2 { font-size: 20px; letter-spacing: -0.01em; margin: 0 0 12px; }
+h1 { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 6px; line-height: 1.15; }
+h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 12px; }
 .lead { color: var(--ink-2); font-size: 16px; max-width: 760px; margin: 0 0 22px; }
 .eb { font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .card { background: var(--card); border-radius: 14px; border: 1px solid var(--line); padding: 20px 22px; margin-bottom: 18px; }
@@ -63,7 +68,7 @@ input.pass { border: 1px solid #cdd2da; border-radius: 9px; padding: 9px 12px; f
 .score th, .score td { padding: 11px 16px; text-align: left; border-bottom: 1px solid var(--line-2); font-size: 14.5px; }
 .score tr:last-child td { border-bottom: 0; }
 .score th { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: #f7f8fa; font-weight: 600; }
-.score th.j { background: var(--blue); color: #fff; }
+.score th.j { background: var(--ink); color: var(--card); }
 .score td.j { background: var(--blue-tint); font-weight: 700; }
 .score td.k { color: var(--ink-2); }
 .score td .sub { display: block; font-size: 12px; font-weight: 400; color: var(--muted); }
@@ -131,6 +136,8 @@ footer { color: var(--muted); font-size: 12.5px; padding: 20px 0 40px; }
 @media (max-width: 640px) {
   .wrap { padding: 0 16px; }
   .brand small { display: none; }
+  .brand .bank { font-size: 16px; }
+  .brand .product { font-size: 14px; }
   .brand { font-size: 15px; white-space: nowrap; }
   .nav a { padding: 6px 9px; font-size: 13px; white-space: nowrap; }
   h1 { font-size: 24px; }
@@ -151,3 +158,7 @@ footer { color: var(--muted); font-size: 12.5px; padding: 20px 0 40px; }
 .qstat.on { box-shadow: 0 0 0 2px var(--ink) inset; }
 @media (max-width: 640px) { .qstats { grid-template-columns: 1fr; } .qstat b { font-size: 24px; } }
 table.list td:first-child { white-space: nowrap; }
+@media (max-width: 640px) {
+  .top .wrap { height: auto; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; row-gap: 8px; }
+  .nav { width: 100%; }
+}
