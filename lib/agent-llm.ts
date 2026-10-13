@@ -5,7 +5,7 @@ import { alertContext, runTool, TOOL_NAMES, TOOLS } from './tools';
 import { VERDICT_CRITERIA, actionLabel } from './agent-jev';
 import type { Action, Step, ToolName, Trace, Verdict } from './types';
 
-const SYSTEM = `You are Wes, a fraud investigation agent at a bank. You receive one fraud alert.
+const SYSTEM = `You are Tidey, a fraud investigation agent at a bank. You receive one fraud alert.
 Use the tools to check the customer's records, then decide.
 
 Verdicts:

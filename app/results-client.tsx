@@ -71,9 +71,9 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
   return (
     <>
       <div className="eb">Proof · 50 synthetic fraud alerts with an answer key</div>
-      <h1>How well does Wes decide?</h1>
+      <h1>How well does Tidey decide?</h1>
       <p className="lead">
-        Wes runs on <b>Jev</b> plus plain <b>code rules</b>: Jev answers typed questions with probabilities, and the rules decide what happens. To test that
+        Tidey runs on <b>Jev</b> plus plain <b>code rules</b>: Jev answers typed questions with probabilities, and the rules decide what happens. To test that
         design, the same agent was also built the obvious way, with <b>one AI model</b> deciding everything. Both ran on the same 50 alerts and were scored
         against an answer key neither one sees. Analysts only ever use the first version; the second exists for this test.
       </p>
@@ -118,7 +118,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
         <div className="tablewrap">
         <table className="list">
           <thead>
-            <tr><th>Alert</th><th>What happened</th><th>Amount</th><th>Wes (Jev + code)</th><th>Baseline (one AI model)</th><th>Right answer</th></tr>
+            <tr><th>Alert</th><th>What happened</th><th>Amount</th><th>Tidey (Jev + code)</th><th>Baseline (one AI model)</th><th>Right answer</th></tr>
           </thead>
           <tbody>
             {alerts.map((a) => {
@@ -174,7 +174,7 @@ function Scoreboard({ a, b }: { a: RunSummary; b: RunSummary }) {
     <div className="card">
       <h2>Head to head</h2>
       <div className="tablewrap"><table className="score" style={{ minWidth: 560 }}>
-        <thead><tr><th style={{ width: '34%' }}>Measure</th><th className="j">Wes · Jev decides, code acts</th><th>Baseline · one AI model does everything</th></tr></thead>
+        <thead><tr><th style={{ width: '34%' }}>Measure</th><th className="j">Tidey · Jev decides, code acts</th><th>Baseline · one AI model does everything</th></tr></thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.k}>

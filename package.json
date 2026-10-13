@@ -1,8 +1,8 @@
 {
-  "name": "wes-fraud-agent",
+  "name": "tidey-fraud-agent",
   "version": "1.0.0",
   "private": true,
-  "description": "Wes, a fraud alert agent for Demo Bank (fictional): Jev decisions + code rules vs a single AI model. Synthetic data only.",
+  "description": "Tidey, a fraud alert agent for Tidewell (fictional bank): Jev decisions + code rules vs a single AI model. Synthetic data only.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

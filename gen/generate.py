@@ -1,4 +1,4 @@
-"""Synthetic data for the Demo Bank fraud alert agent.
+"""Synthetic data for the Tidewell fraud alert agent.
 
 Everything here is fictional: customers, merchants, devices, events and alerts.
 Run: python3 generate.py  -> writes ../data/*.json
@@ -49,7 +49,7 @@ MERCHANTS = [
     ('M21', 'Lodgewell Hotels', 'hotel', True, 0), ('M22', 'RideNow', 'rideshare', False, 0),
     ('M23', 'PixelForge Games', 'video games', True, 6), ('M24', 'HelpingHands Donations', 'donations', True, 31),
     ('M25', 'TinyApps Store', 'app store', True, 18), ('M26', 'QuickTip Charity', 'donations', True, 27),
-    ('M27', 'Demo Bank ATM', 'atm', False, 0), ('M28', 'Riverside Night Market', 'market vendors', False, 0),
+    ('M27', 'Tidewell ATM', 'atm', False, 0), ('M28', 'Riverside Night Market', 'market vendors', False, 0),
     ('M29', 'Circuit Corner', 'electronics', False, 0), ('M30', 'Oakline Cafe', 'restaurant', False, 0),
     ('M31', 'Casa Lume', 'restaurant', False, 0), ('M32', 'Maple & Main Diner', 'restaurant', False, 0),
     ('M33', 'Mile High Grill', 'restaurant', False, 0), ('M34', 'Playa Azul Restaurant', 'restaurant', False, 0),

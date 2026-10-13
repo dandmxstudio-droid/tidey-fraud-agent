@@ -8,9 +8,9 @@ type AlertRow = { id: string; what_happened: string; amount: number; rule_trigge
 type Tab = 'analyst' | 'escalate' | 'close';
 
 const TABS: { key: Tab; title: string; blurb: string }[] = [
-  { key: 'analyst', title: 'Needs your review', blurb: 'Mixed signals. Wes explains what is unclear and suggests a next step. You decide.' },
-  { key: 'escalate', title: 'Escalated: approve block', blurb: 'Wes found fraud and recommends blocking the card or holding the transfer. Nothing is blocked until you approve.' },
-  { key: 'close', title: 'Closed by Wes', blurb: 'False alarms Wes closed on its own. Open any case to see what it checked and why.' },
+  { key: 'analyst', title: 'Needs your review', blurb: 'Mixed signals. Tidey explains what is unclear and suggests a next step. You decide.' },
+  { key: 'escalate', title: 'Escalated: approve block', blurb: 'Tidey found fraud and recommends blocking the card or holding the transfer. Nothing is blocked until you approve.' },
+  { key: 'close', title: 'Closed by Tidey', blurb: 'False alarms Tidey closed on its own. Open any case to see what it checked and why.' },
 ];
 
 export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolean }) {
@@ -36,16 +36,16 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
 
   return (
     <>
-      <div className="eb">Demo Bank · fraud alert queue · Oct 12, 2026</div>
-      <h1>Good morning. Wes worked through {rows.length || 'the'} alerts overnight.</h1>
+      <div className="eb">Tidewell · fraud alert queue · Oct 12, 2026</div>
+      <h1>Good morning. Tidey worked through {rows.length || 'the'} alerts overnight.</h1>
       <p className="lead">
-        Each alert from the bank&apos;s fraud rules was investigated by Wes in about {avgMs ? secs(avgMs) : 'a fraction of a second'}: account history, devices, account changes, merchant and payee checks.
+        Each alert from the bank&apos;s fraud rules was investigated by Tidey in about {avgMs ? secs(avgMs) : 'a fraction of a second'}: account history, devices, account changes, merchant and payee checks.
         It closed the clear false alarms, escalated clear fraud for your approval, and left the unclear cases for you.
       </p>
 
       {loaded && rows.length === 0 && (
         <div className="card">
-          Wes hasn&apos;t processed any alerts yet. Run them on the <a href="/proof">Proof</a> page.
+          Tidey hasn&apos;t processed any alerts yet. Run them on the <a href="/proof">Proof</a> page.
         </div>
       )}
 
@@ -71,7 +71,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
               <table className="list">
                 <thead>
                   <tr>
-                    <th>Alert</th><th>Time</th><th>What happened</th><th>Amount</th><th>{tab === 'close' ? 'Why Wes closed it' : tab === 'escalate' ? 'Wes found' : 'Wes says'}</th><th>Status</th>
+                    <th>Alert</th><th>Time</th><th>What happened</th><th>Amount</th><th>{tab === 'close' ? 'Why Tidey closed it' : tab === 'escalate' ? 'Tidey found' : 'Tidey says'}</th><th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -106,7 +106,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
           </div>
           <p className="small muted">
             {run?.kind === 'official' ? 'Showing the official test run.' : 'Showing your latest live run.'} All customers and alerts are synthetic.
-            {mock || run?.mock ? ' Mock mode: decisions come from stand-in rules, not Jev.' : ''} See how Wes scored against the answer key on the <a href="/proof">Proof</a> page.
+            {mock || run?.mock ? ' Mock mode: decisions come from stand-in rules, not Jev.' : ''} See how Tidey scored against the answer key on the <a href="/proof">Proof</a> page.
           </p>
         </>
       )}

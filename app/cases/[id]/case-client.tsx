@@ -48,7 +48,7 @@ export function CaseClient({ alert, featured }: { alert: A; featured: boolean })
           {source && <div className="small muted">{source}</div>}
         </div>
         <div className="seg">
-          <button className={mode === 'jev' ? 'on' : ''} onClick={() => setMode('jev')}>Wes</button>
+          <button className={mode === 'jev' ? 'on' : ''} onClick={() => setMode('jev')}>Tidey</button>
           <button className={mode === 'llm' ? 'on' : ''} onClick={() => setMode('llm')}>Test baseline: one AI model</button>
         </div>
       </div>
@@ -98,7 +98,7 @@ function CaseView({ r }: { r: RunResult }) {
         </div>
 
         <div className="card">
-          <div className="eb">What Wes checked</div>
+          <div className="eb">What Tidey checked</div>
           <ul className="steps" style={{ marginTop: 8 }}>
             {checks.map((s, i) => (
               <li key={i}>

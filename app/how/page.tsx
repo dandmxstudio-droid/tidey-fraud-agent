@@ -8,9 +8,9 @@ export default function How() {
   return (
     <>
       <div className="eb">How it works</div>
-      <h1>Wes: a fraud alert agent with clear jobs for each part</h1>
+      <h1>Tidey: a fraud alert agent with clear jobs for each part</h1>
       <p className="lead">
-        Fraud rules flag far more activity than is really fraud, and analysts spend their day clearing alerts. Wes investigates each alert,
+        Fraud rules flag far more activity than is really fraud, and analysts spend their day clearing alerts. Tidey investigates each alert,
         closes the clear false alarms, escalates clear fraud, and sends anything uncertain to a person. Version A splits the work so each part does what
         it is best at. Version B lets one AI model do everything, as a baseline.
       </p>

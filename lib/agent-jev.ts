@@ -58,13 +58,13 @@ export function decide(p: { legit: number; verdict: Verdict; unexplained: number
   if (p.scam >= config.scamRiskAt) guard.push(`scam risk ${p.scam.toFixed(2)} ≥ ${config.scamRiskAt}`);
 
   if (p.verdict === 'legitimate' && p.legit >= config.closeAt && p.unexplained <= config.unexplainedMax && guard.length === 0) {
-    return { action: 'close', verdict: 'legitimate', confidence: p.legit, reason: `Legitimate ${p.legit.toFixed(2)} ≥ ${config.closeAt} and nothing out of character left unexplained (${p.unexplained.toFixed(2)} ≤ ${config.unexplainedMax}), so Wes closes it on its own.` };
+    return { action: 'close', verdict: 'legitimate', confidence: p.legit, reason: `Legitimate ${p.legit.toFixed(2)} ≥ ${config.closeAt} and nothing out of character left unexplained (${p.unexplained.toFixed(2)} ≤ ${config.unexplainedMax}), so Tidey closes it on its own.` };
   }
   if (p.verdict !== 'legitimate' && pFraud >= config.escalateAt) {
     return { action: 'escalate', verdict: p.verdict, confidence: pFraud, reason: `Fraud ${pFraud.toFixed(2)} ≥ ${config.escalateAt}, so it goes to the fraud team with a recommendation. A person approves any card block or freeze.` };
   }
   const why = guard.length
-    ? `Guardrail: ${guard.join('; ')}. Wes may not close this alone.`
+    ? `Guardrail: ${guard.join('; ')}. Tidey may not close this alone.`
     : p.verdict === 'legitimate'
       ? `Leans legitimate (${p.legit.toFixed(2)}), but below the bar to close alone (legitimate ≥ ${config.closeAt} and unexplained ≤ ${config.unexplainedMax}; this case: ${p.unexplained.toFixed(2)}).`
       : `Leans ${p.verdict.replace(/_/g, ' ')} (${pFraud.toFixed(2)}), but below the ${config.escalateAt} bar to escalate as confirmed fraud.`;

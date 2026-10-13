@@ -183,7 +183,7 @@
  },
  {
   "id": "M27",
-  "name": "Demo Bank ATM",
+  "name": "Tidewell ATM",
   "category": "atm",
   "online": false,
   "fraud_reports_90d": 0

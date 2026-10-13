@@ -1,13 +1,13 @@
-# Wes · Fraud alert agent for Demo Bank (fictional)
+# Tidey · Fraud alert agent for Tidewell (fictional bank)
 
-Wes is a fraud alert investigation agent, built two ways and tested head to head on 50 synthetic alerts.
+Tidey is a fraud alert investigation agent, built two ways and tested head to head on 50 synthetic alerts.
 
 - **Version A: Jev decides, code acts.** Code reads the alert and always runs the required checks. [Jev](https://docs.typesafe.ai) (TypeSafe's decision model) answers yes/no questions on which extra checks to run, then answers the decision questions with probabilities. Plain code rules turn those probabilities into **close**, **escalate** or **send to an analyst**. An AI model writes the summary a person reads.
 - **Version B: one AI model does everything.** The same checks as tools, the same definitions and the same guardrail, but the model picks the checks and makes the call itself.
 
 Both versions are scored against an answer key neither one sees (`data/answer_key.json`, read only by `lib/score.ts`).
 
-**All data is synthetic. Demo Bank is fictional.**
+**All data is synthetic. Tidewell is fictional.**
 
 ## The test set
 50 alerts: 24 legitimate, 18 fraud (8 stolen cards used online, 5 account takeovers, 5 card-testing bursts), 8 unclear cases with mixed signals that a person should see. The generator is in `gen/generate.py`.
@@ -47,5 +47,5 @@ Without both API keys the app runs in **mock mode** with simple stand-in rules a
 ```
 npm install
 npm run dev            # mock mode unless keys are set in .env.local
-npm run test:offline   # runs both versions of Wes on all 50 alerts in mock mode
+npm run test:offline   # runs both versions of Tidey on all 50 alerts in mock mode
 ```
