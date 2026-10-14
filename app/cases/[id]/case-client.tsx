@@ -33,6 +33,8 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
   const [pass, setPass] = useState('');
   const [err, setErr] = useState('');
   const [decisions, setDecisions] = useState<Record<string, Decided>>({});
+  // Until the saved run has loaded, show nothing rather than flashing "Not Investigated Yet".
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => setDecisions(loadDecisions()), []);
 
@@ -44,6 +46,7 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
       const file = has(wanted, alert.id) ? wanted : has(live, alert.id) ? live : has(official, alert.id) ? official : wanted;
       setRun(file);
       setPair(has(file, alert.id));
+      setLoaded(true);
     });
   }, [alert.id, from, runKind]);
 
@@ -115,7 +118,8 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
         )}
       </div>
 
-      {!pair && (
+      {!loaded && <div style={{ minHeight: '70vh' }} aria-busy="true" />}
+      {loaded && !pair && (
         <div className="panel">
           <h2>Not Investigated Yet</h2>
           <p className="muted" style={{ marginTop: 0 }}>Run this alert through Tidey and the one-model version to see the investigation.</p>
