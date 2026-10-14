@@ -147,7 +147,6 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
           const o = dc ? outcome(dc.choice, r.trace.decision.verdict) : null;
           return (
             <a key={`${tab}-${al.id}`} className={`item${o ? ' done' : ''}`} href={`/cases/${al.id}?view=${tab}`} style={{ '--i': Math.min(i, 12) } as CSSProperties}>
-              <span className={`edge ${o ? 'settled' : tab}`} />
               <span>
                 <div className="what">{al.what_happened}</div>
                 {o ? <div className={`outcome-chip ${o.state}`}><StateIcon state={o.state} />{o.short}</div> : <div className="take">{take(r)}</div>}
@@ -245,8 +244,8 @@ function Sorter({ rows, handled, tab, onPick, intro, totalMs, decisions, reviewe
           ? <>Sorting yesterday’s alerts <span className="clock">{clock}</span></>
           : <>All {events.length} sorted, in {secs(totalMs)} of work{reviewed ? <>. You’ve handled {reviewed} so far.</> : null}</>}
       </p>
-      <div className="queue-panel">
-        <div className="qtabs" role="tablist" aria-label="Alert groups">
+      <div className="qtrack" role="tablist" aria-label="Alert groups" style={{ '--idx': ORDER.indexOf(tab) } as CSSProperties}>
+          <span className="qthumb" aria-hidden="true" />
           {ORDER.map((k) => {
             const mine = events.filter((e) => e.action === k);
             const done = mine.filter((e) => decisions[e.id]).length;
@@ -267,9 +266,8 @@ function Sorter({ rows, handled, tab, onPick, intro, totalMs, decisions, reviewe
               </button>
             );
           })}
-        </div>
-        {children}
       </div>
+      <div className="queue-panel">{children}</div>
     </>
   );
 }
