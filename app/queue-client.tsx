@@ -163,8 +163,8 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
       </Sorter>
 
       <p className="foot-note">
-        {run?.kind === 'official' ? 'This queue shows the official test run.' : 'This queue shows your latest live run.'} Tidewell is fictional and every alert is synthetic.
-        {mock || run?.mock ? ' Mock mode: decisions come from stand-in rules, not Jev.' : ''} How well Tidey sorts alerts is measured on the <a href="/proof">Test results</a> page.
+        {run?.kind === 'official' ? 'Showing the official test run.' : 'Showing your latest live run, kept in this browser tab.'}
+        {mock || run?.mock ? ' Mock mode: decisions come from stand-in rules, not Jev.' : ''}
       </p>
     </div>
   );

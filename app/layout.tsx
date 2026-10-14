@@ -39,14 +39,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <footer>
           <div className="wrap foot">
-            <div className="foot-brand">
+            <div className="foot-top">
               <span className="bank"><TidewellMark size={22} />Tidewell</span>
-              <p>Tidey is Tidewell’s fraud alert agent. Tidewell is a fictional bank, and every customer, transaction and alert here is synthetic. Designed and built by Dan Mota.</p>
+              <div className="foot-demo">
+                <span>Behind the demo</span>
+                <Suspense fallback={<DemoNavFallback />}><DemoNav /></Suspense>
+              </div>
             </div>
-            <div className="foot-demo">
-              <span>Behind the demo</span>
-              <Suspense fallback={<DemoNavFallback />}><DemoNav /></Suspense>
-            </div>
+            <p className="foot-text">Tidey is Tidewell’s fraud alert agent. Tidewell is a fictional bank, and every customer, transaction and alert here is synthetic. Designed and built by Dan Mota.</p>
           </div>
         </footer>
       </body>
