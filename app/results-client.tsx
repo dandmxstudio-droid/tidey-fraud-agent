@@ -69,7 +69,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
   const byId = new Map(pairs.map((p) => [p.alertId, p]));
 
   const source = shown
-    ? `${shown.kind === 'official' ? 'Official run' : 'Your live run, kept in this browser tab only'}, ${new Date(shown.run_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. ${complete.length} of ${alerts.length} alerts, with Jev (${shown.settings.jevModel}) and ${shown.settings.openaiModel}.`
+    ? `${shown.kind === 'official' ? 'Official run' : 'Your live run, kept in this browser only'}, ${new Date(shown.run_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. ${complete.length} of ${alerts.length} alerts, with Jev (${shown.settings.jevModel}) and ${shown.settings.openaiModel}.`
     : '';
 
   return (
@@ -151,7 +151,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
       <section className="section" id="run">
         <div className="section-head">
           <h2>Run the test yourself</h2>
-          <p>Both versions run side by side on real Jev and OpenAI calls, and the tables above fill in as each alert finishes. A live run stays in this browser tab.</p>
+          <p>Both versions run side by side on real Jev and OpenAI calls, and the tables above fill in as each alert finishes. A live run is kept in this browser only.</p>
         </div>
         <div className="runbox">
           <div className="run-opt">

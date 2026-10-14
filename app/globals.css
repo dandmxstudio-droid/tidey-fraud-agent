@@ -642,3 +642,31 @@ table.list td a:hover { color: var(--ocean); }
   .nav a { flex: none; height: auto; padding: 0 4px; }
   .brand .product small { display: none; }
 }
+
+/* ---------- page frame: the footer sits at the bottom even on short pages ---------- */
+body { min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1 0 auto; }
+footer { margin-top: 0; }
+
+/* ---------- queue: Handled, the analyst's own record ---------- */
+.queue-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px 20px; flex-wrap: wrap; margin: 0 0 12px; }
+.queue-bar .sort-status { margin: 0; }
+.handled-btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 10px 8px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); font-size: 14px; font-weight: 600; color: var(--ink-2); transition: border-color 0.15s, background-color 0.15s; }
+.handled-btn:hover { border-color: var(--ocean-light); color: var(--navy); }
+.handled-btn .count { min-width: 24px; padding: 1px 8px; border-radius: 999px; background: var(--line-2); color: var(--navy); font-variant-numeric: tabular-nums; text-align: center; }
+.handled-btn[aria-pressed='true'] { background: var(--navy); border-color: var(--navy); color: var(--paper); }
+.handled-btn[aria-pressed='true'] .count { background: oklch(1 0 0 / 0.18); color: var(--paper); }
+.qtrack.off .qthumb { opacity: 0; }
+.qtrack.off .qtab { color: var(--ink-2); }
+.qtrack.off .qtab-count b { color: var(--ink-2); }
+.handled-group + .handled-group { border-top: 1px solid var(--line); }
+.handled-head { padding: 18px 24px 12px; display: flex; align-items: baseline; gap: 6px 14px; flex-wrap: wrap; border-bottom: 1px solid var(--line-2); background: oklch(0.985 0.006 235); }
+.handled-head h3 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+.handled-head h3 span { font-size: 13px; font-weight: 600; color: var(--muted); background: var(--line-2); padding: 0 8px; border-radius: 999px; }
+.handled-head p { margin: 0; font-size: 14px; color: var(--muted); }
+.empty-group { padding: 28px 24px; color: var(--ink-2); font-size: 15px; }
+.linkish { border: 0; background: none; padding: 0; color: var(--ocean); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.hero.empty .btn { display: inline-block; margin-top: 24px; text-decoration: none; }
+@media (max-width: 640px) {
+  .handled-head, .empty-group { padding-left: 16px; padding-right: 16px; }
+}

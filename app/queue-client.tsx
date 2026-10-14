@@ -4,7 +4,7 @@ import { closedReason, firstSentence } from '@/lib/headlines';
 import { VERDICT_LABEL, isAction, money, secs } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, type RunFile } from '@/lib/store';
 import type { Action, RunResult, Verdict } from '@/lib/types';
-import { loadDecisions, outcome, type Decided } from '@/lib/decisions';
+import { loadDecisions, outcome, stillOpen, type Decided } from '@/lib/decisions';
 import { StateIcon } from './brand';
 
 type AlertRow = { id: string; what_happened: string; amount: number; rule_triggered: string; created_at: string };
@@ -42,6 +42,10 @@ const TASK: Record<Action, { name: string; short: string; unit: string; head: st
   },
 };
 const DEFAULT_VIEW: Action = 'escalate';
+// The three groups are Tidey's sort; Handled is the analyst's own record, kept apart from them.
+type View = Action | 'handled';
+const isView = (v: string | null): v is View => isAction(v) || v === 'handled';
+const clockTime = (iso: string) => new Date(iso).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 const alertTime = (r: RunResult, a: AlertRow) => ((r.trace.steps[0]?.data as { alert_time?: string } | undefined)?.alert_time ?? a.created_at).slice(11, 16);
@@ -49,7 +53,7 @@ const alertTime = (r: RunResult, a: AlertRow) => ((r.trace.steps[0]?.data as { a
 export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolean }) {
   const [run, setRun] = useState<RunFile | null>(null);
   const [loaded, setLoaded] = useState(false);
-  const [tab, setTab] = useState<Action>(DEFAULT_VIEW);
+  const [tab, setTab] = useState<View>(DEFAULT_VIEW);
   const [greeting, setGreeting] = useState('Hello');
   // The sort replays once per visit; coming back from a case shows it settled.
   const [intro, setIntro] = useState(false);
@@ -57,7 +61,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
 
   useEffect(() => {
     const v = new URLSearchParams(window.location.search).get('view');
-    if (isAction(v)) setTab(v);
+    if (isView(v)) setTab(v);
     setDecisions(loadDecisions());
     const h = new Date().getHours();
     setGreeting(h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening');
@@ -85,7 +89,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
   const rows = useMemo(() => alerts.filter((a) => handled.has(a.id)), [alerts, handled]);
   const of = (k: Action) => rows.filter((a) => handled.get(a.id)!.trace.decision.action === k);
 
-  const pick = (k: Action) => {
+  const pick = (k: View) => {
     setTab(k);
     window.history.replaceState(null, '', k === DEFAULT_VIEW ? '/' : `/?view=${k}`);
   };
@@ -101,10 +105,11 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
 
   if (rows.length === 0) {
     return (
-      <section className="hero">
+      <section className="hero empty">
         <p className="kicker">Tuesday, October 13</p>
         <h1>{greeting}, {ANALYST}.</h1>
-        <p className="hero-sub">I haven’t investigated any alerts yet. Run them from the <a href="/proof#run">Test results</a> page and they’ll show up here, sorted.</p>
+        <p className="hero-sub">I haven’t investigated any alerts yet. Run the five sample alerts and I’ll sort them here for you.</p>
+        <a className="btn primary" href="/proof#run">Run the sample alerts</a>
       </section>
     );
   }
@@ -114,10 +119,12 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
   const sub = closed
     ? `I investigated yesterday’s **${n} alerts** and closed the **${plural(closed, 'clear false alarm', 'clear false alarms')}** myself. The other **${n - closed}** need you, and I’d start with the fraud approvals.`
     : `I investigated yesterday’s **${n} alerts**. All of them need you, and I’d start with the fraud approvals.`;
-  // Alerts still waiting come first; ones the analyst already decided sink to the bottom.
-  const list = [...of(tab).filter((a) => !decisions[a.id]), ...of(tab).filter((a) => decisions[a.id])];
-  const firstOpen = list.find((a) => !decisions[a.id]);
-  const reviewed = rows.filter((a) => decisions[a.id]).length;
+  // A group lists only what still needs the analyst; anything they've decided moves to Handled.
+  const list = tab === 'handled' ? [] : of(tab).filter((a) => !decisions[a.id]);
+  const firstOpen = list[0];
+  const decided = rows.filter((a) => decisions[a.id]).sort((x, y) => decisions[y.id].at.localeCompare(decisions[x.id].at));
+  const pending = decided.filter((a) => stillOpen(decisions[a.id]));
+  const finished = decided.filter((a) => !stillOpen(decisions[a.id]));
   const totalMs = rows.reduce((s, x) => s + handled.get(x.id)!.trace.decisionMs, 0);
 
   return (
@@ -129,37 +136,75 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
         <p className="hero-sub"><Reveal text={sub} from={180} /></p>
       </section>
 
-      <Sorter rows={rows} handled={handled} tab={tab} onPick={pick} intro={intro} totalMs={totalMs} decisions={decisions} reviewed={reviewed}>
-      <section className="inbox" id="inbox" role="tabpanel" aria-labelledby={`task-${tab}`}>
-        <div className="inbox-head">
-          <div>
-            <h2>{TASK[tab].head}</h2>
-            <p>{TASK[tab].voice}</p>
-            <p className="breakdown">{breakdown(tab, of(tab).map((a) => handled.get(a.id)!))}</p>
-          </div>
-          {firstOpen
-            ? <a className="btn primary" href={`/cases/${firstOpen.id}?view=${tab}`}>{TASK[tab].start}</a>
-            : list.length > 0 && <span className="all-done"><Check />All done</span>}
-        </div>
-        {list.map((al, i) => {
-          const r = handled.get(al.id)!;
-          const dc = decisions[al.id];
-          const o = dc ? outcome(dc.choice, r.trace.decision.verdict) : null;
-          return (
-            <a key={`${tab}-${al.id}`} className={`item${o ? ' done' : ''}`} href={`/cases/${al.id}?view=${tab}`} style={{ '--i': Math.min(i, 12) } as CSSProperties}>
-              <span>
-                <div className="what">{al.what_happened}</div>
-                {o ? <div className={`outcome-chip ${o.state}`}><StateIcon state={o.state} />{o.short}</div> : <div className="take">{take(r)}</div>}
-              </span>
-              <span className="meta">
-                <div className="amt">{money(al.amount)}</div>
-                <div className="when">{al.id}, {alertTime(r, al)}</div>
-              </span>
-            </a>
-          );
-        })}
-        {list.length === 0 && <div className="inbox-head"><p>Nothing here.</p></div>}
-      </section>
+      <Sorter rows={rows} handled={handled} tab={tab} onPick={pick} intro={intro} totalMs={totalMs} decisions={decisions} reviewed={decided.length} pending={pending.length}>
+        {tab === 'handled' ? (
+          <section className="inbox" id="inbox" role="tabpanel" aria-labelledby="task-handled">
+            <div className="inbox-head">
+              <div>
+                <h2>Handled by you</h2>
+                <p>{decided.length ? 'Everything you’ve decided today. Open any alert to see it again or undo your call.' : 'Nothing yet. Alerts you decide move here from the groups above.'}</p>
+              </div>
+            </div>
+            {[
+              { key: 'open', title: 'Still open', note: 'Waiting on the customer’s reply or the fraud team’s second look.', items: pending },
+              { key: 'done', title: 'Done', note: 'Nothing more to do.', items: finished },
+            ].filter((g) => g.items.length).map((g) => (
+              <div key={g.key} className="handled-group">
+                <div className="handled-head"><h3>{g.title} <span>{g.items.length}</span></h3><p>{g.note}</p></div>
+                {g.items.map((al, i) => {
+                  const r = handled.get(al.id)!;
+                  const dc = decisions[al.id];
+                  const o = outcome(dc.choice, r.trace.decision.verdict);
+                  return (
+                    <a key={`h-${al.id}`} className="item" href={`/cases/${al.id}?view=handled`} style={{ '--i': Math.min(i, 12) } as CSSProperties}>
+                      <span>
+                        <div className="what">{al.what_happened}</div>
+                        <div className={`outcome-chip ${o.state}`}><StateIcon state={o.state} />{o.short}</div>
+                      </span>
+                      <span className="meta">
+                        <div className="amt">{money(al.amount)}</div>
+                        <div className="when">{al.id}, decided {clockTime(dc.at)}</div>
+                      </span>
+                    </a>
+                  );
+                })}
+              </div>
+            ))}
+          </section>
+        ) : (
+          <section className="inbox" id="inbox" role="tabpanel" aria-labelledby={`task-${tab}`}>
+            <div className="inbox-head">
+              <div>
+                <h2>{TASK[tab].head}</h2>
+                <p>{TASK[tab].voice}</p>
+                <p className="breakdown">{breakdown(tab, of(tab).map((a) => handled.get(a.id)!))}</p>
+              </div>
+              {firstOpen
+                ? <a className="btn primary" href={`/cases/${firstOpen.id}?view=${tab}`}>{TASK[tab].start}</a>
+                : of(tab).length > 0 && <span className="all-done"><Check />All done</span>}
+            </div>
+            {list.map((al, i) => {
+              const r = handled.get(al.id)!;
+              return (
+                <a key={`${tab}-${al.id}`} className="item" href={`/cases/${al.id}?view=${tab}`} style={{ '--i': Math.min(i, 12) } as CSSProperties}>
+                  <span>
+                    <div className="what">{al.what_happened}</div>
+                    <div className="take">{take(r)}</div>
+                  </span>
+                  <span className="meta">
+                    <div className="amt">{money(al.amount)}</div>
+                    <div className="when">{al.id}, {alertTime(r, al)}</div>
+                  </span>
+                </a>
+              );
+            })}
+            {list.length === 0 && (
+              <div className="empty-group">
+                {of(tab).length ? <>You’ve handled every alert in this group. They’re in <button className="linkish" onClick={() => pick('handled')}>Handled</button>.</> : 'Nothing in this group.'}
+              </div>
+            )}
+          </section>
+        )}
       </Sorter>
 
       <p className="foot-note">
@@ -214,7 +259,7 @@ function breakdown(k: Action, rs: RunResult[]): string {
 }
 
 // The three groups, in the order Tidey suggests. On a first visit, yesterday's alerts drop into them in time order.
-function Sorter({ rows, handled, tab, onPick, intro, totalMs, decisions, reviewed, children }: { rows: AlertRow[]; handled: Map<string, RunResult>; tab: Action; onPick: (k: Action) => void; intro: boolean; totalMs: number; decisions: Record<string, Decided>; reviewed: number; children: React.ReactNode }) {
+function Sorter({ rows, handled, tab, onPick, intro, totalMs, decisions, reviewed, pending, children }: { rows: AlertRow[]; handled: Map<string, RunResult>; tab: View; onPick: (k: View) => void; intro: boolean; totalMs: number; decisions: Record<string, Decided>; reviewed: number; pending: number; children: React.ReactNode }) {
   const events = useMemo(
     () => rows.map((a) => ({ id: a.id, time: alertTime(handled.get(a.id)!, a), action: handled.get(a.id)!.trace.decision.action })).sort((x, y) => x.time.localeCompare(y.time)),
     [rows, handled],
@@ -243,13 +288,18 @@ function Sorter({ rows, handled, tab, onPick, intro, totalMs, decisions, reviewe
 
   return (
     <>
-      <p className={`sort-status${sorting ? ' sorting' : ''}`} aria-live="polite">
-        <i />
-        {sorting
-          ? <>Sorting yesterday’s alerts <span className="clock">{clock}</span></>
-          : <>All {events.length} sorted, in {secs(totalMs)} of work{reviewed ? <>. You’ve handled {reviewed} so far.</> : null}</>}
-      </p>
-      <div className="qtrack" role="tablist" aria-label="Alert groups" style={{ '--idx': ORDER.indexOf(tab) } as CSSProperties}>
+      <div className="queue-bar">
+        <p className={`sort-status${sorting ? ' sorting' : ''}`} aria-live="polite">
+          <i />
+          {sorting
+            ? <>Sorting yesterday’s alerts <span className="clock">{clock}</span></>
+            : <>All {events.length} sorted, in {secs(totalMs)} of work{reviewed ? <>. You’ve handled {reviewed}{pending ? <>, and {pending} {pending === 1 ? 'is' : 'are'} still open</> : null}.</> : null}</>}
+        </p>
+        <button id="task-handled" aria-pressed={tab === 'handled'} aria-controls="inbox" className="handled-btn" onClick={() => onPick('handled')}>
+          <Check />Handled<span className="count">{reviewed}</span>
+        </button>
+      </div>
+      <div className={`qtrack${tab === 'handled' ? ' off' : ''}`} role="tablist" aria-label="Alert groups" style={{ '--idx': Math.max(0, ORDER.indexOf(tab as Action)) } as CSSProperties}>
           <span className="qthumb" aria-hidden="true" />
           {ORDER.map((k) => {
             const mine = events.filter((e) => e.action === k);

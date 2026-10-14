@@ -29,6 +29,9 @@ export function saveDecision(id: string, d: Decided | null): Record<string, Deci
   return all;
 }
 
+// Handled alerts that are still open because they wait on someone else: the customer's reply, or the fraud team's second look.
+export const stillOpen = (d?: Decided) => !!d && (d.choice === 'contact' || d.choice === 'reopen');
+
 // What the analyst can do, by the group Tidey put the alert in.
 export const CHOICES: Record<Action, { choice: Choice; label: string; cls: string }[]> = {
   escalate: [
@@ -65,6 +68,6 @@ export function outcome(choice: Choice, verdict: Verdict): { working: string; ti
     case 'confirm':
       return { working: 'Saving your check…', title: 'Spot-checked', body: 'You agreed with Tidey’s close. It’s logged as checked.', short: 'Checked', state: 'success' };
     case 'reopen':
-      return { working: 'Reopening…', title: 'Reopened for a second look', body: 'Tidey’s close is marked as overturned and the alert needs a person to decide it.', short: 'Reopened', state: 'warning' };
+      return { working: 'Reopening…', title: 'Sent for a second look', body: 'Tidey’s close is marked as overturned, and the fraud team will review the alert.', short: 'Second look', state: 'warning' };
   }
 }

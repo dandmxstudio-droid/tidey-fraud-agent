@@ -62,21 +62,26 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
   const r = pair ? (mode === 'jev' ? pair.jev : pair.llm) : undefined;
 
   // Previous and next stay inside the group (or the test list) the analyst came from.
+  // Opened from the Handled view: paging moves through the alerts already decided.
+  const fromHandled = from !== 'proof' && viewParam === 'handled';
   const view = from === 'proof' ? null : isAction(viewParam) ? viewParam : pair && isOk(pair.jev) ? pair.jev.trace.decision.action : null;
-  const list = (run?.results ?? []).filter((p) => (from === 'proof' ? true : view && isOk(p.jev) && p.jev.trace.decision.action === view)).map((p) => p.alertId);
+  const list = (run?.results ?? [])
+    .filter((p) => (from === 'proof' ? true : fromHandled ? !!decisions[p.alertId] || p.alertId === alert.id : view && isOk(p.jev) && p.jev.trace.decision.action === view))
+    .map((p) => p.alertId);
   const idx = list.indexOf(alert.id);
-  const query = from === 'proof' ? `?from=proof&run=${run?.kind ?? 'official'}` : view ? `?view=${view}` : '';
+  const query = from === 'proof' ? `?from=proof&run=${run?.kind ?? 'official'}` : fromHandled ? '?view=handled' : view ? `?view=${view}` : '';
   const caseHref = (id?: string) => (id ? `/cases/${id}${query}` : undefined);
   const prev = caseHref(list[idx - 1]);
   const next = caseHref(list[idx + 1]);
-  const back = from === 'proof' ? { href: '/proof', label: 'Back to test results' } : { href: !view || view === 'escalate' ? '/' : `/?view=${view}`, label: 'Back to the queue' };
-  const where = from === 'proof' ? 'in the test' : GROUPS.find((g) => g.key === view)?.short ?? '';
+  const back = from === 'proof' ? { href: '/proof', label: 'Back to test results' } : fromHandled ? { href: '/?view=handled', label: 'Back to handled' } : { href: !view || view === 'escalate' ? '/' : `/?view=${view}`, label: 'Back to the queue' };
+  const where = from === 'proof' ? 'in the test' : fromHandled ? 'handled' : GROUPS.find((g) => g.key === view)?.short ?? '';
   // After a call, "Next alert" skips to the next one nobody has decided yet.
   const open = list.filter((id) => !decisions[id]);
   const after = [...list.slice(idx + 1), ...list.slice(0, Math.max(0, idx))].find((id) => !decisions[id] && id !== alert.id);
   const decide = (d: Decided | null) => setDecisions(saveDecision(alert.id, d));
   const leftN = open.filter((id) => id !== alert.id).length;
   const leftText =
+    fromHandled ? 'Kept in Handled' :
     from === 'proof' ? (leftN ? `${leftN} undecided left in the test` : 'That was the last undecided alert in the test')
     : view === 'escalate' ? (leftN ? `${leftN} fraud ${leftN === 1 ? 'approval' : 'approvals'} left` : 'That was the last fraud approval')
     : view === 'analyst' ? (leftN ? `${leftN} judgment ${leftN === 1 ? 'call' : 'calls'} left` : 'That was the last judgment call')

@@ -1,4 +1,4 @@
-// Browser-side storage for runs. Official results are a static file; a live run lives in this browser tab only.
+// Browser-side storage for runs. Official results are a static file; a live run lives in this browser only.
 import type { RunResult } from './types';
 
 export type Settings = {
@@ -12,9 +12,10 @@ export type RunFile = { kind: 'official' | 'live'; run_at: string; mock: boolean
 const KEY = 'fraud-agent-live-run';
 export const isOk = (r: RunResult | Failed | undefined): r is RunResult => !!r && 'trace' in r;
 
+// Kept in this browser (localStorage), so a run you started shows up in other tabs too.
 export function loadLive(): RunFile | null {
   try {
-    const s = sessionStorage.getItem(KEY);
+    const s = localStorage.getItem(KEY) ?? sessionStorage.getItem(KEY);
     return s ? (JSON.parse(s) as RunFile) : null;
   } catch {
     return null;
@@ -23,7 +24,7 @@ export function loadLive(): RunFile | null {
 
 export function saveLive(r: RunFile) {
   try {
-    sessionStorage.setItem(KEY, JSON.stringify(r));
+    localStorage.setItem(KEY, JSON.stringify(r));
   } catch {
     /* storage full or blocked: the run still shows on this page */
   }
