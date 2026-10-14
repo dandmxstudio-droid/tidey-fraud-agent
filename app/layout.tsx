@@ -21,12 +21,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <div className="demo-strip">
-          <div className="wrap">
-            <p><span className="long">A portfolio demo by Dan Mota. Tidewell and all of its data are fictional.</span><span className="short">Demo by Dan Mota</span></p>
-            <Suspense fallback={<DemoNavFallback />}><DemoNav /></Suspense>
-          </div>
-        </div>
         <header className="top">
           <div className="wrap">
             <a className="brand" href="/">
@@ -45,8 +39,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <footer>
           <div className="wrap foot">
-            <span className="bank"><TidewellMark size={22} />Tidewell</span>
-            <p>Tidey is Tidewell’s fraud alert agent. Tidewell is a fictional bank, and every customer, transaction and alert here is synthetic. Designed and built by Dan Mota.</p>
+            <div className="foot-brand">
+              <span className="bank"><TidewellMark size={22} />Tidewell</span>
+              <p>Tidey is Tidewell’s fraud alert agent. Tidewell is a fictional bank, and every customer, transaction and alert here is synthetic. Designed and built by Dan Mota.</p>
+            </div>
+            <div className="foot-demo">
+              <span>Behind the demo</span>
+              <Suspense fallback={<DemoNavFallback />}><DemoNav /></Suspense>
+            </div>
           </div>
         </footer>
       </body>
