@@ -116,7 +116,7 @@ input.pass { border: 1px solid var(--line); border-radius: 999px; padding: 9px 1
 .verdict p { margin: 0; color: var(--ink-2); font-size: 16px; max-width: 70ch; }
 .verdict .acts { display: flex; gap: 8px 12px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
 .case-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 20px; align-items: start; }
-.summary { font-size: 18px; line-height: 1.6; margin: 0; }
+.summary { font-size: 16px; line-height: 1.65; margin: 0; color: var(--ink-2); max-width: 68ch; }
 .rec { margin: 12px 0 0; font-size: 16px; color: var(--ink-2); }
 .rec b { color: var(--navy); }
 .timeline { list-style: none; margin: 4px 0 0; padding: 0; position: relative; }
@@ -578,4 +578,23 @@ table.list td a:hover { color: var(--ocean); }
   .res-time { display: none; }
   .res-foot { margin-left: 0; }
   .resolved-mark { width: 36px; height: 36px; }
+}
+
+/* ---------- case: the facts an analyst reads first ---------- */
+.keyfacts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-lg); margin: 0 0 16px; }
+.keyfacts > div { display: flex; flex-direction: column; gap: 4px; padding: 18px 22px 20px; min-width: 0; }
+.keyfacts > div + div { box-shadow: inset 1px 0 0 var(--line-2); }
+.kf-label { font-size: 13px; color: var(--muted); }
+.kf-value { font-size: 26px; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; color: var(--navy); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.kf-sub { display: flex; align-items: baseline; gap: 7px; font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.kf-sub i { width: 7px; height: 7px; border-radius: 50%; background: var(--escalate); flex: none; transform: translateY(-1px); }
+.keyfacts .flag .kf-sub { color: var(--navy); font-weight: 500; }
+@media (max-width: 900px) {
+  .keyfacts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .keyfacts > div:nth-child(3) { box-shadow: inset 0 1px 0 var(--line-2); }
+  .keyfacts > div:nth-child(4) { box-shadow: inset 1px 0 0 var(--line-2), inset 0 1px 0 var(--line-2); }
+}
+@media (max-width: 640px) {
+  .keyfacts > div { padding: 14px 16px 16px; }
+  .kf-value { font-size: 21px; }
 }

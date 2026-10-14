@@ -22,7 +22,7 @@ const TASK: Record<Action, { name: string; short: string; unit: string; head: st
     unit: 'left',
     head: 'Fraud, waiting for your approval',
     voice: 'I’ve recommended a block or hold on each. Nothing happens to a card or account until you approve it.',
-    start: 'Review in order',
+    start: 'Review next alert',
   },
   analyst: {
     name: 'Judgment calls',
@@ -30,7 +30,7 @@ const TASK: Record<Action, { name: string; short: string; unit: string; head: st
     unit: 'left',
     head: 'Needs your call',
     voice: 'Mixed signals on these. For each one I’ve written what doesn’t add up and what I’d check next.',
-    start: 'Review in order',
+    start: 'Review next alert',
   },
   close: {
     name: 'Closed by Tidey',
@@ -38,7 +38,7 @@ const TASK: Record<Action, { name: string; short: string; unit: string; head: st
     unit: 'to spot-check',
     head: 'Closed by Tidey',
     voice: 'False alarms I closed on my own. Each one keeps its evidence, so you can check my work.',
-    start: 'Spot-check in order',
+    start: 'Spot-check next alert',
   },
 };
 const DEFAULT_VIEW: Action = 'escalate';
@@ -138,7 +138,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
             <p className="breakdown">{breakdown(tab, of(tab).map((a) => handled.get(a.id)!))}</p>
           </div>
           {firstOpen
-            ? <a className="btn primary" href={`/cases/${firstOpen.id}?view=${tab}`}>{list.some((a) => decisions[a.id]) ? 'Continue' : TASK[tab].start}</a>
+            ? <a className="btn primary" href={`/cases/${firstOpen.id}?view=${tab}`}>{TASK[tab].start}</a>
             : list.length > 0 && <span className="all-done"><Check />All done</span>}
         </div>
         {list.map((al, i) => {

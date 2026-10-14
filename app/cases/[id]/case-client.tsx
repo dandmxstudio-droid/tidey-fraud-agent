@@ -234,18 +234,18 @@ function Verdict({ r, group, decided, onDecide, nextOpen, leftText, back }: Verd
 function CaseView({ r, verdictSlot }: { r: RunResult; verdictSlot: React.ReactNode }) {
   const t = r.trace;
   const ctx = t.steps[0]?.data as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  const item = ctx?.triggering_activity?.[ctx.triggering_activity.length - 1];
   const decide = t.steps.find((s) => s.kind === 'decide');
   const rule = t.steps.find((s) => s.kind === 'rule');
 
   return (
     <>
+      {ctx && <KeyFacts ctx={ctx} />}
       {verdictSlot}
       <div className="case-grid">
         <div className="stack">
           {t.summary && (
             <section className="panel">
-              <p className="label">What {t.mode === 'jev' ? 'Tidey' : 'the baseline'} found</p>
+              <p className="label">{t.mode === 'jev' ? 'Tidey’s summary' : 'The baseline’s summary'}</p>
               <p className="summary">{t.summary.text}</p>
             </section>
           )}
@@ -257,16 +257,13 @@ function CaseView({ r, verdictSlot }: { r: RunResult; verdictSlot: React.ReactNo
 
         <div className="stack">
           <section className="panel">
-            <p className="label">The alert</p>
+            <p className="label">The customer</p>
             <dl className="facts">
-              <dt>Customer</dt><dd>{ctx?.customer?.name}, since {ctx?.customer?.customer_since?.slice(0, 4)}</dd>
+              <dt>Name</dt><dd>{ctx?.customer?.name}</dd>
+              <dt>Customer since</dt><dd>{ctx?.customer?.customer_since?.slice(0, 4)}</dd>
               <dt>Home</dt><dd>{ctx?.customer?.home_city}</dd>
               <dt>Account</dt><dd>{ctx?.customer?.account_type}</dd>
               <dt>Usual purchase</dt><dd>{money(ctx?.customer_average_purchase_90d ?? 0)}</dd>
-              {item && <><dt>When</dt><dd>{item.time}</dd></>}
-              {item && <><dt>Where</dt><dd>{item.location ?? '—'}{item.distance_from_home_miles ? `, ${item.distance_from_home_miles.toLocaleString()} miles from home` : ''}</dd></>}
-              {item?.device && <><dt>Device</dt><dd>{item.device.label}{item.device.first_seen_today ? ', first seen today' : ''}</dd></>}
-              {ctx?.triggering_activity?.length > 1 && <><dt>Charges</dt><dd>{ctx.triggering_activity.length}{ctx.declined_count ? `, ${ctx.declined_count} declined` : ''}</dd></>}
             </dl>
           </section>
 
@@ -372,5 +369,77 @@ function Chevron({ dir }: { dir: 'left' | 'right' }) {
     <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" className="chev">
       <path d={dir === 'left' ? 'M10 3 5 8l5 5' : 'M6 3l5 5-5 5'} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  );
+}
+
+type Tx = {
+  time: string; hour_of_day: number; amount: number; status: string; channel: 'online' | 'in_store' | 'atm' | 'transfer';
+  merchant: string | null; payee: string | null; location: string | null; distance_from_home_miles: number;
+  location_hidden_by_proxy: boolean; device: { label: string; first_seen: string; first_seen_today: boolean } | null;
+  times_customer_average_purchase?: number;
+};
+type Ctx = { triggering_activity: Tx[]; approved_total?: number; declined_count?: number; customer_average_purchase_90d?: number; customer?: { home_city?: string } };
+
+const CHANNEL: Record<Tx['channel'], string> = { online: 'Online', in_store: 'In store', atm: 'ATM', transfer: 'Transfer' };
+const clock12 = (s: string) => {
+  const [hh, mm] = s.slice(11, 16).split(':').map(Number);
+  return { t: `${hh % 12 || 12}:${String(mm).padStart(2, '0')}`, ap: hh < 12 ? 'AM' : 'PM' };
+};
+const dayLabel = (s: string) => {
+  const [y, m, d] = s.slice(0, 10).split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
+};
+// Lowercase a device name mid-sentence, but keep brand names as written.
+const deviceName = (label: string) => (/^(Android|iPhone|iPad|Mac|Windows|Chrome)/.test(label) ? label : label.charAt(0).toLowerCase() + label.slice(1));
+const minutesBetween = (a: string, b: string) => {
+  const toMin = (s: string) => Number(s.slice(11, 13)) * 60 + Number(s.slice(14, 16));
+  return Math.max(1, toMin(b) - toMin(a));
+};
+
+// The facts an analyst reads first, straight from the alert: how much, when, where, on what device.
+function KeyFacts({ ctx }: { ctx: Ctx }) {
+  const txs = ctx.triggering_activity ?? [];
+  if (!txs.length) return null;
+  const first = txs[0], last = txs[txs.length - 1];
+  const n = txs.length;
+  const declined = ctx.declined_count ?? 0;
+  const total = ctx.approved_total ?? txs.reduce((s, x) => s + x.amount, 0);
+  const avg = ctx.customer_average_purchase_90d ?? 0;
+  const times = last.times_customer_average_purchase;
+
+  const a = clock12(first.time), b = clock12(last.time);
+  const when = n > 1 && first.time !== last.time ? (a.ap === b.ap ? `${a.t}–${b.t} ${b.ap}` : `${a.t} ${a.ap}–${b.t} ${b.ap}`) : `${b.t} ${b.ap}`;
+  const whenSub = [dayLabel(last.time), last.hour_of_day < 6 ? 'overnight' : '', n > 1 ? `over ${minutesBetween(first.time, last.time)} min` : ''].filter(Boolean).join(', ');
+
+  const away = last.distance_from_home_miles > 0 ? `${last.distance_from_home_miles.toLocaleString()} miles from home` : 'their home city';
+  const where = last.location_hidden_by_proxy ? 'Hidden' : last.location ?? 'Unknown';
+  const whereSub = last.location_hidden_by_proxy ? `${CHANNEL[last.channel]}, behind a proxy` : `${CHANNEL[last.channel]}, ${away}`;
+
+  const facts: { label: string; value: string; sub: string; flag?: boolean }[] = [
+    {
+      label: n > 1 ? 'Amount approved' : 'Amount',
+      value: money(total),
+      sub: n > 1 ? `${n} charges, ${declined ? `${declined} declined` : 'all approved'}` : times && times >= 2 ? `${times}× their usual ${money(avg)}` : `Usual purchase ${money(avg)}`,
+      flag: !!times && times >= 3,
+    },
+    { label: 'When', value: when, sub: whenSub, flag: last.hour_of_day < 6 },
+    { label: 'Where', value: where, sub: whereSub, flag: last.location_hidden_by_proxy || last.distance_from_home_miles > 100 },
+    last.channel === 'transfer'
+      ? { label: 'Sent to', value: last.payee ?? 'Unknown payee', sub: last.device ? `From ${deviceName(last.device.label)}${last.device.first_seen_today ? ', new that day' : ''}` : 'Transfer', flag: !!last.device?.first_seen_today }
+      : last.device
+        ? { label: 'Device', value: last.device.label, sub: last.device.first_seen_today ? 'First seen that day' : `Known since ${last.device.first_seen.slice(0, 4)}`, flag: last.device.first_seen_today }
+        : { label: 'How', value: last.channel === 'atm' ? 'Card and PIN' : 'Card present', sub: 'Used in person' },
+  ];
+
+  return (
+    <section className="keyfacts" aria-label="The activity">
+      {facts.map((f) => (
+        <div key={f.label} className={f.flag ? 'flag' : ''}>
+          <span className="kf-label">{f.label}</span>
+          <span className="kf-value">{f.value}</span>
+          <span className="kf-sub">{f.flag && <i title="Unusual for this customer" />}{f.sub}</span>
+        </div>
+      ))}
+    </section>
   );
 }
