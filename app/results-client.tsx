@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { ANSWER_LABEL, actionText, money, secs, usd } from '@/lib/labels';
-import { isOk, loadLive, loadOfficial, runOne, saveLive, type Pair, type RunFile, type Settings } from '@/lib/store';
+import { isOk, loadLive, loadOfficial, type Pair, type RunFile, type Settings } from '@/lib/store';
 import { summarizeRun, type RunSummary } from '@/lib/summary';
 import type { RunResult } from '@/lib/types';
 
@@ -11,10 +11,6 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
   const [official, setOfficial] = useState<RunFile | null>(null);
   const [live, setLive] = useState<RunFile | null>(null);
   const [view, setView] = useState<'official' | 'live'>('official');
-  const [pass, setPass] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [progress, setProgress] = useState({ done: 0, total: 0 });
-  const [msg, setMsg] = useState('');
 
   useEffect(() => {
     const l = loadLive();
@@ -24,43 +20,6 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
 
   const run = view === 'live' ? live : official ?? live;
   const shown = run ?? null;
-
-  async function start(ids: string[], passcode: string, base?: RunFile) {
-    setBusy(true); setMsg('');
-    const results = new Map<string, Pair>((base?.results ?? []).map((p) => [p.alertId, p]));
-    let done = 0;
-    setProgress({ done, total: ids.length });
-    const file = (): RunFile => ({ kind: 'live', run_at: new Date().toISOString(), mock, settings, results: alerts.filter((a) => results.has(a.id)).map((a) => results.get(a.id)!) });
-    const queue = [...ids];
-    const worker = async () => {
-      while (queue.length) {
-        const id = queue.shift()!;
-        const [jev, llm] = await Promise.all([runOne(id, 'jev', passcode), runOne(id, 'llm', passcode)]);
-        results.set(id, { alertId: id, jev, llm });
-        done++;
-        setProgress({ done, total: ids.length });
-        const f = file();
-        setLive(f); setView('live');
-        if ('error' in jev && /passcode|sample/i.test(jev.error)) { queue.length = 0; setMsg(jev.error); }
-      }
-    };
-    await Promise.all([worker(), worker(), worker(), worker()]);
-    const f = file();
-    const errs = f.results.flatMap((p) => [p.jev, p.llm]).filter((r) => r && !isOk(r)) as { error: string }[];
-    if (errs.length) setMsg(`${errs.length} runs failed. First error: ${errs[0].error.slice(0, 200)}`);
-    saveLive(f); setLive(f); setBusy(false);
-  }
-
-  const failed = (live?.results ?? []).filter((p) => !isOk(p.jev) || !isOk(p.llm)).map((p) => p.alertId);
-
-  function download() {
-    if (!live) return;
-    const blob = new Blob([JSON.stringify({ ...live, kind: 'official' }, null, 1)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'official.json';
-    a.click();
-  }
 
   const pairs = shown?.results ?? [];
   const complete = pairs.filter((p) => isOk(p.jev) && isOk(p.llm));
@@ -97,7 +56,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
           <p className="source">
             {shown
               ? <>{source}{shown.mock ? ' Mock mode: these are stand-in answers, not real results.' : ''}</>
-              : <>Run the five sample alerts in <a href="#run">Run the test yourself</a> and watch the bars fill in.</>}
+              : <>Run the five sample alerts from the <a href="/#run">queue page</a> and the bars fill in here.</>}
           </p>
           {official && live && (
             <div className="seg" role="group" aria-label="Which run to show">
@@ -148,45 +107,6 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
         </div>
       </section>
 
-      <section className="section" id="run">
-        <div className="section-head">
-          <h2>Run the test yourself</h2>
-          <p>Both versions run side by side on real Jev and OpenAI calls, and the tables above fill in as each alert finishes. A live run is kept in this browser only.</p>
-        </div>
-        <div className="runbox">
-          <div className="run-opt">
-            <h3>Five sample alerts</h3>
-            <p>Open to anyone. A mix of fraud, false alarms and judgment calls. Takes about a minute.</p>
-            <button className="btn primary" disabled={busy} onClick={() => start(featured, pass)}>Run the sample alerts</button>
-          </div>
-          <div className="run-opt">
-            <h3>All {alerts.length} alerts</h3>
-            <p>For the owner. Needs the passcode, because every run costs API credits.</p>
-            <div className="row">
-              <input className="pass" type="password" placeholder="Owner passcode" aria-label="Owner passcode" value={pass} onChange={(e) => setPass(e.target.value)} />
-              <button className="btn" disabled={busy || !pass} onClick={() => start(alerts.map((a) => a.id), pass)}>Run all {alerts.length}</button>
-            </div>
-          </div>
-          {(busy || msg || (live && !busy)) && (
-            <div className="run-status">
-              {busy && (
-                <>
-                  <div className="progress"><b style={{ width: `${(100 * progress.done) / Math.max(1, progress.total)}%` }} /></div>
-                  <p className="small muted">Running {progress.done} of {progress.total} alerts through both versions…</p>
-                </>
-              )}
-              {msg && <p className="small no">{msg}</p>}
-              {live && !busy && (
-                <div className="row">
-                  {failed.length > 0 && <button className="btn" onClick={() => start(failed, pass, live)}>Retry {failed.length} failed</button>}
-                  <button className="btn" onClick={download}>Download your live run</button>
-                  <span className="small muted">To publish it as the official run, add the file to <code>public/results/official.json</code> in the repo.</span>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </section>
     </>
   );
 }

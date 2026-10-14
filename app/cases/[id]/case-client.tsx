@@ -39,7 +39,7 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
   useEffect(() => {
     const live = loadLive();
     loadOfficial().then((official) => {
-      const wanted = from === 'proof' && runKind === 'live' ? live : from === 'proof' && runKind === 'official' ? official : official ?? live;
+      const wanted = runKind === 'live' ? live : runKind === 'official' ? official : official ?? live;
       const file = has(wanted, alert.id) ? wanted : has(live, alert.id) ? live : has(official, alert.id) ? official : wanted;
       setRun(file);
       setPair(has(file, alert.id));
@@ -69,7 +69,8 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
     .filter((p) => (from === 'proof' ? true : fromHandled ? !!decisions[p.alertId] || p.alertId === alert.id : view && isOk(p.jev) && p.jev.trace.decision.action === view))
     .map((p) => p.alertId);
   const idx = list.indexOf(alert.id);
-  const query = from === 'proof' ? `?from=proof&run=${run?.kind ?? 'official'}` : fromHandled ? '?view=handled' : view ? `?view=${view}` : '';
+  const runQ = `&run=${run?.kind ?? 'official'}`;
+  const query = from === 'proof' ? `?from=proof${runQ}` : fromHandled ? `?view=handled${runQ}` : view ? `?view=${view}${runQ}` : '';
   const caseHref = (id?: string) => (id ? `/cases/${id}${query}` : undefined);
   const prev = caseHref(list[idx - 1]);
   const next = caseHref(list[idx + 1]);

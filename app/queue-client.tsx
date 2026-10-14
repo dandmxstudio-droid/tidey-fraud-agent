@@ -2,7 +2,8 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { closedReason, firstSentence } from '@/lib/headlines';
 import { VERDICT_LABEL, isAction, money, secs } from '@/lib/labels';
-import { isOk, loadLive, loadOfficial, type RunFile } from '@/lib/store';
+import { isOk, loadLive, loadOfficial, type RunFile, type Settings } from '@/lib/store';
+import { RunBox } from './run-box';
 import type { Action, RunResult, Verdict } from '@/lib/types';
 import { loadDecisions, outcome, stillOpen, type Decided } from '@/lib/decisions';
 import { StateIcon } from './brand';
@@ -50,8 +51,11 @@ const clockTime = (iso: string) => new Date(iso).toLocaleTimeString('en-US', { h
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 const alertTime = (r: RunResult, a: AlertRow) => ((r.trace.steps[0]?.data as { alert_time?: string } | undefined)?.alert_time ?? a.created_at).slice(11, 16);
 
-export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolean }) {
-  const [run, setRun] = useState<RunFile | null>(null);
+export function QueueClient({ alerts, mock, featured, settings }: { alerts: AlertRow[]; mock: boolean; featured: string[]; settings: Settings }) {
+  const [official, setOfficial] = useState<RunFile | null>(null);
+  const [live, setLive] = useState<RunFile | null>(null);
+  // Your own live run wins when there is one; the official run is what every visitor sees otherwise.
+  const [source, setSource] = useState<'official' | 'live'>('official');
   const [loaded, setLoaded] = useState(false);
   const [tab, setTab] = useState<View>(DEFAULT_VIEW);
   const [greeting, setGreeting] = useState('Hello');
@@ -65,9 +69,9 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
     setDecisions(loadDecisions());
     const h = new Date().getHours();
     setGreeting(h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening');
-    const live = loadLive();
+    const l = loadLive();
     loadOfficial().then((o) => {
-      const r = o ?? live;
+      const r = l ?? o;
       if (r?.results.length) {
         let seen = false;
         try {
@@ -76,10 +80,16 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
         } catch { /* storage blocked: just play it */ }
         if (!seen && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) setIntro(true);
       }
-      setRun(r);
+      setOfficial(o);
+      setLive(l);
+      setSource(l ? 'live' : 'official');
       setLoaded(true);
     });
   }, []);
+
+  const run = source === 'live' ? live ?? official : official ?? live;
+  const runQ = `&run=${run?.kind ?? 'official'}`;
+  const onRunUpdate = (f: RunFile) => { setLive(f); setSource('live'); };
 
   const handled = useMemo(() => {
     const m = new Map<string, RunResult>();
@@ -103,14 +113,29 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
 
   if (!loaded) return <div className="hero-skeleton" aria-busy="true" />;
 
+  const runBox = (
+    <RunBox
+      key="runbox"
+      alerts={alerts}
+      featured={featured}
+      settings={settings}
+      mock={mock}
+      live={live}
+      onUpdate={onRunUpdate}
+      lead="Tidey and the one-model baseline investigate the alerts live, on real Jev and OpenAI calls, and this queue fills in as each one finishes. A live run is kept in this browser only."
+    />
+  );
+
   if (rows.length === 0) {
     return (
-      <section className="hero empty">
-        <p className="kicker">Tuesday, October 13</p>
-        <h1>{greeting}, {ANALYST}.</h1>
-        <p className="hero-sub">I haven’t investigated any alerts yet. Run the five sample alerts and I’ll sort them here for you.</p>
-        <a className="btn primary" href="/proof#run">Run the sample alerts</a>
-      </section>
+      <div>
+        <section className="hero empty">
+          <p className="kicker">Tuesday, October 13</p>
+          <h1>{greeting}, {ANALYST}.</h1>
+          <p className="hero-sub">I haven’t investigated any alerts yet. Run them below and I’ll sort them here for you as each one finishes.</p>
+        </section>
+        {runBox}
+      </div>
     );
   }
 
@@ -156,7 +181,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
                   const dc = decisions[al.id];
                   const o = outcome(dc.choice, r.trace.decision.verdict);
                   return (
-                    <a key={`h-${al.id}`} className="item" href={`/cases/${al.id}?view=handled`} style={{ '--i': Math.min(i, 12) } as CSSProperties}>
+                    <a key={`h-${al.id}`} className="item" href={`/cases/${al.id}?view=handled${runQ}`} style={{ '--i': Math.min(i, 12) } as CSSProperties}>
                       <span>
                         <div className="what">{al.what_happened}</div>
                         <div className={`outcome-chip ${o.state}`}><StateIcon state={o.state} />{o.short}</div>
@@ -180,13 +205,13 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
                 <p className="breakdown">{breakdown(tab, of(tab).map((a) => handled.get(a.id)!))}</p>
               </div>
               {firstOpen
-                ? <a className="btn primary" href={`/cases/${firstOpen.id}?view=${tab}`}>{TASK[tab].start}</a>
+                ? <a className="btn primary" href={`/cases/${firstOpen.id}?view=${tab}${runQ}`}>{TASK[tab].start}</a>
                 : of(tab).length > 0 && <span className="all-done"><Check />All done</span>}
             </div>
             {list.map((al, i) => {
               const r = handled.get(al.id)!;
               return (
-                <a key={`${tab}-${al.id}`} className="item" href={`/cases/${al.id}?view=${tab}`} style={{ '--i': Math.min(i, 12) } as CSSProperties}>
+                <a key={`${tab}-${al.id}`} className="item" href={`/cases/${al.id}?view=${tab}${runQ}`} style={{ '--i': Math.min(i, 12) } as CSSProperties}>
                   <span>
                     <div className="what">{al.what_happened}</div>
                     <div className="take">{take(r)}</div>
@@ -208,9 +233,13 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
       </Sorter>
 
       <p className="foot-note">
-        {run?.kind === 'official' ? 'Showing the official test run.' : 'Showing your latest live run, kept in this browser tab.'}
+        {run?.kind === 'official' ? 'Showing the official test run.' : `Showing your live run from ${new Date(run!.run_at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}.`}
+        {official && live && (
+          <> <button className="linkish" onClick={() => setSource(source === 'live' ? 'official' : 'live')}>{source === 'live' ? 'Show the official run' : 'Show your live run'}</button></>
+        )}
         {mock || run?.mock ? ' Mock mode: decisions come from stand-in rules, not Jev.' : ''}
       </p>
+      {runBox}
     </div>
   );
 }
