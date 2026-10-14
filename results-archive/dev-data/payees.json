@@ -1,0 +1,62 @@
+[
+ {
+  "id": "P-00001",
+  "customer_id": "C-2014",
+  "name": "Pinecrest Apartments",
+  "added_at": "2024-02-01T00:00:00"
+ },
+ {
+  "id": "P-00002",
+  "customer_id": "C-2014",
+  "name": "Oakview Property Mgmt",
+  "added_at": "2026-10-12T08:40:00"
+ },
+ {
+  "id": "P-00003",
+  "customer_id": "C-2015",
+  "name": "Pinecrest Apartments",
+  "added_at": "2024-02-01T00:00:00"
+ },
+ {
+  "id": "P-00004",
+  "customer_id": "C-2015",
+  "name": "Lakeside Residences LLC",
+  "added_at": "2026-10-12T08:40:00"
+ },
+ {
+  "id": "P-00005",
+  "customer_id": "C-2033",
+  "name": "M. Brandt",
+  "added_at": "2026-10-12T01:58:00"
+ },
+ {
+  "id": "P-00006",
+  "customer_id": "C-2034",
+  "name": "S. Okafor",
+  "added_at": "2026-10-12T00:42:00"
+ },
+ {
+  "id": "P-00007",
+  "customer_id": "C-2035",
+  "name": "M. Brandt",
+  "added_at": "2026-10-12T02:42:00"
+ },
+ {
+  "id": "P-00008",
+  "customer_id": "C-2036",
+  "name": "J. Carter",
+  "added_at": "2026-10-12T02:22:00"
+ },
+ {
+  "id": "P-00009",
+  "customer_id": "C-2037",
+  "name": "J. Carter",
+  "added_at": "2026-10-12T02:30:00"
+ },
+ {
+  "id": "P-00010",
+  "customer_id": "C-2045",
+  "name": "D. Whitfield",
+  "added_at": "2026-10-12T01:09:00"
+ }
+]

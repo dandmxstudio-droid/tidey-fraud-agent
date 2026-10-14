@@ -1,5 +1,6 @@
 // The analyst's calls on alerts. A demo: kept in this browser tab only, nothing is sent anywhere.
 import type { Action, Verdict } from './types';
+import { DATASET } from './dataset';
 
 export type Choice = 'approve' | 'override' | 'legit' | 'fraud' | 'contact' | 'confirm' | 'reopen';
 export type Decided = { choice: Choice; at: string };
@@ -7,7 +8,7 @@ export type Decided = { choice: Choice; at: string };
 // success = the call went through, warning = the alert needs a person's attention again.
 export type FeedbackState = 'success' | 'warning';
 
-const KEY = 'tidey-decisions';
+const KEY = `tidey-decisions-${DATASET}`;
 
 export function loadDecisions(): Record<string, Decided> {
   try {

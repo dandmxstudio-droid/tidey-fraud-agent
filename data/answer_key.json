@@ -1,45 +1,46 @@
 [
  {
   "alert_id": "A-1001",
-  "label": "card_not_present_fraud",
+  "label": "legitimate",
   "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
+  "expected_action": "close",
+  "why": "Small in-person purchases at a night market in the home city, card present."
  },
  {
   "alert_id": "A-1002",
   "label": "legitimate",
   "needs_human": false,
   "expected_action": "close",
-  "why": "Bank ATM in the home city with the physical card; similar withdrawal last month."
+  "why": "Customer booked a flight and hotel for this city and has been spending there for two days."
  },
  {
   "alert_id": "A-1003",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Bank ATM in the home city with the physical card; similar withdrawal last month."
- },
- {
-  "alert_id": "A-1004",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Known device, home location, evening, a merchant the customer has used before."
- },
- {
-  "alert_id": "A-1005",
   "label": "card_not_present_fraud",
   "needs_human": false,
   "expected_action": "escalate",
   "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
  },
  {
-  "alert_id": "A-1006",
-  "label": "account_takeover",
+  "alert_id": "A-1004",
+  "label": "legitimate",
   "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Within 25 minutes a new device signed in, reset the password, changed contact details, added a payee and sent money."
+  "expected_action": "close",
+  "why": "New phone signed in from home with a passed two-factor check; old phone stopped being used; usual merchant and amount."
+ },
+ {
+  "alert_id": "A-1005",
+  "label": "unclear",
+  "needs_human": true,
+  "expected_action": "analyst",
+  "why": "A long-time customer on their own phone, but three gift card purchases in 20 minutes at a merchant with many fraud reports often means someone is being told to pay that way.",
+  "leans": "fraud (scam)"
+ },
+ {
+  "alert_id": "A-1006",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Customer booked a flight and hotel for this city and has been spending there for two days."
  },
  {
   "alert_id": "A-1007",
@@ -50,17 +51,18 @@
  },
  {
   "alert_id": "A-1008",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "In-store, home city, a store the customer has bought from before. A large but normal purchase."
+  "label": "unclear",
+  "needs_human": true,
+  "expected_action": "analyst",
+  "why": "The customer is travelling, but the flight and hotel are for Toronto and the card was used in London the next day with no booking there.",
+  "leans": "legitimate"
  },
  {
   "alert_id": "A-1009",
-  "label": "card_testing",
+  "label": "legitimate",
   "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work."
+  "expected_action": "close",
+  "why": "Known device, home location, evening, a merchant the customer has used before."
  },
  {
   "alert_id": "A-1010",
@@ -74,52 +76,49 @@
   "label": "legitimate",
   "needs_human": false,
   "expected_action": "close",
-  "why": "New phone signed in from home with a passed two-factor check; old phone stopped being used; usual merchant and amount."
+  "why": "A nearby city the customer visits regularly; ordinary amount, card present."
  },
  {
   "alert_id": "A-1012",
-  "label": "unclear",
-  "needs_human": true,
-  "expected_action": "analyst",
-  "why": "A ride to the airport yesterday hints at travel, but there is no flight or hotel booking on this account.",
-  "leans": "legitimate"
+  "label": "card_not_present_fraud",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
  },
  {
   "alert_id": "A-1013",
-  "label": "account_takeover",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Within 25 minutes a new device signed in, reset the password, changed contact details, added a payee and sent money."
- },
- {
-  "alert_id": "A-1014",
-  "label": "account_takeover",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Within 25 minutes a new device signed in, reset the password, changed contact details, added a payee and sent money."
- },
- {
-  "alert_id": "A-1015",
-  "label": "unclear",
-  "needs_human": true,
-  "expected_action": "analyst",
-  "why": "Known device and home location, but the mailing address was changed to another state yesterday, followed by a luxury purchase far above the customer's normal spending.",
-  "leans": "fraud"
- },
- {
-  "alert_id": "A-1016",
-  "label": "unclear",
-  "needs_human": true,
-  "expected_action": "analyst",
-  "why": "Looks like card testing at first glance, but it is on a known device at home and the account has a younger authorized user who may be buying in-game items.",
-  "leans": "legitimate"
- },
- {
-  "alert_id": "A-1017",
   "label": "legitimate",
   "needs_human": false,
   "expected_action": "close",
-  "why": "New phone signed in from home with a passed two-factor check; old phone stopped being used; usual merchant and amount."
+  "why": "In-store, home city, a store the customer has bought from before. A large but normal purchase."
+ },
+ {
+  "alert_id": "A-1014",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "In-store, home city, a store the customer has bought from before. A large but normal purchase."
+ },
+ {
+  "alert_id": "A-1015",
+  "label": "card_testing",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work."
+ },
+ {
+  "alert_id": "A-1016",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Reset requested by the verified customer, done on their own phone at home; rent amount matches past rent payments."
+ },
+ {
+  "alert_id": "A-1017",
+  "label": "card_testing",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work."
  },
  {
   "alert_id": "A-1018",
@@ -130,231 +129,232 @@
  },
  {
   "alert_id": "A-1019",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Known device, home location, evening, a merchant the customer has used before."
- },
- {
-  "alert_id": "A-1020",
-  "label": "card_testing",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work."
- },
- {
-  "alert_id": "A-1021",
-  "label": "unclear",
-  "needs_human": true,
-  "expected_action": "analyst",
-  "why": "Physical card used, and a recent hotel booking hints at travel, but the booking does not say where and the customer has never been seen in this city.",
-  "leans": "legitimate"
- },
- {
-  "alert_id": "A-1022",
-  "label": "card_testing",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work."
- },
- {
-  "alert_id": "A-1023",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Reset requested by the verified customer, done on their own phone at home; rent amount matches past rent payments."
- },
- {
-  "alert_id": "A-1024",
-  "label": "card_testing",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work."
- },
- {
-  "alert_id": "A-1025",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "In-store, home city, a store the customer has bought from before. A large but normal purchase."
- },
- {
-  "alert_id": "A-1026",
-  "label": "card_testing",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work."
- },
- {
-  "alert_id": "A-1027",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Known device, home location, evening, a merchant the customer has used before."
- },
- {
-  "alert_id": "A-1028",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Customer booked a flight and hotel for this city and has been spending there for two days."
- },
- {
-  "alert_id": "A-1029",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Annual renewal: the same charge was flagged a year ago and confirmed legitimate."
- },
- {
-  "alert_id": "A-1030",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Small in-person purchases at a night market in the home city, card present."
- },
- {
-  "alert_id": "A-1031",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "A nearby city the customer visits regularly; ordinary amount, card present."
- },
- {
-  "alert_id": "A-1032",
-  "label": "card_not_present_fraud",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
- },
- {
-  "alert_id": "A-1033",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Made on the authorized user card of the customer's son, who lives in that city and shops there regularly."
- },
- {
-  "alert_id": "A-1034",
-  "label": "card_not_present_fraud",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
- },
- {
-  "alert_id": "A-1035",
-  "label": "card_not_present_fraud",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
- },
- {
-  "alert_id": "A-1036",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Customer booked a flight and hotel for this city and has been spending there for two days."
- },
- {
-  "alert_id": "A-1037",
-  "label": "unclear",
-  "needs_human": true,
-  "expected_action": "analyst",
-  "why": "Home location and a reasonable evening hour, but a device never seen and an unusually large amount with no history at this merchant.",
-  "leans": "legitimate"
- },
- {
-  "alert_id": "A-1038",
-  "label": "card_not_present_fraud",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
- },
- {
-  "alert_id": "A-1039",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Reset requested by the verified customer, done on their own phone at home; rent amount matches past rent payments."
- },
- {
-  "alert_id": "A-1040",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "A nearby city the customer visits regularly; ordinary amount, card present."
- },
- {
-  "alert_id": "A-1041",
-  "label": "unclear",
-  "needs_human": true,
-  "expected_action": "analyst",
-  "why": "Known phone at home, but gift cards from a merchant with many fraud reports are a common scam payout; worth a quick call.",
-  "leans": "legitimate"
- },
- {
-  "alert_id": "A-1042",
-  "label": "unclear",
-  "needs_human": true,
-  "expected_action": "analyst",
-  "why": "Done on the customer's own phone, so not a classic takeover, but a 1 AM reset, a new payee and an 'urgent investment' transfer fit a scam the customer may be under.",
-  "leans": "fraud (scam)"
- },
- {
-  "alert_id": "A-1043",
-  "label": "card_not_present_fraud",
-  "needs_human": false,
-  "expected_action": "escalate",
-  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
- },
- {
-  "alert_id": "A-1044",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Annual renewal: the same charge was flagged a year ago and confirmed legitimate."
- },
- {
-  "alert_id": "A-1045",
   "label": "account_takeover",
   "needs_human": false,
   "expected_action": "escalate",
   "why": "Within 25 minutes a new device signed in, reset the password, changed contact details, added a payee and sent money."
  },
  {
-  "alert_id": "A-1046",
+  "alert_id": "A-1020",
+  "label": "account_takeover",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Within 25 minutes a new device signed in, reset the password, changed contact details, added a payee and sent money."
+ },
+ {
+  "alert_id": "A-1021",
   "label": "legitimate",
   "needs_human": false,
   "expected_action": "close",
-  "why": "Small in-person purchases at a night market in the home city, card present."
+  "why": "Bank ATM in the home city with the physical card; similar withdrawal last month."
  },
  {
-  "alert_id": "A-1047",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "Made on the authorized user card of the customer's daughter, who lives in that city and shops there regularly."
- },
- {
-  "alert_id": "A-1048",
-  "label": "legitimate",
-  "needs_human": false,
-  "expected_action": "close",
-  "why": "In-store, home city, a store the customer has bought from before. A large but normal purchase."
- },
- {
-  "alert_id": "A-1049",
+  "alert_id": "A-1022",
   "label": "legitimate",
   "needs_human": false,
   "expected_action": "close",
   "why": "Customer booked a flight and hotel for this city and has been spending there for two days."
  },
  {
-  "alert_id": "A-1050",
+  "alert_id": "A-1023",
+  "label": "card_not_present_fraud",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
+ },
+ {
+  "alert_id": "A-1024",
+  "label": "card_not_present_fraud",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
+ },
+ {
+  "alert_id": "A-1025",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Annual renewal: the same charge was flagged a year ago and confirmed legitimate."
+ },
+ {
+  "alert_id": "A-1026",
   "label": "unclear",
   "needs_human": true,
   "expected_action": "analyst",
-  "why": "Changed on the known phone at a normal hour, but a contact change followed by a first purchase at a new merchant is a common takeover pattern.",
+  "why": "Card present and a fuel stop at home that morning suggests a road trip, but there is no booking, the city is new for this customer and the amount is far above normal.",
   "leans": "legitimate"
+ },
+ {
+  "alert_id": "A-1027",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "New phone signed in from home with a passed two-factor check; old phone stopped being used; usual merchant and amount."
+ },
+ {
+  "alert_id": "A-1028",
+  "label": "card_testing",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work."
+ },
+ {
+  "alert_id": "A-1029",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Bank ATM in the home city with the physical card; similar withdrawal last month."
+ },
+ {
+  "alert_id": "A-1030",
+  "label": "card_testing",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work."
+ },
+ {
+  "alert_id": "A-1031",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Known device, home location, evening, a merchant the customer has used before."
+ },
+ {
+  "alert_id": "A-1032",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Annual renewal: the same charge was flagged a year ago and confirmed legitimate."
+ },
+ {
+  "alert_id": "A-1033",
+  "label": "card_not_present_fraud",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
+ },
+ {
+  "alert_id": "A-1034",
+  "label": "account_takeover",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Within 25 minutes a new device signed in, reset the password, changed contact details, added a payee and sent money."
+ },
+ {
+  "alert_id": "A-1035",
+  "label": "unclear",
+  "needs_human": true,
+  "expected_action": "analyst",
+  "why": "The customer's own phone at home, but three new subscriptions late at night, one at an app store with many fraud reports, is worth a quick check.",
+  "leans": "legitimate"
+ },
+ {
+  "alert_id": "A-1036",
+  "label": "unclear",
+  "needs_human": true,
+  "expected_action": "analyst",
+  "why": "The customer is booked in Cancun, but a large withdrawal at a non-bank ATM at 2:40 AM is a common card-skimming pattern; worth confirming.",
+  "leans": "legitimate"
+ },
+ {
+  "alert_id": "A-1037",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Small in-person purchases at a night market in the home city, card present."
+ },
+ {
+  "alert_id": "A-1038",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "A nearby city the customer visits regularly; ordinary amount, card present."
+ },
+ {
+  "alert_id": "A-1039",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Made on the authorized user card of the customer's daughter, who lives in that city and shops there regularly."
+ },
+ {
+  "alert_id": "A-1040",
+  "label": "unclear",
+  "needs_human": true,
+  "expected_action": "analyst",
+  "why": "Home location and a passed two-factor check, but a new laptop replacing the phone number on file is how takeovers usually start, even before money moves.",
+  "leans": "fraud"
+ },
+ {
+  "alert_id": "A-1041",
+  "label": "account_takeover",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Within 25 minutes a new device signed in, reset the password, changed contact details, added a payee and sent money."
+ },
+ {
+  "alert_id": "A-1042",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Known device, home location, evening, a merchant the customer has used before."
+ },
+ {
+  "alert_id": "A-1043",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Reset requested by the verified customer, done on their own phone at home; rent amount matches past rent payments."
+ },
+ {
+  "alert_id": "A-1044",
+  "label": "card_testing",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work."
+ },
+ {
+  "alert_id": "A-1045",
+  "label": "unclear",
+  "needs_human": true,
+  "expected_action": "analyst",
+  "why": "The customer's own phone at home in the afternoon, so not a takeover, but a 'refundable verification fee' to a new custody payee is a classic scam script.",
+  "leans": "fraud (scam)"
+ },
+ {
+  "alert_id": "A-1046",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "In-store, home city, a store the customer has bought from before. A large but normal purchase."
+ },
+ {
+  "alert_id": "A-1047",
+  "label": "card_not_present_fraud",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
+ },
+ {
+  "alert_id": "A-1048",
+  "label": "card_not_present_fraud",
+  "needs_human": false,
+  "expected_action": "escalate",
+  "why": "Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used."
+ },
+ {
+  "alert_id": "A-1049",
+  "label": "unclear",
+  "needs_human": true,
+  "expected_action": "analyst",
+  "why": "A usual merchant and amount from home, but on a brand-new phone that took three tries to pass the two-factor check while the old phone is still in use.",
+  "leans": "legitimate"
+ },
+ {
+  "alert_id": "A-1050",
+  "label": "legitimate",
+  "needs_human": false,
+  "expected_action": "close",
+  "why": "Made on the authorized user card of the customer's son, who lives in that city and shops there regularly."
  }
 ]

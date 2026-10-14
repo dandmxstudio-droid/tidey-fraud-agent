@@ -85,7 +85,7 @@ export default function How() {
         Follow one real alert from the test as it moves through.
       </p>
 
-      <Pipeline steps={exampleSteps()} alertLabel={`alert ${example.alertId}, a real case from the test`} />
+      <Pipeline steps={exampleSteps()} alertLabel={`alert ${example.alertId}, a real case from the development run`} />
 
       <section className="section">
         <div className="section-head">
@@ -173,7 +173,7 @@ export default function How() {
           <h2>The test</h2>
           <p>
             {key.length} synthetic alerts for a fictional bank: {legit} legitimate, {fraud} fraud and {unclear} unclear cases with mixed signals that a person should see.
-            Each has an answer key that neither version sees. The comparison is the same agent built the obvious way, with a single OpenAI model ({modelName(config.openaiModel)}, from the family behind ChatGPT) choosing checks and
+            Each has an answer key that neither version sees. Tidey’s rules were tuned on a separate development set of 50 alerts; this set was generated afterwards and never used for tuning. The comparison is the same agent built the obvious way, with a single OpenAI model ({modelName(config.openaiModel)}, from the family behind ChatGPT) choosing checks and
             deciding everything, with the same tools and the same {limit} limit.
           </p>
         </div>

@@ -1,14 +1,16 @@
 """Synthetic data for the Tidewell fraud alert agent.
 
 Everything here is fictional: customers, merchants, devices, events and alerts.
-Run: python3 generate.py  -> writes ../data/*.json
+Run: python3 generate.py            -> development set (the 50 alerts Tidey was tuned on)
+     SET=test python3 generate.py   -> held-out test set: new seed, different scenario details and new mixed-signal cases
 The answer key goes to ../data/answer_key.json and must never be passed to either agent.
 """
 import json, math, os, random
 import datetime as dt
 
-random.seed(20261013)
-OUT = os.path.join(os.path.dirname(__file__), '..', 'data')
+TEST = os.environ.get('SET') == 'test'
+random.seed(20261020 if TEST else 20261013)
+OUT = os.environ.get('OUT_DIR') or os.path.join(os.path.dirname(__file__), '..', 'data')
 os.makedirs(OUT, exist_ok=True)
 
 ALERT_DAY = dt.datetime(2026, 10, 12)
@@ -53,8 +55,10 @@ MERCHANTS = [
     ('M29', 'Circuit Corner', 'electronics', False, 0), ('M30', 'Oakline Cafe', 'restaurant', False, 0),
     ('M31', 'Casa Lume', 'restaurant', False, 0), ('M32', 'Maple & Main Diner', 'restaurant', False, 0),
     ('M33', 'Mile High Grill', 'restaurant', False, 0), ('M34', 'Playa Azul Restaurant', 'restaurant', False, 0),
+    ('M35', 'Thames Corner Cafe', 'restaurant', False, 0), ('M36', 'Pike Street Grill', 'restaurant', False, 0),
+    ('M37', 'Banco Playa ATM', 'atm', False, 0),
 ]
-LOCAL_MEAL = {'Lisbon, Portugal': 'M31', 'Toronto, Canada': 'M32', 'Denver, CO': 'M33', 'Cancun, Mexico': 'M34'}
+LOCAL_MEAL = {'Lisbon, Portugal': 'M31', 'Toronto, Canada': 'M32', 'Denver, CO': 'M33', 'Cancun, Mexico': 'M34', 'London, UK': 'M35', 'Seattle, WA': 'M36'}
 MERCH = {m[0]: m for m in MERCHANTS}
 
 FIRST = ['Maya', 'Jordan', 'Priya', 'Marcus', 'Elena', 'Devon', 'Aisha', 'Tomas', 'Grace', 'Nikhil', 'Rosa', 'Caleb',
@@ -206,7 +210,7 @@ def cust(home=None):
 
 
 # ---- LEGITIMATE (24)
-for dest, home in [('Lisbon, Portugal', 'Boston, MA'), ('Toronto, Canada', 'Chicago, IL'), ('Denver, CO', 'Atlanta, GA')]:
+for dest, home in ([('London, UK', 'New York, NY'), ('Cancun, Mexico', 'Dallas, TX'), ('Seattle, WA', 'Phoenix, AZ')] if TEST else [('Lisbon, Portugal', 'Boston, MA'), ('Toronto, Canada', 'Chicago, IL'), ('Denver, CO', 'Atlanta, GA')]):
     c = cust(home)
     add_tx(c, at(-random.randint(18, 30), 20, 14), random.uniform(380, 720), 'M20', 'online', device=c['_phone'], memo=f'Flight to {dest.split(",")[0]}, Oct 9-17')
     add_tx(c, at(-random.randint(12, 17), 21, 2), random.uniform(450, 900), 'M21', 'online', device=c['_laptop'] or c['_phone'], memo=f'Hotel in {dest.split(",")[0]}, Oct 9-17')
@@ -218,7 +222,7 @@ for dest, home in [('Lisbon, Portugal', 'Boston, MA'), ('Toronto, Canada', 'Chic
     a = alert(c, 'Transaction far from home', 'transaction', [tx['id']], f"${tx['amount']:,.0f} in-store purchase in {dest}", tx['amount'], t)
     answer(a, 'legitimate', False, 'Customer booked a flight and hotel for this city and has been spending there for two days.')
 
-for merchant, amt, prior in [('M13', 1850, 920), ('M14', 1120, 380), ('M29', 1460, 610)]:
+for merchant, amt, prior in ([('M13', 2240, 1100), ('M29', 980, 420), ('M14', 1590, 700)] if TEST else [('M13', 1850, 920), ('M14', 1120, 380), ('M29', 1460, 610)]):
     c = cust()
     add_tx(c, at(-random.randint(40, 70), 14, 10), prior, merchant, 'in_store', memo=None)
     t = at(0, 13, 48)
@@ -251,15 +255,17 @@ for _ in range(2):
     c = cust()
     add_prior_alert(c, dt.datetime(2025, 10, 11), 'Online charge from merchant not used in 90 days', 'legitimate')
     t = at(0, 6, 0)
-    tx = add_tx(c, t, 119.00, 'M10', 'online', device=c['_phone'], memo='Annual plan renewal')
-    a = alert(c, 'Online charge from merchant not used in 90 days', 'transaction', [tx['id']], '$119 online charge at CloudDrive Pro', 119.0, t)
+    fee = 99.00 if TEST else 119.00
+    tx = add_tx(c, t, fee, 'M10', 'online', device=c['_phone'], memo='Annual plan renewal')
+    a = alert(c, 'Online charge from merchant not used in 90 days', 'transaction', [tx['id']], f'${fee:,.0f} online charge at CloudDrive Pro', fee, t)
     answer(a, 'legitimate', False, 'Annual renewal: the same charge was flagged a year ago and confirmed legitimate.')
 
-for landlord in ['Oakview Property Mgmt', 'Lakeside Residences LLC']:
+rent_old, rent_new = (1775.00, 1825.00) if TEST else (1600.00, 1650.00)
+for landlord in (['Harbor Point Rentals', 'Maple Court Homes'] if TEST else ['Oakview Property Mgmt', 'Lakeside Residences LLC']):
     c = cust()
     old = add_payee(c, 'Pinecrest Apartments', dt.datetime(2024, 2, 1))
     for m in [3, 2]:
-        add_tx(c, at(-30 * m + 2, 9), 1600.00, None, 'transfer', device=c['_phone'], payee=old, memo='Rent')
+        add_tx(c, at(-30 * m + 2, 9), rent_old, None, 'transfer', device=c['_phone'], payee=old, memo='Rent')
     add_event(c, at(-1, 10, 15), 'branch_verified_call', device=None, details='Customer called; identity verified by phone agent; password reset requested by customer')
     add_event(c, at(-1, 10, 20), 'password_reset', device=c['_phone'], details='Reset link used on known phone')
     signin(c, at(-1, 10, 22), c['_phone'], 'Signed in after password reset')
@@ -267,11 +273,11 @@ for landlord in ['Oakview Property Mgmt', 'Lakeside Residences LLC']:
     p = add_payee(c, landlord, at(0, 8, 40))
     add_event(c, at(0, 8, 40), 'payee_added', device=c['_phone'], details=f'Payee: {landlord}')
     t = at(0, 8, 52)
-    tx = add_tx(c, t, 1650.00, None, 'transfer', device=c['_phone'], payee=p, memo='October rent - new apartment')
-    a = alert(c, 'New payee added within 24h of password reset', 'transaction', [tx['id']], f'$1,650 transfer to new payee {landlord}', 1650.0, t)
+    tx = add_tx(c, t, rent_new, None, 'transfer', device=c['_phone'], payee=p, memo='October rent - new apartment')
+    a = alert(c, 'New payee added within 24h of password reset', 'transaction', [tx['id']], f'${rent_new:,.0f} transfer to new payee {landlord}', rent_new, t)
     answer(a, 'legitimate', False, 'Reset requested by the verified customer, done on their own phone at home; rent amount matches past rent payments.')
 
-for home in ['Melbourne, FL', 'Raleigh, NC']:
+for home in (['Tampa, FL', 'Dallas, TX'] if TEST else ['Melbourne, FL', 'Raleigh, NC']):
     c = cust(home)
     near = NEARBY[home]
     add_tx(c, at(-34, 12, 10), 42.5, 'M05', 'in_store', city=near)
@@ -281,7 +287,7 @@ for home in ['Melbourne, FL', 'Raleigh, NC']:
     a = alert(c, 'Transaction far from home', 'transaction', [tx['id']], f"${tx['amount']:,.0f} grocery purchase in {near}", tx['amount'], t)
     answer(a, 'legitimate', False, 'A nearby city the customer visits regularly; ordinary amount, card present.')
 
-for amt in [289, 365, 448]:
+for amt in ([312, 405, 529] if TEST else [289, 365, 448]):
     c = cust()
     add_tx(c, at(-random.randint(30, 80), 20, 30), random.uniform(120, 220), 'M16', 'online', device=c['_laptop'] or c['_phone'])
     t = at(0, 20, 12)
@@ -289,7 +295,7 @@ for amt in [289, 365, 448]:
     a = alert(c, 'Online purchase over 4x customer average', 'transaction', [tx['id']], f'${amt} online purchase at VoltHub Electronics', amt, t)
     answer(a, 'legitimate', False, 'Known device, home location, evening, a merchant the customer has used before.')
 
-for amt in [400, 600]:
+for amt in ([500, 700] if TEST else [400, 600]):
     c = cust()
     add_tx(c, at(-33, 17, 45), 300, 'M27', 'atm')
     t = at(0, 17, 10)
@@ -297,7 +303,7 @@ for amt in [400, 600]:
     a = alert(c, 'Large ATM withdrawal', 'transaction', [tx['id']], f'${amt} ATM withdrawal', amt, t)
     answer(a, 'legitimate', False, 'Bank ATM in the home city with the physical card; similar withdrawal last month.')
 
-for au_city, who in [('Austin, TX', 'daughter'), ('Seattle, WA', 'son')]:
+for au_city, who in ([('Denver, CO', 'son'), ('Boston, MA', 'daughter')] if TEST else [('Austin, TX', 'daughter'), ('Seattle, WA', 'son')]):
     c = cust(random.choice([h for h in HOMES if h not in (au_city,)]))
     c['account_type'] = 'Credit card'
     last4 = random.randint(1000, 9999)
@@ -311,8 +317,10 @@ for au_city, who in [('Austin, TX', 'daughter'), ('Seattle, WA', 'son')]:
     answer(a, 'legitimate', False, f'Made on the authorized user card of the customer\'s {who}, who lives in that city and shops there regularly.')
 
 # ---- CARD-NOT-PRESENT FRAUD (8)
-cnp = [('M17', 1240, 'Las Vegas, NV', 2), ('M18', 500, PROXY, 3), ('M19', 2380, 'Phoenix, AZ', 1), ('M17', 899, PROXY, 4),
-       ('M18', 750, 'Dallas, TX', 2), ('M16', 1640, 'New York, NY', 3), ('M19', 1890, PROXY, 1), ('M17', 1175, 'Sacramento, CA', 2)]
+cnp = ([('M19', 1560, 'Chicago, IL', 2), ('M17', 2150, PROXY, 1), ('M18', 640, 'Miami, FL', 3), ('M16', 1325, 'Las Vegas, NV', 4),
+        ('M17', 980, PROXY, 2), ('M19', 2790, 'Boston, MA', 3), ('M18', 450, PROXY, 1), ('M16', 1910, 'Denver, CO', 2)] if TEST else
+       [('M17', 1240, 'Las Vegas, NV', 2), ('M18', 500, PROXY, 3), ('M19', 2380, 'Phoenix, AZ', 1), ('M17', 899, PROXY, 4),
+        ('M18', 750, 'Dallas, TX', 2), ('M16', 1640, 'New York, NY', 3), ('M19', 1890, PROXY, 1), ('M17', 1175, 'Sacramento, CA', 2)])
 for merchant, amt, ipc, hr in cnp:
     c = cust()
     if ipc not in (PROXY,) and ipc == c['home_city']:
@@ -330,7 +338,8 @@ for merchant, amt, ipc, hr in cnp:
     answer(a, 'card_not_present_fraud', False, 'Card details used online from a device and location never seen, in the middle of the night, at a merchant with fraud reports the customer never used.')
 
 # ---- ACCOUNT TAKEOVER (5)
-ato = [(3900, 'Las Vegas, NV', 'phone'), (6800, PROXY, 'email'), (2500, 'Phoenix, AZ', 'email'), (4750, PROXY, 'phone'), (3150, 'Columbus, OH', 'email')]
+ato = ([(5200, PROXY, 'email'), (2950, 'Miami, FL', 'phone'), (4100, 'Dallas, TX', 'email'), (7300, PROXY, 'phone'), (3600, 'Denver, CO', 'email')] if TEST else
+       [(3900, 'Las Vegas, NV', 'phone'), (6800, PROXY, 'email'), (2500, 'Phoenix, AZ', 'email'), (4750, PROXY, 'phone'), (3150, 'Columbus, OH', 'email')])
 for amt, ipc, changed in ato:
     c = cust()
     if ipc == c['home_city']:
@@ -352,7 +361,8 @@ for amt, ipc, changed in ato:
     answer(a, 'account_takeover', False, 'Within 25 minutes a new device signed in, reset the password, changed contact details, added a payee and sent money.')
 
 # ---- CARD TESTING (5)
-for n, followup in [(6, ('M17', 899, 'declined')), (5, None), (7, ('M18', 250, 'declined')), (5, ('M17', 649, 'declined')), (4, ('M16', 49, 'approved'))]:
+for n, followup in ([(5, ('M18', 300, 'declined')), (6, None), (8, ('M17', 750, 'declined')), (4, ('M19', 129, 'approved')), (5, ('M16', 999, 'declined'))] if TEST else
+                    [(6, ('M17', 899, 'declined')), (5, None), (7, ('M18', 250, 'declined')), (5, ('M17', 649, 'declined')), (4, ('M16', 49, 'approved'))]):
     c = cust()
     fp = add_device(c, 'Unrecognized browser', at(0, 3, 40), at(0, 3, 55))
     t0 = at(0, 3, 41)
@@ -368,71 +378,151 @@ for n, followup in [(6, ('M17', 899, 'declined')), (5, None), (7, ('M18', 250, '
     a = alert(c, '5+ transactions within 10 minutes' if n >= 5 else 'Several small online charges in minutes', 'transactions', ids, f'{n} tiny online charges in {n} minutes' + (', then a larger attempt' if followup else ''), total, t0 + dt.timedelta(minutes=n + 3))
     answer(a, 'card_testing', False, 'Tiny charges seconds apart at small merchants with fraud reports, from an unrecognized device behind a proxy: someone checking that stolen card details work.')
 
+def unclear_test_set():
+    """Held-out mixed-signal cases: different stories from the development set."""
+    c = cust('Seattle, WA')
+    add_tx(c, at(-26, 19, 40), 540, 'M20', 'online', device=c['_phone'], memo='Flight to Toronto, Oct 9-16')
+    add_tx(c, at(-20, 20, 5), 690, 'M21', 'online', device=c['_laptop'] or c['_phone'], memo='Hotel in Toronto, Oct 9-16')
+    clear_home_activity(c, at(-3, 6))
+    add_tx(c, at(-2, 12, 30), 41.2, 'M32', 'in_store', city='Toronto, Canada')
+    t = at(0, 13, 25)
+    tx = add_tx(c, t, 186, 'M35', 'in_store', city='London, UK')
+    a = alert(c, 'Transaction far from home', 'transaction', [tx['id']], '$186 in-store purchase in London, UK', 186, t)
+    answer(a, 'unclear', True, 'The customer is travelling, but the flight and hotel are for Toronto and the card was used in London the next day with no booking there.', leans='legitimate')
+
+    c = cust()
+    signin(c, at(0, 13, 58), c['_phone'])
+    p = add_payee(c, 'Bitwise Custody Services', at(0, 14, 2))
+    add_event(c, at(0, 14, 2), 'payee_added', device=c['_phone'], details='Payee: Bitwise Custody Services')
+    t = at(0, 14, 10)
+    tx = add_tx(c, t, 2500, None, 'transfer', device=c['_phone'], payee=p, memo='account verification fee - refundable')
+    a = alert(c, 'Large transfer to a new payee', 'transaction', [tx['id']], '$2,500 transfer to new payee Bitwise Custody Services', 2500, t)
+    answer(a, 'unclear', True, "The customer's own phone at home in the afternoon, so not a takeover, but a 'refundable verification fee' to a new custody payee is a classic scam script.", leans='fraud (scam)')
+
+    c = cust()
+    newdev = add_device(c, 'Android phone', at(0, 20, 15), at(0, 20, 40))
+    add_event(c, at(0, 20, 15), 'login', device=newdev, details='New device sign-in; two-factor code entered after 2 failed attempts')
+    t = at(0, 20, 31)
+    tx = add_tx(c, t, 64, 'M15', 'online', device=newdev)
+    a = alert(c, 'Purchase from a device not seen before', 'transaction', [tx['id']], '$64 online purchase at Pagewise Books from a new device', 64, t)
+    answer(a, 'unclear', True, 'A usual merchant and amount from home, but on a brand-new phone that took three tries to pass the two-factor check while the old phone is still in use.', leans='legitimate')
+
+    c = cust('Phoenix, AZ')
+    add_tx(c, at(0, 6, 10), 52.4, 'M03', 'in_store', city='Phoenix, AZ')
+    clear_home_activity(c, at(0, 7))
+    t = at(0, 15, 40)
+    tx = add_tx(c, t, 860, 'M14', 'in_store', city='Las Vegas, NV')
+    a = alert(c, 'Transaction far from home', 'transaction', [tx['id']], '$860 in-store purchase in Las Vegas, NV', 860, t)
+    answer(a, 'unclear', True, 'Card present and a fuel stop at home that morning suggests a road trip, but there is no booking, the city is new for this customer and the amount is far above normal.', leans='legitimate')
+
+    c = cust()
+    ids = []
+    t0 = at(0, 23, 32)
+    for k, (m, amt) in enumerate([('M09', 15.99), ('M10', 9.99), ('M25', 29.99)]):
+        tx = add_tx(c, t0 + dt.timedelta(minutes=4 * k), amt, m, 'online', device=c['_phone'])
+        ids.append(tx['id'])
+    a = alert(c, 'Several small online charges in minutes', 'transactions', ids, '3 new subscriptions in 8 minutes', 55.97, t0 + dt.timedelta(minutes=8))
+    answer(a, 'unclear', True, "The customer's own phone at home, but three new subscriptions late at night, one at an app store with many fraud reports, is worth a quick check.", leans='legitimate')
+
+    c = cust()
+    lap = add_device(c, 'Windows laptop', at(0, 13, 5), at(0, 13, 30))
+    add_event(c, at(0, 13, 5), 'login', device=lap, details='New device sign-in; two-factor code entered on first try')
+    add_event(c, at(0, 13, 9), 'phone_changed', device=lap, details='Phone number on file replaced')
+    t = at(0, 13, 20)
+    tx = add_tx(c, t, 95, 'M15', 'online', device=lap)
+    a = alert(c, 'Contact details changed, then a purchase', 'transaction', [tx['id']], 'Phone number changed, then $95 online purchase at Pagewise Books', 95, t)
+    answer(a, 'unclear', True, 'Home location and a passed two-factor check, but a new laptop replacing the phone number on file is how takeovers usually start, even before money moves.', leans='fraud')
+
+    c = cust()
+    c['customer_since'] = '2009-04-01'
+    ids = []
+    t0 = at(0, 10, 31)
+    for k in range(3):
+        tx = add_tx(c, t0 + dt.timedelta(minutes=9 * k), 100, 'M18', 'online', device=c['_phone'])
+        ids.append(tx['id'])
+    a = alert(c, 'Merchant with recent fraud reports', 'transactions', ids, '3 gift card purchases at GiftCardDepot Online, $300', 300, t0 + dt.timedelta(minutes=18))
+    answer(a, 'unclear', True, 'A long-time customer on their own phone, but three gift card purchases in 20 minutes at a merchant with many fraud reports often means someone is being told to pay that way.', leans='fraud (scam)')
+
+    c = cust('Atlanta, GA')
+    add_tx(c, at(-22, 20, 10), 610, 'M20', 'online', device=c['_phone'], memo='Flight to Cancun, Oct 9-17')
+    add_tx(c, at(-18, 21, 0), 840, 'M21', 'online', device=c['_laptop'] or c['_phone'], memo='Hotel in Cancun, Oct 9-17')
+    clear_home_activity(c, at(-3, 6))
+    add_tx(c, at(-1, 19, 45), 58.3, 'M34', 'in_store', city='Cancun, Mexico')
+    t = at(0, 2, 40)
+    tx = add_tx(c, t, 600, 'M37', 'atm', city='Cancun, Mexico')
+    a = alert(c, 'Large ATM withdrawal', 'transaction', [tx['id']], '$600 ATM withdrawal in Cancun, Mexico', 600, t)
+    answer(a, 'unclear', True, 'The customer is booked in Cancun, but a large withdrawal at a non-bank ATM at 2:40 AM is a common card-skimming pattern; worth confirming.', leans='legitimate')
+
+
 # ---- NEEDS A PERSON (8): mixed signals, should not be auto-closed
-c = cust()
-nd = add_device(c, 'Unrecognized browser', at(0, 21, 2), at(0, 21, 20))
-t = at(0, 21, 9)
-tx = add_tx(c, t, 1380, 'M16', 'online', device=nd)
-a = alert(c, 'Amount over 10x customer average', 'transaction', [tx['id']], '$1,380 online purchase at VoltHub Electronics', 1380, t)
-answer(a, 'unclear', True, 'Home location and a reasonable evening hour, but a device never seen and an unusually large amount with no history at this merchant.', leans='legitimate')
+def unclear_dev_set():
+    c = cust()
+    nd = add_device(c, 'Unrecognized browser', at(0, 21, 2), at(0, 21, 20))
+    t = at(0, 21, 9)
+    tx = add_tx(c, t, 1380, 'M16', 'online', device=nd)
+    a = alert(c, 'Amount over 10x customer average', 'transaction', [tx['id']], '$1,380 online purchase at VoltHub Electronics', 1380, t)
+    answer(a, 'unclear', True, 'Home location and a reasonable evening hour, but a device never seen and an unusually large amount with no history at this merchant.', leans='legitimate')
 
-c = cust('Miami, FL')
-add_tx(c, at(-1, 6, 10), 34.0, 'M22', 'in_store', city='Miami, FL', memo='Ride to MIA airport')
-clear_home_activity(c, at(-1, 6, 11))
-t = at(0, 16, 30)
-tx = add_tx(c, t, 240, 'M34', 'in_store', city='Cancun, Mexico')
-a = alert(c, 'Transaction far from home', 'transaction', [tx['id']], '$240 in-store purchase in Cancun, Mexico', 240, t)
-answer(a, 'unclear', True, 'A ride to the airport yesterday hints at travel, but there is no flight or hotel booking on this account.', leans='legitimate')
+    c = cust('Miami, FL')
+    add_tx(c, at(-1, 6, 10), 34.0, 'M22', 'in_store', city='Miami, FL', memo='Ride to MIA airport')
+    clear_home_activity(c, at(-1, 6, 11))
+    t = at(0, 16, 30)
+    tx = add_tx(c, t, 240, 'M34', 'in_store', city='Cancun, Mexico')
+    a = alert(c, 'Transaction far from home', 'transaction', [tx['id']], '$240 in-store purchase in Cancun, Mexico', 240, t)
+    answer(a, 'unclear', True, 'A ride to the airport yesterday hints at travel, but there is no flight or hotel booking on this account.', leans='legitimate')
 
-c = cust()
-add_event(c, at(0, 1, 2), 'password_reset', device=c['_phone'], details='Reset link used on known phone')
-signin(c, at(0, 1, 4), c['_phone'], 'Signed in after password reset')
-p = add_payee(c, 'D. Whitfield', at(0, 1, 9))
-add_event(c, at(0, 1, 9), 'payee_added', device=c['_phone'], details='Payee: D. Whitfield')
-t = at(0, 1, 15)
-tx = add_tx(c, t, 4200, None, 'transfer', device=c['_phone'], payee=p, memo='urgent - investment deposit')
-a = alert(c, 'New payee added within 24h of password reset', 'transaction', [tx['id']], 'Password reset, new payee, $4,200 transfer', 4200, t)
-answer(a, 'unclear', True, "Done on the customer's own phone, so not a classic takeover, but a 1 AM reset, a new payee and an 'urgent investment' transfer fit a scam the customer may be under.", leans='fraud (scam)')
+    c = cust()
+    add_event(c, at(0, 1, 2), 'password_reset', device=c['_phone'], details='Reset link used on known phone')
+    signin(c, at(0, 1, 4), c['_phone'], 'Signed in after password reset')
+    p = add_payee(c, 'D. Whitfield', at(0, 1, 9))
+    add_event(c, at(0, 1, 9), 'payee_added', device=c['_phone'], details='Payee: D. Whitfield')
+    t = at(0, 1, 15)
+    tx = add_tx(c, t, 4200, None, 'transfer', device=c['_phone'], payee=p, memo='urgent - investment deposit')
+    a = alert(c, 'New payee added within 24h of password reset', 'transaction', [tx['id']], 'Password reset, new payee, $4,200 transfer', 4200, t)
+    answer(a, 'unclear', True, "Done on the customer's own phone, so not a classic takeover, but a 1 AM reset, a new payee and an 'urgent investment' transfer fit a scam the customer may be under.", leans='fraud (scam)')
 
-c = cust()
-c['account_type'] = 'Credit card'
-add_event(c, dt.datetime(2025, 8, 14, 15), 'authorized_user_added', device=c['_phone'], details='Authorized user added: son; second card issued')
-ids = []
-t0 = at(0, 16, 20)
-for k, amt in enumerate([4.99, 9.99, 4.99, 19.99]):
-    tx = add_tx(c, t0 + dt.timedelta(minutes=2 * k), amt, 'M23', 'online', device=c['_laptop'] or c['_phone'])
-    ids.append(tx['id'])
-a = alert(c, 'Several small online charges in minutes', 'transactions', ids, '4 small charges at PixelForge Games in 6 minutes', 39.96, t0 + dt.timedelta(minutes=6))
-answer(a, 'unclear', True, 'Looks like card testing at first glance, but it is on a known device at home and the account has a younger authorized user who may be buying in-game items.', leans='legitimate')
+    c = cust()
+    c['account_type'] = 'Credit card'
+    add_event(c, dt.datetime(2025, 8, 14, 15), 'authorized_user_added', device=c['_phone'], details='Authorized user added: son; second card issued')
+    ids = []
+    t0 = at(0, 16, 20)
+    for k, amt in enumerate([4.99, 9.99, 4.99, 19.99]):
+        tx = add_tx(c, t0 + dt.timedelta(minutes=2 * k), amt, 'M23', 'online', device=c['_laptop'] or c['_phone'])
+        ids.append(tx['id'])
+    a = alert(c, 'Several small online charges in minutes', 'transactions', ids, '4 small charges at PixelForge Games in 6 minutes', 39.96, t0 + dt.timedelta(minutes=6))
+    answer(a, 'unclear', True, 'Looks like card testing at first glance, but it is on a known device at home and the account has a younger authorized user who may be buying in-game items.', leans='legitimate')
 
-c = cust()
-t = at(0, 19, 4)
-tx = add_tx(c, t, 200, 'M18', 'online', device=c['_phone'])
-a = alert(c, 'Merchant with recent fraud reports', 'transaction', [tx['id']], '$200 online purchase at GiftCardDepot Online', 200, t)
-answer(a, 'unclear', True, 'Known phone at home, but gift cards from a merchant with many fraud reports are a common scam payout; worth a quick call.', leans='legitimate')
+    c = cust()
+    t = at(0, 19, 4)
+    tx = add_tx(c, t, 200, 'M18', 'online', device=c['_phone'])
+    a = alert(c, 'Merchant with recent fraud reports', 'transaction', [tx['id']], '$200 online purchase at GiftCardDepot Online', 200, t)
+    answer(a, 'unclear', True, 'Known phone at home, but gift cards from a merchant with many fraud reports are a common scam payout; worth a quick call.', leans='legitimate')
 
-c = cust()
-add_tx(c, at(-20, 21), 512, 'M21', 'online', device=c['_phone'], memo='Hotel booking, 3 nights')
-t = at(0, 22, 40)
-tx = add_tx(c, t, 500, 'M27', 'atm', city='Nashville, TN' if c['home_city'] != 'Nashville, TN' else 'Atlanta, GA')
-a = alert(c, 'Large ATM withdrawal', 'transaction', [tx['id']], f"$500 ATM withdrawal in {tx['city']}", 500, t)
-answer(a, 'unclear', True, 'Physical card used, and a recent hotel booking hints at travel, but the booking does not say where and the customer has never been seen in this city.', leans='legitimate')
+    c = cust()
+    add_tx(c, at(-20, 21), 512, 'M21', 'online', device=c['_phone'], memo='Hotel booking, 3 nights')
+    t = at(0, 22, 40)
+    tx = add_tx(c, t, 500, 'M27', 'atm', city='Nashville, TN' if c['home_city'] != 'Nashville, TN' else 'Atlanta, GA')
+    a = alert(c, 'Large ATM withdrawal', 'transaction', [tx['id']], f"$500 ATM withdrawal in {tx['city']}", 500, t)
+    answer(a, 'unclear', True, 'Physical card used, and a recent hotel booking hints at travel, but the booking does not say where and the customer has never been seen in this city.', leans='legitimate')
 
-c = cust()
-signin(c, at(-1, 18, 26), c['_laptop'] or c['_phone'])
-add_event(c, at(-1, 18, 30), 'mailing_address_changed', device=c['_laptop'] or c['_phone'], details='Mailing address changed to an address in Las Vegas, NV')
-t = at(0, 12, 15)
-tx = add_tx(c, t, 2900, 'M19', 'online', device=c['_laptop'] or c['_phone'])
-a = alert(c, 'Amount over 10x customer average', 'transaction', [tx['id']], '$2,900 online purchase at Maison Avery', 2900, t)
-answer(a, 'unclear', True, "Known device and home location, but the mailing address was changed to another state yesterday, followed by a luxury purchase far above the customer's normal spending.", leans='fraud')
+    c = cust()
+    signin(c, at(-1, 18, 26), c['_laptop'] or c['_phone'])
+    add_event(c, at(-1, 18, 30), 'mailing_address_changed', device=c['_laptop'] or c['_phone'], details='Mailing address changed to an address in Las Vegas, NV')
+    t = at(0, 12, 15)
+    tx = add_tx(c, t, 2900, 'M19', 'online', device=c['_laptop'] or c['_phone'])
+    a = alert(c, 'Amount over 10x customer average', 'transaction', [tx['id']], '$2,900 online purchase at Maison Avery', 2900, t)
+    answer(a, 'unclear', True, "Known device and home location, but the mailing address was changed to another state yesterday, followed by a luxury purchase far above the customer's normal spending.", leans='fraud')
 
-c = cust()
-signin(c, at(0, 10, 2), c['_phone'])
-add_event(c, at(0, 10, 5), 'email_changed', device=c['_phone'], details='Email on file replaced')
-t = at(0, 10, 48)
-tx = add_tx(c, t, 350, 'M19', 'online', device=c['_phone'])
-a = alert(c, 'Contact details changed, then a purchase', 'transaction', [tx['id']], 'Email changed, then $350 online purchase at Maison Avery', 350, t)
-answer(a, 'unclear', True, 'Changed on the known phone at a normal hour, but a contact change followed by a first purchase at a new merchant is a common takeover pattern.', leans='legitimate')
+    c = cust()
+    signin(c, at(0, 10, 2), c['_phone'])
+    add_event(c, at(0, 10, 5), 'email_changed', device=c['_phone'], details='Email on file replaced')
+    t = at(0, 10, 48)
+    tx = add_tx(c, t, 350, 'M19', 'online', device=c['_phone'])
+    a = alert(c, 'Contact details changed, then a purchase', 'transaction', [tx['id']], 'Email changed, then $350 online purchase at Maison Avery', 350, t)
+    answer(a, 'unclear', True, 'Changed on the known phone at a normal hour, but a contact change followed by a first purchase at a new merchant is a common takeover pattern.', leans='legitimate')
+
+
+unclear_test_set() if TEST else unclear_dev_set()
 
 # ---- realism: some customers have past alerts (unrelated to today's activity)
 have_prior = {p['customer_id'] for p in prior_alerts}

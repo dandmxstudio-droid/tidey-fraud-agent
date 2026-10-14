@@ -37,7 +37,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
       <h1>How well does Tidey decide?</h1>
       <p className="lead">
         Tidey runs on Jev plus plain code rules. To test that design, the same agent was also built the usual way, with a single OpenAI model ({modelName(settings.openaiModel)}, from the family behind ChatGPT) making every decision.
-        Both versions ran on the same alerts and were scored against an answer key neither one sees. Analysts only use Tidey; the second version exists for this test.
+        Both versions ran on the same 50 alerts and were scored against an answer key neither one sees. Tidey’s rules were tuned on a separate set of alerts first, so these results aren’t flattered by tuning. Analysts only use Tidey; the second version exists for this test.
       </p>
 
       <section className="outcomes" aria-label="Every decision, one bar per alert">

@@ -1,5 +1,6 @@
 // Browser-side storage for runs. Official results are a static file; a live run lives in this browser only.
 import type { RunResult } from './types';
+import { DATASET } from './dataset';
 
 export type Settings = {
   closeAt: number; unexplainedMax: number; escalateAt: number; scamRiskAt: number; maxAutoCloseAmount: number; checkAt: number;
@@ -7,7 +8,7 @@ export type Settings = {
 };
 export type Failed = { error: string };
 export type Pair = { alertId: string; jev?: RunResult | Failed; llm?: RunResult | Failed };
-export type RunFile = { kind: 'official' | 'live'; run_at: string; mock: boolean; settings: Settings; results: Pair[] };
+export type RunFile = { kind: 'official' | 'live'; run_at: string; mock: boolean; settings: Settings; results: Pair[]; dataset?: string };
 
 const KEY = 'fraud-agent-live-run';
 export const isOk = (r: RunResult | Failed | undefined): r is RunResult => !!r && 'trace' in r;
@@ -16,7 +17,8 @@ export const isOk = (r: RunResult | Failed | undefined): r is RunResult => !!r &
 export function loadLive(): RunFile | null {
   try {
     const s = localStorage.getItem(KEY) ?? sessionStorage.getItem(KEY);
-    return s ? (JSON.parse(s) as RunFile) : null;
+    const f = s ? (JSON.parse(s) as RunFile) : null;
+    return f && f.dataset === DATASET ? f : null;
   } catch {
     return null;
   }
@@ -35,6 +37,7 @@ export async function loadOfficial(): Promise<RunFile | null> {
     const res = await fetch('/results/official.json', { cache: 'no-store' });
     if (!res.ok) return null;
     const j = (await res.json()) as RunFile;
+    if (j.dataset !== DATASET) return null;
     return { ...j, kind: 'official' };
   } catch {
     return null;

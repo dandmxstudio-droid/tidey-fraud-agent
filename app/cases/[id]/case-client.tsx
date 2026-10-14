@@ -5,6 +5,7 @@ import { ANSWER_LABEL, GROUPS, VERDICT_LABEL, isAction, modelName, money, secs, 
 import { isOk, loadLive, loadOfficial, runOne, saveLive, type Pair, type RunFile } from '@/lib/store';
 import type { Action, RunResult, Step, ToolName, Verdict } from '@/lib/types';
 import { StateIcon, TideyBadge } from '../../brand';
+import { DATASET } from '@/lib/dataset';
 import { CHOICES, loadDecisions, outcome, saveDecision, type Choice, type Decided } from '@/lib/decisions';
 
 type A = { id: string; what_happened: string; amount: number; rule_triggered: string };
@@ -52,7 +53,7 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
     const p: Pair = { alertId: alert.id, jev, llm };
     if (!isOk(jev)) setErr((jev as { error: string }).error);
     setPair(p);
-    const live: RunFile = loadLive() ?? { kind: 'live', run_at: new Date().toISOString(), mock: (isOk(jev) && jev.trace.mock) || false, settings: { closeAt: 0, unexplainedMax: 0, escalateAt: 0, scamRiskAt: 0, maxAutoCloseAmount: 0, checkAt: 0, jevModel: isOk(jev) ? jev.trace.models.jev ?? '' : '', openaiModel: isOk(llm) ? llm.trace.models.openai ?? '' : '' }, results: [] };
+    const live: RunFile = loadLive() ?? { kind: 'live', dataset: DATASET, run_at: new Date().toISOString(), mock: (isOk(jev) && jev.trace.mock) || false, settings: { closeAt: 0, unexplainedMax: 0, escalateAt: 0, scamRiskAt: 0, maxAutoCloseAmount: 0, checkAt: 0, jevModel: isOk(jev) ? jev.trace.models.jev ?? '' : '', openaiModel: isOk(llm) ? llm.trace.models.openai ?? '' : '' }, results: [] };
     live.results = [...live.results.filter((r) => r.alertId !== alert.id), p];
     saveLive(live);
     if (!run) setRun(live);

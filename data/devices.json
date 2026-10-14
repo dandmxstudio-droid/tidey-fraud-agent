@@ -3,603 +3,603 @@
   "id": "D-00001",
   "customer_id": "C-2001",
   "label": "Android phone",
-  "first_seen": "2024-02-03T00:00:00",
+  "first_seen": "2021-11-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00002",
-  "customer_id": "C-2001",
-  "label": "Windows laptop",
-  "first_seen": "2022-10-09T00:00:00",
-  "last_seen": "2026-10-09T21:00:00"
+  "customer_id": "C-2002",
+  "label": "Android phone",
+  "first_seen": "2025-01-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00003",
   "customer_id": "C-2002",
-  "label": "Android phone",
-  "first_seen": "2023-02-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
+  "label": "Mac laptop",
+  "first_seen": "2024-09-09T00:00:00",
+  "last_seen": "2026-10-02T21:00:00"
  },
  {
   "id": "D-00004",
   "customer_id": "C-2003",
-  "label": "Android phone",
-  "first_seen": "2022-10-03T00:00:00",
+  "label": "iPhone",
+  "first_seen": "2022-11-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00005",
-  "customer_id": "C-2003",
-  "label": "Windows laptop",
-  "first_seen": "2023-04-09T00:00:00",
-  "last_seen": "2026-10-01T21:00:00"
+  "customer_id": "C-2004",
+  "label": "Android phone",
+  "first_seen": "2024-08-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00006",
   "customer_id": "C-2004",
-  "label": "Android phone",
-  "first_seen": "2025-07-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
+  "label": "Mac laptop",
+  "first_seen": "2023-08-09T00:00:00",
+  "last_seen": "2026-10-10T21:00:00"
  },
  {
   "id": "D-00007",
   "customer_id": "C-2005",
-  "label": "Android phone",
-  "first_seen": "2025-12-03T00:00:00",
+  "label": "iPhone",
+  "first_seen": "2023-12-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00008",
   "customer_id": "C-2005",
   "label": "Windows laptop",
-  "first_seen": "2024-06-09T00:00:00",
-  "last_seen": "2026-10-08T21:00:00"
+  "first_seen": "2025-11-09T00:00:00",
+  "last_seen": "2026-09-30T21:00:00"
  },
  {
   "id": "D-00009",
   "customer_id": "C-2006",
-  "label": "iPhone",
-  "first_seen": "2023-12-03T00:00:00",
+  "label": "Android phone",
+  "first_seen": "2022-11-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00010",
   "customer_id": "C-2007",
-  "label": "iPhone",
-  "first_seen": "2025-09-03T00:00:00",
+  "label": "Android phone",
+  "first_seen": "2022-01-03T00:00:00",
   "last_seen": "2026-10-11T22:10:00"
  },
  {
   "id": "D-00011",
   "customer_id": "C-2007",
-  "label": "Windows laptop",
-  "first_seen": "2025-12-09T00:00:00",
-  "last_seen": "2026-10-03T21:00:00"
+  "label": "iPhone",
+  "first_seen": "2026-10-12T09:05:00",
+  "last_seen": "2026-10-12T18:00:00"
  },
  {
   "id": "D-00012",
-  "customer_id": "C-2007",
+  "customer_id": "C-2008",
   "label": "Android phone",
-  "first_seen": "2026-10-12T09:05:00",
-  "last_seen": "2026-10-12T18:00:00"
+  "first_seen": "2025-11-03T00:00:00",
+  "last_seen": "2026-10-11T22:10:00"
  },
  {
   "id": "D-00013",
   "customer_id": "C-2008",
-  "label": "Android phone",
-  "first_seen": "2025-05-03T00:00:00",
-  "last_seen": "2026-10-11T22:10:00"
+  "label": "Mac laptop",
+  "first_seen": "2023-12-09T00:00:00",
+  "last_seen": "2026-09-30T21:00:00"
  },
  {
   "id": "D-00014",
   "customer_id": "C-2008",
-  "label": "Windows laptop",
-  "first_seen": "2023-03-09T00:00:00",
-  "last_seen": "2026-10-06T21:00:00"
+  "label": "Android phone",
+  "first_seen": "2026-10-12T09:05:00",
+  "last_seen": "2026-10-12T18:00:00"
  },
  {
   "id": "D-00015",
-  "customer_id": "C-2008",
+  "customer_id": "C-2009",
   "label": "iPhone",
-  "first_seen": "2026-10-12T09:05:00",
-  "last_seen": "2026-10-12T18:00:00"
+  "first_seen": "2024-08-03T00:00:00",
+  "last_seen": "2026-10-11T22:10:00"
  },
  {
   "id": "D-00016",
   "customer_id": "C-2009",
-  "label": "Android phone",
-  "first_seen": "2022-12-03T00:00:00",
-  "last_seen": "2026-10-11T22:10:00"
+  "label": "Windows laptop",
+  "first_seen": "2023-01-09T00:00:00",
+  "last_seen": "2026-10-04T21:00:00"
  },
  {
   "id": "D-00017",
-  "customer_id": "C-2009",
-  "label": "Mac laptop",
-  "first_seen": "2022-07-09T00:00:00",
-  "last_seen": "2026-10-05T21:00:00"
- },
- {
-  "id": "D-00018",
   "customer_id": "C-2009",
   "label": "iPhone",
   "first_seen": "2026-10-12T09:05:00",
   "last_seen": "2026-10-12T18:00:00"
  },
  {
+  "id": "D-00018",
+  "customer_id": "C-2010",
+  "label": "iPhone",
+  "first_seen": "2021-09-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
   "id": "D-00019",
   "customer_id": "C-2010",
-  "label": "Android phone",
-  "first_seen": "2024-04-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00020",
-  "customer_id": "C-2010",
-  "label": "Mac laptop",
-  "first_seen": "2023-02-09T00:00:00",
-  "last_seen": "2026-10-06T21:00:00"
- },
- {
-  "id": "D-00021",
-  "customer_id": "C-2011",
-  "label": "iPhone",
-  "first_seen": "2023-02-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00022",
-  "customer_id": "C-2011",
   "label": "Windows laptop",
-  "first_seen": "2023-02-09T00:00:00",
-  "last_seen": "2026-10-07T21:00:00"
- },
- {
-  "id": "D-00023",
-  "customer_id": "C-2012",
-  "label": "iPhone",
-  "first_seen": "2024-11-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00024",
-  "customer_id": "C-2012",
-  "label": "Mac laptop",
-  "first_seen": "2022-05-09T00:00:00",
-  "last_seen": "2026-10-09T21:00:00"
- },
- {
-  "id": "D-00025",
-  "customer_id": "C-2013",
-  "label": "Android phone",
-  "first_seen": "2021-07-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00026",
-  "customer_id": "C-2014",
-  "label": "Android phone",
-  "first_seen": "2021-03-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00027",
-  "customer_id": "C-2014",
-  "label": "Windows laptop",
-  "first_seen": "2023-12-09T00:00:00",
+  "first_seen": "2025-06-09T00:00:00",
   "last_seen": "2026-10-01T21:00:00"
  },
  {
-  "id": "D-00028",
-  "customer_id": "C-2015",
-  "label": "Android phone",
-  "first_seen": "2022-04-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00029",
-  "customer_id": "C-2016",
-  "label": "iPhone",
-  "first_seen": "2021-03-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00030",
-  "customer_id": "C-2016",
-  "label": "Windows laptop",
-  "first_seen": "2023-11-09T00:00:00",
-  "last_seen": "2026-10-04T21:00:00"
- },
- {
-  "id": "D-00031",
-  "customer_id": "C-2017",
-  "label": "Android phone",
-  "first_seen": "2025-12-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00032",
-  "customer_id": "C-2018",
-  "label": "Android phone",
-  "first_seen": "2021-02-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00033",
-  "customer_id": "C-2019",
-  "label": "iPhone",
-  "first_seen": "2025-04-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00034",
-  "customer_id": "C-2019",
-  "label": "Mac laptop",
-  "first_seen": "2024-01-09T00:00:00",
-  "last_seen": "2026-10-02T21:00:00"
- },
- {
-  "id": "D-00035",
-  "customer_id": "C-2020",
-  "label": "iPhone",
-  "first_seen": "2025-08-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00036",
-  "customer_id": "C-2021",
-  "label": "iPhone",
-  "first_seen": "2023-03-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00037",
-  "customer_id": "C-2021",
-  "label": "Mac laptop",
-  "first_seen": "2024-10-09T00:00:00",
-  "last_seen": "2026-10-06T21:00:00"
- },
- {
-  "id": "D-00038",
-  "customer_id": "C-2022",
-  "label": "Android phone",
-  "first_seen": "2023-07-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00039",
-  "customer_id": "C-2023",
-  "label": "Android phone",
-  "first_seen": "2022-09-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00040",
-  "customer_id": "C-2024",
-  "label": "Android phone",
-  "first_seen": "2023-09-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00041",
-  "customer_id": "C-2025",
+  "id": "D-00020",
+  "customer_id": "C-2011",
   "label": "iPhone",
   "first_seen": "2023-10-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
+  "id": "D-00021",
+  "customer_id": "C-2012",
+  "label": "iPhone",
+  "first_seen": "2022-10-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00022",
+  "customer_id": "C-2013",
+  "label": "iPhone",
+  "first_seen": "2024-09-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00023",
+  "customer_id": "C-2013",
+  "label": "Windows laptop",
+  "first_seen": "2024-02-09T00:00:00",
+  "last_seen": "2026-10-07T21:00:00"
+ },
+ {
+  "id": "D-00024",
+  "customer_id": "C-2014",
+  "label": "iPhone",
+  "first_seen": "2025-04-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00025",
+  "customer_id": "C-2014",
+  "label": "Windows laptop",
+  "first_seen": "2020-07-09T00:00:00",
+  "last_seen": "2026-10-02T21:00:00"
+ },
+ {
+  "id": "D-00026",
+  "customer_id": "C-2015",
+  "label": "iPhone",
+  "first_seen": "2023-12-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00027",
+  "customer_id": "C-2016",
+  "label": "Android phone",
+  "first_seen": "2023-04-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00028",
+  "customer_id": "C-2017",
+  "label": "iPhone",
+  "first_seen": "2022-01-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00029",
+  "customer_id": "C-2017",
+  "label": "Windows laptop",
+  "first_seen": "2020-07-09T00:00:00",
+  "last_seen": "2026-10-01T21:00:00"
+ },
+ {
+  "id": "D-00030",
+  "customer_id": "C-2018",
+  "label": "Android phone",
+  "first_seen": "2023-03-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00031",
+  "customer_id": "C-2018",
+  "label": "Mac laptop",
+  "first_seen": "2023-05-09T00:00:00",
+  "last_seen": "2026-10-03T21:00:00"
+ },
+ {
+  "id": "D-00032",
+  "customer_id": "C-2019",
+  "label": "Android phone",
+  "first_seen": "2023-10-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00033",
+  "customer_id": "C-2020",
+  "label": "iPhone",
+  "first_seen": "2025-06-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00034",
+  "customer_id": "C-2020",
+  "label": "Mac laptop",
+  "first_seen": "2024-11-09T00:00:00",
+  "last_seen": "2026-10-05T21:00:00"
+ },
+ {
+  "id": "D-00035",
+  "customer_id": "C-2021",
+  "label": "iPhone",
+  "first_seen": "2023-08-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00036",
+  "customer_id": "C-2021",
+  "label": "Windows laptop",
+  "first_seen": "2025-03-09T00:00:00",
+  "last_seen": "2026-10-07T21:00:00"
+ },
+ {
+  "id": "D-00037",
+  "customer_id": "C-2022",
+  "label": "iPhone",
+  "first_seen": "2022-04-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00038",
+  "customer_id": "C-2022",
+  "label": "Mac laptop",
+  "first_seen": "2022-12-09T00:00:00",
+  "last_seen": "2026-10-03T21:00:00"
+ },
+ {
+  "id": "D-00039",
+  "customer_id": "C-2023",
+  "label": "Android phone",
+  "first_seen": "2025-04-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00040",
+  "customer_id": "C-2023",
+  "label": "Windows laptop",
+  "first_seen": "2020-12-09T00:00:00",
+  "last_seen": "2026-10-10T21:00:00"
+ },
+ {
+  "id": "D-00041",
+  "customer_id": "C-2024",
+  "label": "Android phone",
+  "first_seen": "2025-05-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
   "id": "D-00042",
   "customer_id": "C-2025",
-  "label": "Windows laptop",
-  "first_seen": "2025-05-09T00:00:00",
-  "last_seen": "2026-10-10T21:00:00"
+  "label": "Android phone",
+  "first_seen": "2024-04-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00043",
   "customer_id": "C-2025",
   "label": "Unrecognized browser",
-  "first_seen": "2026-10-12T02:15:00",
-  "last_seen": "2026-10-12T02:32:00"
+  "first_seen": "2026-10-12T02:41:00",
+  "last_seen": "2026-10-12T02:58:00"
  },
  {
   "id": "D-00044",
   "customer_id": "C-2026",
   "label": "Android phone",
-  "first_seen": "2022-03-03T00:00:00",
+  "first_seen": "2023-06-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00045",
   "customer_id": "C-2026",
-  "label": "Mac laptop",
-  "first_seen": "2022-11-09T00:00:00",
-  "last_seen": "2026-10-09T21:00:00"
+  "label": "Windows laptop",
+  "first_seen": "2020-11-09T00:00:00",
+  "last_seen": "2026-10-08T21:00:00"
  },
  {
   "id": "D-00046",
   "customer_id": "C-2026",
   "label": "Unrecognized browser",
-  "first_seen": "2026-10-12T03:37:00",
-  "last_seen": "2026-10-12T03:54:00"
+  "first_seen": "2026-10-12T01:12:00",
+  "last_seen": "2026-10-12T01:29:00"
  },
  {
   "id": "D-00047",
   "customer_id": "C-2027",
   "label": "iPhone",
-  "first_seen": "2021-05-03T00:00:00",
+  "first_seen": "2024-03-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00048",
   "customer_id": "C-2027",
   "label": "Unrecognized browser",
-  "first_seen": "2026-10-12T01:23:00",
-  "last_seen": "2026-10-12T01:40:00"
+  "first_seen": "2026-10-12T03:43:00",
+  "last_seen": "2026-10-12T04:00:00"
  },
  {
   "id": "D-00049",
   "customer_id": "C-2028",
-  "label": "Android phone",
-  "first_seen": "2021-05-03T00:00:00",
+  "label": "iPhone",
+  "first_seen": "2022-07-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00050",
   "customer_id": "C-2028",
-  "label": "Unrecognized browser",
-  "first_seen": "2026-10-12T04:04:00",
-  "last_seen": "2026-10-12T04:21:00"
+  "label": "Windows laptop",
+  "first_seen": "2025-03-09T00:00:00",
+  "last_seen": "2026-10-02T21:00:00"
  },
  {
   "id": "D-00051",
-  "customer_id": "C-2029",
-  "label": "iPhone",
-  "first_seen": "2024-11-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
+  "customer_id": "C-2028",
+  "label": "Unrecognized browser",
+  "first_seen": "2026-10-12T04:31:00",
+  "last_seen": "2026-10-12T04:48:00"
  },
  {
   "id": "D-00052",
   "customer_id": "C-2029",
-  "label": "Mac laptop",
-  "first_seen": "2025-12-09T00:00:00",
-  "last_seen": "2026-10-04T21:00:00"
+  "label": "iPhone",
+  "first_seen": "2024-04-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00053",
   "customer_id": "C-2029",
-  "label": "Unrecognized browser",
-  "first_seen": "2026-10-12T02:05:00",
-  "last_seen": "2026-10-12T02:22:00"
+  "label": "Mac laptop",
+  "first_seen": "2020-08-09T00:00:00",
+  "last_seen": "2026-10-05T21:00:00"
  },
  {
   "id": "D-00054",
-  "customer_id": "C-2030",
-  "label": "Android phone",
-  "first_seen": "2021-05-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
+  "customer_id": "C-2029",
+  "label": "Unrecognized browser",
+  "first_seen": "2026-10-12T02:16:00",
+  "last_seen": "2026-10-12T02:33:00"
  },
  {
   "id": "D-00055",
   "customer_id": "C-2030",
-  "label": "Mac laptop",
-  "first_seen": "2022-06-09T00:00:00",
-  "last_seen": "2026-10-06T21:00:00"
+  "label": "Android phone",
+  "first_seen": "2023-06-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00056",
   "customer_id": "C-2030",
-  "label": "Unrecognized browser",
-  "first_seen": "2026-10-12T03:24:00",
-  "last_seen": "2026-10-12T03:41:00"
+  "label": "Windows laptop",
+  "first_seen": "2022-05-09T00:00:00",
+  "last_seen": "2026-10-01T21:00:00"
  },
  {
   "id": "D-00057",
-  "customer_id": "C-2031",
-  "label": "iPhone",
-  "first_seen": "2024-12-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
+  "customer_id": "C-2030",
+  "label": "Unrecognized browser",
+  "first_seen": "2026-10-12T03:14:00",
+  "last_seen": "2026-10-12T03:31:00"
  },
  {
   "id": "D-00058",
   "customer_id": "C-2031",
-  "label": "Mac laptop",
-  "first_seen": "2020-01-09T00:00:00",
-  "last_seen": "2026-10-01T21:00:00"
- },
- {
-  "id": "D-00059",
-  "customer_id": "C-2031",
-  "label": "Unrecognized browser",
-  "first_seen": "2026-10-12T01:27:00",
-  "last_seen": "2026-10-12T01:44:00"
- },
- {
-  "id": "D-00060",
-  "customer_id": "C-2032",
-  "label": "iPhone",
-  "first_seen": "2021-10-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
- },
- {
-  "id": "D-00061",
-  "customer_id": "C-2032",
-  "label": "Unrecognized browser",
-  "first_seen": "2026-10-12T02:06:00",
-  "last_seen": "2026-10-12T02:23:00"
- },
- {
-  "id": "D-00062",
-  "customer_id": "C-2033",
-  "label": "iPhone",
+  "label": "Android phone",
   "first_seen": "2025-02-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
+  "id": "D-00059",
+  "customer_id": "C-2031",
+  "label": "Windows laptop",
+  "first_seen": "2025-01-09T00:00:00",
+  "last_seen": "2026-10-02T21:00:00"
+ },
+ {
+  "id": "D-00060",
+  "customer_id": "C-2031",
+  "label": "Unrecognized browser",
+  "first_seen": "2026-10-12T01:06:00",
+  "last_seen": "2026-10-12T01:23:00"
+ },
+ {
+  "id": "D-00061",
+  "customer_id": "C-2032",
+  "label": "iPhone",
+  "first_seen": "2021-12-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00062",
+  "customer_id": "C-2032",
+  "label": "Windows laptop",
+  "first_seen": "2023-02-09T00:00:00",
+  "last_seen": "2026-10-02T21:00:00"
+ },
+ {
   "id": "D-00063",
-  "customer_id": "C-2033",
-  "label": "Mac laptop",
-  "first_seen": "2022-09-09T00:00:00",
-  "last_seen": "2026-10-05T21:00:00"
+  "customer_id": "C-2032",
+  "label": "Unrecognized browser",
+  "first_seen": "2026-10-12T02:08:00",
+  "last_seen": "2026-10-12T02:25:00"
  },
  {
   "id": "D-00064",
   "customer_id": "C-2033",
-  "label": "Android phone",
-  "first_seen": "2026-10-12T01:33:00",
-  "last_seen": "2026-10-12T02:07:00"
- },
- {
-  "id": "D-00065",
-  "customer_id": "C-2034",
   "label": "iPhone",
-  "first_seen": "2022-05-03T00:00:00",
+  "first_seen": "2024-09-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
-  "id": "D-00066",
-  "customer_id": "C-2034",
+  "id": "D-00065",
+  "customer_id": "C-2033",
   "label": "Windows laptop",
-  "first_seen": "2022-12-09T00:00:00",
+  "first_seen": "2023-07-09T00:00:00",
   "last_seen": "2026-10-10T21:00:00"
+ },
+ {
+  "id": "D-00066",
+  "customer_id": "C-2033",
+  "label": "Android phone",
+  "first_seen": "2026-10-12T02:02:00",
+  "last_seen": "2026-10-12T02:26:00"
  },
  {
   "id": "D-00067",
   "customer_id": "C-2034",
-  "label": "Android phone",
-  "first_seen": "2026-10-12T00:23:00",
-  "last_seen": "2026-10-12T00:50:00"
- },
- {
-  "id": "D-00068",
-  "customer_id": "C-2035",
   "label": "iPhone",
-  "first_seen": "2022-02-03T00:00:00",
+  "first_seen": "2021-07-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
-  "id": "D-00069",
-  "customer_id": "C-2035",
+  "id": "D-00068",
+  "customer_id": "C-2034",
   "label": "Mac laptop",
-  "first_seen": "2025-02-09T00:00:00",
+  "first_seen": "2021-05-09T00:00:00",
   "last_seen": "2026-10-06T21:00:00"
+ },
+ {
+  "id": "D-00069",
+  "customer_id": "C-2034",
+  "label": "Android phone",
+  "first_seen": "2026-10-12T00:34:00",
+  "last_seen": "2026-10-12T01:02:00"
  },
  {
   "id": "D-00070",
   "customer_id": "C-2035",
-  "label": "Android phone",
-  "first_seen": "2026-10-12T02:20:00",
-  "last_seen": "2026-10-12T02:49:00"
+  "label": "iPhone",
+  "first_seen": "2025-05-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00071",
-  "customer_id": "C-2036",
-  "label": "iPhone",
-  "first_seen": "2022-02-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
+  "customer_id": "C-2035",
+  "label": "Windows laptop",
+  "first_seen": "2026-10-12T00:16:00",
+  "last_seen": "2026-10-12T00:48:00"
  },
  {
   "id": "D-00072",
   "customer_id": "C-2036",
-  "label": "Mac laptop",
-  "first_seen": "2020-08-09T00:00:00",
-  "last_seen": "2026-10-08T21:00:00"
+  "label": "iPhone",
+  "first_seen": "2021-12-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00073",
   "customer_id": "C-2036",
   "label": "Android phone",
-  "first_seen": "2026-10-12T02:06:00",
-  "last_seen": "2026-10-12T02:34:00"
+  "first_seen": "2026-10-12T01:44:00",
+  "last_seen": "2026-10-12T02:18:00"
  },
  {
   "id": "D-00074",
   "customer_id": "C-2037",
-  "label": "Android phone",
-  "first_seen": "2024-03-03T00:00:00",
+  "label": "iPhone",
+  "first_seen": "2023-12-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00075",
   "customer_id": "C-2037",
-  "label": "Windows laptop",
-  "first_seen": "2023-10-09T00:00:00",
-  "last_seen": "2026-10-10T21:00:00"
+  "label": "Mac laptop",
+  "first_seen": "2024-01-09T00:00:00",
+  "last_seen": "2026-09-30T21:00:00"
  },
  {
   "id": "D-00076",
   "customer_id": "C-2037",
   "label": "Windows laptop",
-  "first_seen": "2026-10-12T02:19:00",
-  "last_seen": "2026-10-12T02:48:00"
+  "first_seen": "2026-10-12T02:03:00",
+  "last_seen": "2026-10-12T02:35:00"
  },
  {
   "id": "D-00077",
   "customer_id": "C-2038",
   "label": "Android phone",
-  "first_seen": "2024-04-03T00:00:00",
+  "first_seen": "2022-02-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00078",
   "customer_id": "C-2038",
-  "label": "Windows laptop",
-  "first_seen": "2024-11-09T00:00:00",
-  "last_seen": "2026-10-10T21:00:00"
- },
- {
-  "id": "D-00079",
-  "customer_id": "C-2038",
   "label": "Unrecognized browser",
   "first_seen": "2026-10-12T03:40:00",
   "last_seen": "2026-10-12T03:55:00"
+ },
+ {
+  "id": "D-00079",
+  "customer_id": "C-2039",
+  "label": "iPhone",
+  "first_seen": "2024-10-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00080",
   "customer_id": "C-2039",
-  "label": "iPhone",
-  "first_seen": "2025-10-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
+  "label": "Mac laptop",
+  "first_seen": "2023-07-09T00:00:00",
+  "last_seen": "2026-10-01T21:00:00"
  },
  {
   "id": "D-00081",
   "customer_id": "C-2039",
-  "label": "Mac laptop",
-  "first_seen": "2023-12-09T00:00:00",
-  "last_seen": "2026-10-10T21:00:00"
- },
- {
-  "id": "D-00082",
-  "customer_id": "C-2039",
   "label": "Unrecognized browser",
   "first_seen": "2026-10-12T03:40:00",
   "last_seen": "2026-10-12T03:55:00"
+ },
+ {
+  "id": "D-00082",
+  "customer_id": "C-2040",
+  "label": "Android phone",
+  "first_seen": "2024-12-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00083",
   "customer_id": "C-2040",
-  "label": "iPhone",
-  "first_seen": "2025-04-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
+  "label": "Windows laptop",
+  "first_seen": "2024-12-09T00:00:00",
+  "last_seen": "2026-10-04T21:00:00"
  },
  {
   "id": "D-00084",
-  "customer_id": "C-2040",
-  "label": "Windows laptop",
-  "first_seen": "2022-03-09T00:00:00",
-  "last_seen": "2026-10-08T21:00:00"
- },
- {
-  "id": "D-00085",
   "customer_id": "C-2040",
   "label": "Unrecognized browser",
   "first_seen": "2026-10-12T03:40:00",
   "last_seen": "2026-10-12T03:55:00"
  },
  {
-  "id": "D-00086",
+  "id": "D-00085",
   "customer_id": "C-2041",
   "label": "iPhone",
-  "first_seen": "2023-12-03T00:00:00",
+  "first_seen": "2025-11-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
+ },
+ {
+  "id": "D-00086",
+  "customer_id": "C-2041",
+  "label": "Mac laptop",
+  "first_seen": "2022-05-09T00:00:00",
+  "last_seen": "2026-10-09T21:00:00"
  },
  {
   "id": "D-00087",
@@ -611,127 +611,127 @@
  {
   "id": "D-00088",
   "customer_id": "C-2042",
-  "label": "iPhone",
-  "first_seen": "2021-07-03T00:00:00",
+  "label": "Android phone",
+  "first_seen": "2024-10-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00089",
-  "customer_id": "C-2042",
-  "label": "Mac laptop",
-  "first_seen": "2023-10-09T00:00:00",
-  "last_seen": "2026-10-08T21:00:00"
- },
- {
-  "id": "D-00090",
   "customer_id": "C-2042",
   "label": "Unrecognized browser",
   "first_seen": "2026-10-12T03:40:00",
   "last_seen": "2026-10-12T03:55:00"
  },
  {
-  "id": "D-00091",
+  "id": "D-00090",
   "customer_id": "C-2043",
-  "label": "iPhone",
-  "first_seen": "2023-06-03T00:00:00",
+  "label": "Android phone",
+  "first_seen": "2025-03-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
-  "id": "D-00092",
+  "id": "D-00091",
   "customer_id": "C-2043",
-  "label": "Windows laptop",
-  "first_seen": "2023-08-09T00:00:00",
-  "last_seen": "2026-10-02T21:00:00"
+  "label": "Mac laptop",
+  "first_seen": "2021-05-09T00:00:00",
+  "last_seen": "2026-10-09T21:00:00"
+ },
+ {
+  "id": "D-00092",
+  "customer_id": "C-2044",
+  "label": "Android phone",
+  "first_seen": "2022-02-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00093",
-  "customer_id": "C-2043",
-  "label": "Unrecognized browser",
-  "first_seen": "2026-10-12T21:02:00",
-  "last_seen": "2026-10-12T21:20:00"
+  "customer_id": "C-2044",
+  "label": "Windows laptop",
+  "first_seen": "2021-01-09T00:00:00",
+  "last_seen": "2026-10-03T21:00:00"
  },
  {
   "id": "D-00094",
-  "customer_id": "C-2044",
-  "label": "Android phone",
-  "first_seen": "2025-10-03T00:00:00",
+  "customer_id": "C-2045",
+  "label": "iPhone",
+  "first_seen": "2021-01-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00095",
-  "customer_id": "C-2044",
-  "label": "Mac laptop",
-  "first_seen": "2021-03-09T00:00:00",
-  "last_seen": "2026-10-09T21:00:00"
+  "customer_id": "C-2045",
+  "label": "Windows laptop",
+  "first_seen": "2022-04-09T00:00:00",
+  "last_seen": "2026-10-05T21:00:00"
  },
  {
   "id": "D-00096",
   "customer_id": "C-2045",
-  "label": "iPhone",
-  "first_seen": "2021-10-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
+  "label": "Android phone",
+  "first_seen": "2026-10-12T20:15:00",
+  "last_seen": "2026-10-12T20:40:00"
  },
  {
   "id": "D-00097",
   "customer_id": "C-2046",
-  "label": "Android phone",
-  "first_seen": "2023-07-03T00:00:00",
+  "label": "iPhone",
+  "first_seen": "2023-10-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00098",
   "customer_id": "C-2046",
   "label": "Mac laptop",
-  "first_seen": "2024-05-09T00:00:00",
-  "last_seen": "2026-10-10T21:00:00"
+  "first_seen": "2023-02-09T00:00:00",
+  "last_seen": "2026-10-04T21:00:00"
  },
  {
   "id": "D-00099",
   "customer_id": "C-2047",
   "label": "Android phone",
-  "first_seen": "2023-08-03T00:00:00",
+  "first_seen": "2021-10-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00100",
   "customer_id": "C-2047",
   "label": "Mac laptop",
-  "first_seen": "2023-06-09T00:00:00",
-  "last_seen": "2026-10-10T21:00:00"
+  "first_seen": "2024-08-09T00:00:00",
+  "last_seen": "2026-10-08T21:00:00"
  },
  {
   "id": "D-00101",
   "customer_id": "C-2048",
   "label": "iPhone",
-  "first_seen": "2025-10-03T00:00:00",
+  "first_seen": "2024-02-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00102",
   "customer_id": "C-2048",
-  "label": "Mac laptop",
-  "first_seen": "2022-08-09T00:00:00",
-  "last_seen": "2026-10-02T21:00:00"
+  "label": "Windows laptop",
+  "first_seen": "2026-10-12T13:05:00",
+  "last_seen": "2026-10-12T13:30:00"
  },
  {
   "id": "D-00103",
   "customer_id": "C-2049",
-  "label": "iPhone",
-  "first_seen": "2022-05-03T00:00:00",
+  "label": "Android phone",
+  "first_seen": "2022-03-03T00:00:00",
   "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00104",
-  "customer_id": "C-2049",
-  "label": "Windows laptop",
-  "first_seen": "2023-04-09T00:00:00",
-  "last_seen": "2026-10-03T21:00:00"
+  "customer_id": "C-2050",
+  "label": "Android phone",
+  "first_seen": "2024-05-03T00:00:00",
+  "last_seen": "2026-10-11T20:00:00"
  },
  {
   "id": "D-00105",
   "customer_id": "C-2050",
-  "label": "iPhone",
-  "first_seen": "2022-05-03T00:00:00",
-  "last_seen": "2026-10-11T20:00:00"
+  "label": "Mac laptop",
+  "first_seen": "2020-08-09T00:00:00",
+  "last_seen": "2026-10-09T21:00:00"
  }
 ]

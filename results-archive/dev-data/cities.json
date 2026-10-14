@@ -1,0 +1,127 @@
+[
+ {
+  "name": "Melbourne, FL",
+  "lat": 28.08,
+  "lon": -80.61
+ },
+ {
+  "name": "Orlando, FL",
+  "lat": 28.54,
+  "lon": -81.38
+ },
+ {
+  "name": "Tampa, FL",
+  "lat": 27.95,
+  "lon": -82.46
+ },
+ {
+  "name": "Miami, FL",
+  "lat": 25.76,
+  "lon": -80.19
+ },
+ {
+  "name": "Atlanta, GA",
+  "lat": 33.75,
+  "lon": -84.39
+ },
+ {
+  "name": "Charlotte, NC",
+  "lat": 35.23,
+  "lon": -80.84
+ },
+ {
+  "name": "Raleigh, NC",
+  "lat": 35.78,
+  "lon": -78.64
+ },
+ {
+  "name": "Nashville, TN",
+  "lat": 36.16,
+  "lon": -86.78
+ },
+ {
+  "name": "Austin, TX",
+  "lat": 30.27,
+  "lon": -97.74
+ },
+ {
+  "name": "Dallas, TX",
+  "lat": 32.78,
+  "lon": -96.8
+ },
+ {
+  "name": "Denver, CO",
+  "lat": 39.74,
+  "lon": -104.99
+ },
+ {
+  "name": "Chicago, IL",
+  "lat": 41.88,
+  "lon": -87.63
+ },
+ {
+  "name": "Columbus, OH",
+  "lat": 39.96,
+  "lon": -83.0
+ },
+ {
+  "name": "Phoenix, AZ",
+  "lat": 33.45,
+  "lon": -112.07
+ },
+ {
+  "name": "Seattle, WA",
+  "lat": 47.61,
+  "lon": -122.33
+ },
+ {
+  "name": "Portland, OR",
+  "lat": 45.52,
+  "lon": -122.68
+ },
+ {
+  "name": "New York, NY",
+  "lat": 40.71,
+  "lon": -74.01
+ },
+ {
+  "name": "Boston, MA",
+  "lat": 42.36,
+  "lon": -71.06
+ },
+ {
+  "name": "San Diego, CA",
+  "lat": 32.72,
+  "lon": -117.16
+ },
+ {
+  "name": "Las Vegas, NV",
+  "lat": 36.17,
+  "lon": -115.14
+ },
+ {
+  "name": "Sacramento, CA",
+  "lat": 38.58,
+  "lon": -121.49
+ },
+ {
+  "name": "Lisbon, Portugal",
+  "lat": 38.72,
+  "lon": -9.14
+ },
+ {
+  "name": "Toronto, Canada",
+  "lat": 43.65,
+  "lon": -79.38
+ },
+ {
+  "name": "Cancun, Mexico",
+  "lat": 21.16,
+  "lon": -86.85
+ },
+ {
+  "name": "London, UK",
+  "lat": 51.51,
+  "lon": -0.13
+ }
+]

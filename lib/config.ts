@@ -9,7 +9,7 @@ export const config = {
 
   // Code rules that turn Jev's probabilities into an action
   closeAt: num(process.env.CLOSE_AT, 0.85), // P(legitimate) needed to close an alert without a person
-  unexplainedMax: num(process.env.UNEXPLAINED_MAX, 0.3), // highest P(out of character and unaccounted for) that still allows closing
+  unexplainedMax: num(process.env.UNEXPLAINED_MAX, 0.35), // highest P(out of character and unaccounted for) that still allows closing
   escalateAt: num(process.env.ESCALATE_AT, 0.85), // P(fraud) needed to escalate as confirmed fraud
   scamRiskAt: num(process.env.SCAM_RISK_AT, 0.6), // P(customer may be being scammed) that forces a person to look
   maxAutoCloseAmount: num(process.env.MAX_AUTO_CLOSE_AMOUNT, 5000), // never auto-close at or above this amount
@@ -23,7 +23,7 @@ export const config = {
   // Access
   runPasscode: process.env.RUN_PASSCODE || '',
   // Alerts anyone can run live from the public site (mix of types)
-  featuredAlerts: ['A-1036', 'A-1001', 'A-1006', 'A-1009', 'A-1042'],
+  featuredAlerts: ['A-1022', 'A-1012', 'A-1007', 'A-1015', 'A-1045'],
 
   maxLlmTurns: 8,
 };

@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { isOk, runOne, saveLive, type Pair, type RunFile, type Settings } from '@/lib/store';
+import { DATASET } from '@/lib/dataset';
 
 type AlertRow = { id: string };
 
@@ -25,7 +26,7 @@ export function RunBox({ alerts, featured, settings, mock, live, onUpdate, lead 
     const results = new Map<string, Pair>((base?.results ?? []).map((p) => [p.alertId, p]));
     let done = 0;
     setProgress({ done, total: ids.length });
-    const file = (): RunFile => ({ kind: 'live', run_at: new Date().toISOString(), mock, settings, results: alerts.filter((a) => results.has(a.id)).map((a) => results.get(a.id)!) });
+    const file = (): RunFile => ({ kind: 'live', dataset: DATASET, run_at: new Date().toISOString(), mock, settings, results: alerts.filter((a) => results.has(a.id)).map((a) => results.get(a.id)!) });
     const queue = [...ids];
     const worker = async () => {
       while (queue.length) {

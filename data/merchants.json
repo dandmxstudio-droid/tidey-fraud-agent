@@ -236,5 +236,26 @@
   "category": "restaurant",
   "online": false,
   "fraud_reports_90d": 0
+ },
+ {
+  "id": "M35",
+  "name": "Thames Corner Cafe",
+  "category": "restaurant",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M36",
+  "name": "Pike Street Grill",
+  "category": "restaurant",
+  "online": false,
+  "fraud_reports_90d": 0
+ },
+ {
+  "id": "M37",
+  "name": "Banco Playa ATM",
+  "category": "atm",
+  "online": false,
+  "fraud_reports_90d": 0
  }
 ]

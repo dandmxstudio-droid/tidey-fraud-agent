@@ -1,0 +1,746 @@
+[
+ {
+  "id": "A-1001",
+  "customer_id": "C-2025",
+  "created_at": "2026-10-12T02:28:00",
+  "rule_triggered": "Unusual online purchase: new device, high amount",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-01587",
+    "T-01588"
+   ]
+  },
+  "what_happened": "$1,240 online purchase at GadgetVault Online",
+  "amount": 1240
+ },
+ {
+  "id": "A-1002",
+  "customer_id": "C-2021",
+  "created_at": "2026-10-12T17:12:00",
+  "rule_triggered": "Large ATM withdrawal",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01324"
+   ]
+  },
+  "what_happened": "$400 ATM withdrawal",
+  "amount": 400
+ },
+ {
+  "id": "A-1003",
+  "customer_id": "C-2022",
+  "created_at": "2026-10-12T17:12:00",
+  "rule_triggered": "Large ATM withdrawal",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01384"
+   ]
+  },
+  "what_happened": "$600 ATM withdrawal",
+  "amount": 600
+ },
+ {
+  "id": "A-1004",
+  "customer_id": "C-2020",
+  "created_at": "2026-10-12T20:14:00",
+  "rule_triggered": "Online purchase over 4x customer average",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01262"
+   ]
+  },
+  "what_happened": "$448 online purchase at VoltHub Electronics",
+  "amount": 448
+ },
+ {
+  "id": "A-1005",
+  "customer_id": "C-2030",
+  "created_at": "2026-10-12T03:37:00",
+  "rule_triggered": "Unusual online purchase: new device, high amount",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01912"
+   ]
+  },
+  "what_happened": "$1,640 online purchase at VoltHub Electronics",
+  "amount": 1640
+ },
+ {
+  "id": "A-1006",
+  "customer_id": "C-2033",
+  "created_at": "2026-10-12T02:04:00",
+  "rule_triggered": "New payee added within 24h of password reset",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-02102"
+   ]
+  },
+  "what_happened": "Password reset, new payee, $3,900 transfer",
+  "amount": 3900
+ },
+ {
+  "id": "A-1007",
+  "customer_id": "C-2034",
+  "created_at": "2026-10-12T00:47:00",
+  "rule_triggered": "New payee added within 24h of password reset",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-02165"
+   ]
+  },
+  "what_happened": "Password reset, new payee, $6,800 transfer",
+  "amount": 6800
+ },
+ {
+  "id": "A-1008",
+  "customer_id": "C-2005",
+  "created_at": "2026-10-12T13:50:00",
+  "rule_triggered": "Amount over 10x customer average",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00324"
+   ]
+  },
+  "what_happened": "$1,344 in-store purchase at Outfield Sports",
+  "amount": 1344.0
+ },
+ {
+  "id": "A-1009",
+  "customer_id": "C-2040",
+  "created_at": "2026-10-12T03:53:00",
+  "rule_triggered": "5+ transactions within 10 minutes",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-02560",
+    "T-02561",
+    "T-02562",
+    "T-02563",
+    "T-02564",
+    "T-02565",
+    "T-02566",
+    "T-02567"
+   ]
+  },
+  "what_happened": "7 tiny online charges in 7 minutes, then a larger attempt",
+  "amount": 14.48
+ },
+ {
+  "id": "A-1010",
+  "customer_id": "C-2007",
+  "created_at": "2026-10-12T19:33:00",
+  "rule_triggered": "Purchase from a device not seen before",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00447"
+   ]
+  },
+  "what_happened": "$26 online purchase at Pagewise Books from a new device",
+  "amount": 26.24
+ },
+ {
+  "id": "A-1011",
+  "customer_id": "C-2008",
+  "created_at": "2026-10-12T19:33:00",
+  "rule_triggered": "Purchase from a device not seen before",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00507"
+   ]
+  },
+  "what_happened": "$59 online purchase at Pagewise Books from a new device",
+  "amount": 58.82
+ },
+ {
+  "id": "A-1012",
+  "customer_id": "C-2044",
+  "created_at": "2026-10-12T16:32:00",
+  "rule_triggered": "Transaction far from home",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-02823"
+   ]
+  },
+  "what_happened": "$240 in-store purchase in Cancun, Mexico",
+  "amount": 240
+ },
+ {
+  "id": "A-1013",
+  "customer_id": "C-2036",
+  "created_at": "2026-10-12T02:31:00",
+  "rule_triggered": "New payee added within 24h of password reset",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-02293"
+   ]
+  },
+  "what_happened": "Password reset, new payee, $4,750 transfer",
+  "amount": 4750
+ },
+ {
+  "id": "A-1014",
+  "customer_id": "C-2035",
+  "created_at": "2026-10-12T02:46:00",
+  "rule_triggered": "New payee added within 24h of password reset",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-02231"
+   ]
+  },
+  "what_happened": "Password reset, new payee, $2,500 transfer",
+  "amount": 2500
+ },
+ {
+  "id": "A-1015",
+  "customer_id": "C-2049",
+  "created_at": "2026-10-12T12:17:00",
+  "rule_triggered": "Amount over 10x customer average",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-03143"
+   ]
+  },
+  "what_happened": "$2,900 online purchase at Maison Avery",
+  "amount": 2900
+ },
+ {
+  "id": "A-1016",
+  "customer_id": "C-2046",
+  "created_at": "2026-10-12T16:28:00",
+  "rule_triggered": "Several small online charges in minutes",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-02954",
+    "T-02955",
+    "T-02956",
+    "T-02957"
+   ]
+  },
+  "what_happened": "4 small charges at PixelForge Games in 6 minutes",
+  "amount": 39.96
+ },
+ {
+  "id": "A-1017",
+  "customer_id": "C-2009",
+  "created_at": "2026-10-12T19:33:00",
+  "rule_triggered": "Purchase from a device not seen before",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00567"
+   ]
+  },
+  "what_happened": "$36 online purchase at Pagewise Books from a new device",
+  "amount": 36.38
+ },
+ {
+  "id": "A-1018",
+  "customer_id": "C-2031",
+  "created_at": "2026-10-12T01:40:00",
+  "rule_triggered": "Unusual online purchase: new device, high amount",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01980"
+   ]
+  },
+  "what_happened": "$1,890 online purchase at Maison Avery",
+  "amount": 1890
+ },
+ {
+  "id": "A-1019",
+  "customer_id": "C-2019",
+  "created_at": "2026-10-12T20:14:00",
+  "rule_triggered": "Online purchase over 4x customer average",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01203"
+   ]
+  },
+  "what_happened": "$365 online purchase at VoltHub Electronics",
+  "amount": 365
+ },
+ {
+  "id": "A-1020",
+  "customer_id": "C-2039",
+  "created_at": "2026-10-12T03:51:00",
+  "rule_triggered": "5+ transactions within 10 minutes",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-02493",
+    "T-02494",
+    "T-02495",
+    "T-02496",
+    "T-02497"
+   ]
+  },
+  "what_happened": "5 tiny online charges in 5 minutes",
+  "amount": 13.47
+ },
+ {
+  "id": "A-1021",
+  "customer_id": "C-2048",
+  "created_at": "2026-10-12T22:42:00",
+  "rule_triggered": "Large ATM withdrawal",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-03086"
+   ]
+  },
+  "what_happened": "$500 ATM withdrawal in Nashville, TN",
+  "amount": 500
+ },
+ {
+  "id": "A-1022",
+  "customer_id": "C-2038",
+  "created_at": "2026-10-12T03:52:00",
+  "rule_triggered": "5+ transactions within 10 minutes",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-02420",
+    "T-02421",
+    "T-02422",
+    "T-02423",
+    "T-02424",
+    "T-02425",
+    "T-02426"
+   ]
+  },
+  "what_happened": "6 tiny online charges in 6 minutes, then a larger attempt",
+  "amount": 20.96
+ },
+ {
+  "id": "A-1023",
+  "customer_id": "C-2014",
+  "created_at": "2026-10-12T08:54:00",
+  "rule_triggered": "New payee added within 24h of password reset",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00890"
+   ]
+  },
+  "what_happened": "$1,650 transfer to new payee Oakview Property Mgmt",
+  "amount": 1650.0
+ },
+ {
+  "id": "A-1024",
+  "customer_id": "C-2041",
+  "created_at": "2026-10-12T03:51:00",
+  "rule_triggered": "5+ transactions within 10 minutes",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-02623",
+    "T-02624",
+    "T-02625",
+    "T-02626",
+    "T-02627",
+    "T-02628"
+   ]
+  },
+  "what_happened": "5 tiny online charges in 5 minutes, then a larger attempt",
+  "amount": 9.49
+ },
+ {
+  "id": "A-1025",
+  "customer_id": "C-2006",
+  "created_at": "2026-10-12T13:50:00",
+  "rule_triggered": "Amount over 10x customer average",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00383"
+   ]
+  },
+  "what_happened": "$1,460 in-store purchase at Circuit Corner",
+  "amount": 1460.0
+ },
+ {
+  "id": "A-1026",
+  "customer_id": "C-2042",
+  "created_at": "2026-10-12T03:50:00",
+  "rule_triggered": "Several small online charges in minutes",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-02689",
+    "T-02690",
+    "T-02691",
+    "T-02692",
+    "T-02693"
+   ]
+  },
+  "what_happened": "4 tiny online charges in 4 minutes, then a larger attempt",
+  "amount": 57.99
+ },
+ {
+  "id": "A-1027",
+  "customer_id": "C-2018",
+  "created_at": "2026-10-12T20:14:00",
+  "rule_triggered": "Online purchase over 4x customer average",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01139"
+   ]
+  },
+  "what_happened": "$289 online purchase at VoltHub Electronics",
+  "amount": 289
+ },
+ {
+  "id": "A-1028",
+  "customer_id": "C-2003",
+  "created_at": "2026-10-12T15:24:00",
+  "rule_triggered": "Transaction far from home",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00184"
+   ]
+  },
+  "what_happened": "$356 in-store purchase in Denver, CO",
+  "amount": 355.8
+ },
+ {
+  "id": "A-1029",
+  "customer_id": "C-2013",
+  "created_at": "2026-10-12T06:02:00",
+  "rule_triggered": "Online charge from merchant not used in 90 days",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00820"
+   ]
+  },
+  "what_happened": "$119 online charge at CloudDrive Pro",
+  "amount": 119.0
+ },
+ {
+  "id": "A-1030",
+  "customer_id": "C-2011",
+  "created_at": "2026-10-12T19:31:00",
+  "rule_triggered": "5+ transactions within 30 minutes",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-00687",
+    "T-00688",
+    "T-00689",
+    "T-00690",
+    "T-00691",
+    "T-00692"
+   ]
+  },
+  "what_happened": "6 in-store purchases at Riverside Night Market in 25 minutes",
+  "amount": 90.72
+ },
+ {
+  "id": "A-1031",
+  "customer_id": "C-2017",
+  "created_at": "2026-10-12T11:22:00",
+  "rule_triggered": "Transaction far from home",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01074"
+   ]
+  },
+  "what_happened": "$59 grocery purchase in Charlotte, NC",
+  "amount": 58.6
+ },
+ {
+  "id": "A-1032",
+  "customer_id": "C-2032",
+  "created_at": "2026-10-12T02:19:00",
+  "rule_triggered": "Unusual online purchase: new device, high amount",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-02041"
+   ]
+  },
+  "what_happened": "$1,175 online purchase at GadgetVault Online",
+  "amount": 1175
+ },
+ {
+  "id": "A-1033",
+  "customer_id": "C-2024",
+  "created_at": "2026-10-12T14:04:00",
+  "rule_triggered": "Transaction far from home",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01514"
+   ]
+  },
+  "what_happened": "$178 in-store purchase in Seattle, WA",
+  "amount": 178.12
+ },
+ {
+  "id": "A-1034",
+  "customer_id": "C-2028",
+  "created_at": "2026-10-12T04:17:00",
+  "rule_triggered": "Unusual online purchase: new device, high amount",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-01777",
+    "T-01778"
+   ]
+  },
+  "what_happened": "$899 online purchase at GadgetVault Online",
+  "amount": 899
+ },
+ {
+  "id": "A-1035",
+  "customer_id": "C-2027",
+  "created_at": "2026-10-12T01:36:00",
+  "rule_triggered": "Unusual online purchase: new device, high amount",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-01720",
+    "T-01721"
+   ]
+  },
+  "what_happened": "$2,380 online purchase at Maison Avery",
+  "amount": 2380
+ },
+ {
+  "id": "A-1036",
+  "customer_id": "C-2001",
+  "created_at": "2026-10-12T15:24:00",
+  "rule_triggered": "Transaction far from home",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00060"
+   ]
+  },
+  "what_happened": "$464 in-store purchase in Lisbon, Portugal",
+  "amount": 464.09
+ },
+ {
+  "id": "A-1037",
+  "customer_id": "C-2043",
+  "created_at": "2026-10-12T21:11:00",
+  "rule_triggered": "Amount over 10x customer average",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-02763"
+   ]
+  },
+  "what_happened": "$1,380 online purchase at VoltHub Electronics",
+  "amount": 1380
+ },
+ {
+  "id": "A-1038",
+  "customer_id": "C-2026",
+  "created_at": "2026-10-12T03:50:00",
+  "rule_triggered": "Unusual online purchase: new device, high amount",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-01651",
+    "T-01652"
+   ]
+  },
+  "what_happened": "$500 online purchase at GiftCardDepot Online",
+  "amount": 500
+ },
+ {
+  "id": "A-1039",
+  "customer_id": "C-2015",
+  "created_at": "2026-10-12T08:54:00",
+  "rule_triggered": "New payee added within 24h of password reset",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00955"
+   ]
+  },
+  "what_happened": "$1,650 transfer to new payee Lakeside Residences LLC",
+  "amount": 1650.0
+ },
+ {
+  "id": "A-1040",
+  "customer_id": "C-2016",
+  "created_at": "2026-10-12T11:22:00",
+  "rule_triggered": "Transaction far from home",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01018"
+   ]
+  },
+  "what_happened": "$70 grocery purchase in Orlando, FL",
+  "amount": 70.11
+ },
+ {
+  "id": "A-1041",
+  "customer_id": "C-2047",
+  "created_at": "2026-10-12T19:06:00",
+  "rule_triggered": "Merchant with recent fraud reports",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-03020"
+   ]
+  },
+  "what_happened": "$200 online purchase at GiftCardDepot Online",
+  "amount": 200
+ },
+ {
+  "id": "A-1042",
+  "customer_id": "C-2045",
+  "created_at": "2026-10-12T01:17:00",
+  "rule_triggered": "New payee added within 24h of password reset",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-02888"
+   ]
+  },
+  "what_happened": "Password reset, new payee, $4,200 transfer",
+  "amount": 4200
+ },
+ {
+  "id": "A-1043",
+  "customer_id": "C-2029",
+  "created_at": "2026-10-12T02:18:00",
+  "rule_triggered": "Unusual online purchase: new device, high amount",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-01842",
+    "T-01843"
+   ]
+  },
+  "what_happened": "$750 online purchase at GiftCardDepot Online",
+  "amount": 750
+ },
+ {
+  "id": "A-1044",
+  "customer_id": "C-2012",
+  "created_at": "2026-10-12T06:02:00",
+  "rule_triggered": "Online charge from merchant not used in 90 days",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00764"
+   ]
+  },
+  "what_happened": "$119 online charge at CloudDrive Pro",
+  "amount": 119.0
+ },
+ {
+  "id": "A-1045",
+  "customer_id": "C-2037",
+  "created_at": "2026-10-12T02:45:00",
+  "rule_triggered": "New payee added within 24h of password reset",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-02355"
+   ]
+  },
+  "what_happened": "Password reset, new payee, $3,150 transfer",
+  "amount": 3150
+ },
+ {
+  "id": "A-1046",
+  "customer_id": "C-2010",
+  "created_at": "2026-10-12T19:31:00",
+  "rule_triggered": "5+ transactions within 30 minutes",
+  "trigger": {
+   "type": "transactions",
+   "ids": [
+    "T-00620",
+    "T-00621",
+    "T-00622",
+    "T-00623",
+    "T-00624",
+    "T-00625"
+   ]
+  },
+  "what_happened": "6 in-store purchases at Riverside Night Market in 25 minutes",
+  "amount": 98.06
+ },
+ {
+  "id": "A-1047",
+  "customer_id": "C-2023",
+  "created_at": "2026-10-12T14:04:00",
+  "rule_triggered": "Transaction far from home",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-01455"
+   ]
+  },
+  "what_happened": "$253 in-store purchase in Austin, TX",
+  "amount": 252.55
+ },
+ {
+  "id": "A-1048",
+  "customer_id": "C-2004",
+  "created_at": "2026-10-12T13:50:00",
+  "rule_triggered": "Amount over 10x customer average",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00246"
+   ]
+  },
+  "what_happened": "$1,850 in-store purchase at HomeNest Furniture",
+  "amount": 1850.0
+ },
+ {
+  "id": "A-1049",
+  "customer_id": "C-2002",
+  "created_at": "2026-10-12T15:24:00",
+  "rule_triggered": "Transaction far from home",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-00117"
+   ]
+  },
+  "what_happened": "$494 in-store purchase in Toronto, Canada",
+  "amount": 494.01
+ },
+ {
+  "id": "A-1050",
+  "customer_id": "C-2050",
+  "created_at": "2026-10-12T10:50:00",
+  "rule_triggered": "Contact details changed, then a purchase",
+  "trigger": {
+   "type": "transaction",
+   "ids": [
+    "T-03202"
+   ]
+  },
+  "what_happened": "Email changed, then $350 online purchase at Maison Avery",
+  "amount": 350
+ }
+]
