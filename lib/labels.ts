@@ -29,3 +29,7 @@ export const GROUPS: { key: Action; title: string; label: string; short: string;
   { key: 'close', title: 'Closed by Tidey', label: 'Closed by Tidey', short: 'closed by Tidey', blurb: 'False alarms Tidey closed on its own. Every one keeps its evidence, so you can spot-check.' },
 ];
 export const isAction = (v: string | null | undefined): v is Action => v === 'analyst' || v === 'escalate' || v === 'close';
+
+// Readable model name: 'gpt-5.4-mini-2026-03-17' -> 'GPT-5.4 mini'.
+export const modelName = (id?: string) =>
+  (id || 'gpt-5.4-mini').replace(/-\d{4}-\d{2}-\d{2}$/, '').replace(/^gpt-/i, 'GPT-').replace(/-mini$/i, ' mini');

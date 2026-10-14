@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { ANSWER_LABEL, actionText, money, secs, usd } from '@/lib/labels';
+import { ANSWER_LABEL, actionText, modelName, money, secs, usd } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, type Pair, type RunFile, type Settings } from '@/lib/store';
 import { summarizeRun, type RunSummary } from '@/lib/summary';
 import type { RunResult } from '@/lib/types';
@@ -28,7 +28,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
   const byId = new Map(pairs.map((p) => [p.alertId, p]));
 
   const source = shown
-    ? `${shown.kind === 'official' ? 'Official run' : 'Your live run, kept in this browser only'}, ${new Date(shown.run_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. ${complete.length} of ${alerts.length} alerts, with Jev (${shown.settings.jevModel}) and ${shown.settings.openaiModel}.`
+    ? `${shown.kind === 'official' ? 'Official run' : 'Your live run, kept in this browser only'}, ${new Date(shown.run_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. ${complete.length} of ${alerts.length} alerts, with Jev (${shown.settings.jevModel}) and OpenAI ${modelName(shown.settings.openaiModel)}.`
     : '';
 
   return (
@@ -36,7 +36,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
       <p className="kicker">The test behind Tidey</p>
       <h1>How well does Tidey decide?</h1>
       <p className="lead">
-        Tidey runs on Jev plus plain code rules. To test that design, the same agent was also built the obvious way, with one AI model deciding everything.
+        Tidey runs on Jev plus plain code rules. To test that design, the same agent was also built the usual way, with a single OpenAI model ({modelName(settings.openaiModel)}, from the family behind ChatGPT) making every decision.
         Both versions ran on the same alerts and were scored against an answer key neither one sees. Analysts only use Tidey; the second version exists for this test.
       </p>
 
@@ -51,7 +51,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
             <li><i className="sw missed" />Risky alert closed alone</li>
           </ul>
         </div>
-        <OutcomeStrips key={`${view}-${shown?.run_at ?? 'none'}`} alerts={alerts} byId={byId} a={sj} b={sl} hasRun={complete.length > 0} runKind={shown?.kind ?? 'official'} />
+        <OutcomeStrips key={`${view}-${shown?.run_at ?? 'none'}`} alerts={alerts} byId={byId} a={sj} b={sl} hasRun={complete.length > 0} runKind={shown?.kind ?? 'official'} model={shown?.settings.openaiModel ?? settings.openaiModel} />
         <div className="source-row">
           <p className="source">
             {shown
@@ -73,7 +73,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
             <h2>Head to head</h2>
             <p>Same alerts, same checks and the same ${settings.maxAutoCloseAmount.toLocaleString()} limit on closing an alert alone. On each measure, the better result is marked.</p>
           </div>
-          <Scoreboard a={sj} b={sl} />
+          <Scoreboard a={sj} b={sl} model={shown?.settings.openaiModel ?? settings.openaiModel} />
         </section>
       )}
 
@@ -85,7 +85,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
         <div className="wide tablewrap">
           <table className="list">
             <thead>
-              <tr><th>Alert</th><th>What happened</th><th className="num">Amount</th><th>Tidey</th><th>One AI model</th><th>Right answer</th></tr>
+              <tr><th>Alert</th><th>What happened</th><th className="num">Amount</th><th>Tidey</th><th>One AI model ({modelName(shown?.settings.openaiModel ?? settings.openaiModel)})</th><th>Right answer</th></tr>
             </thead>
             <tbody>
               {alerts.map((a) => {
@@ -123,7 +123,7 @@ function Cell({ r }: { r?: RunResult | { error: string } }) {
   );
 }
 
-function Scoreboard({ a, b }: { a: RunSummary; b: RunSummary }) {
+function Scoreboard({ a, b, model }: { a: RunSummary; b: RunSummary; model: string }) {
   const rows: { k: string; sub?: string; av: string; bv: string; better?: 'a' | 'b' }[] = [];
   const cmp = (x: number, y: number, lower = false) => (x === y ? undefined : (lower ? x < y : x > y) ? 'a' : 'b');
   rows.push({ k: 'Correct decisions', av: `${a.correct} / ${a.alerts}`, bv: `${b.correct} / ${b.alerts}`, better: cmp(a.correct, b.correct) });
@@ -137,7 +137,7 @@ function Scoreboard({ a, b }: { a: RunSummary; b: RunSummary }) {
   return (
     <div className="wide tablewrap">
       <table className="score" style={{ minWidth: 600 }}>
-        <thead><tr><th style={{ width: '38%' }}>Measure</th><th className="j">Tidey<span className="sub">Jev decides, code acts</span></th><th>One AI model<span className="sub">Does everything, as a baseline</span></th></tr></thead>
+        <thead><tr><th style={{ width: '38%' }}>Measure</th><th className="j">Tidey<span className="sub">Jev decides, code acts</span></th><th>One AI model<span className="sub">OpenAI {modelName(model)}, doing everything</span></th></tr></thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.k}>
@@ -162,7 +162,7 @@ const BUCKETS: { key: Bucket; label: string }[] = [
 const EXPECTED: Record<Exclude<Bucket, 'notrun'>, string> = { legit: 'close', fraud: 'escalate', unclear: 'analyst' };
 
 // The page's main picture: alerts grouped by the right answer, one bar each, colored by what each version did.
-function OutcomeStrips({ alerts, byId, a, b, hasRun, runKind }: { alerts: AlertRow[]; byId: Map<string, Pair>; a: RunSummary; b: RunSummary; hasRun: boolean; runKind: string }) {
+function OutcomeStrips({ alerts, byId, a, b, hasRun, runKind, model }: { alerts: AlertRow[]; byId: Map<string, Pair>; a: RunSummary; b: RunSummary; hasRun: boolean; runKind: string; model: string }) {
   const bucketOf = (id: string): Bucket => {
     const p = byId.get(id);
     const r = isOk(p?.jev) ? p!.jev : isOk(p?.llm) ? p!.llm : null;
@@ -187,7 +187,7 @@ function OutcomeStrips({ alerts, byId, a, b, hasRun, runKind }: { alerts: AlertR
     },
     ...(['jev', 'llm'] as const).map((m) => ({
       name: m === 'jev' ? 'Tidey' : 'One AI model',
-      note: hasRun ? [`${(m === 'jev' ? a : b).correct} of ${(m === 'jev' ? a : b).alerts} right`, missed((m === 'jev' ? a : b).missedFraud)] : ['Not run yet'],
+      note: [...(m === 'llm' ? [`OpenAI ${modelName(model)}`] : ['Jev plus code rules']), ...(hasRun ? [`${(m === 'jev' ? a : b).correct} of ${(m === 'jev' ? a : b).alerts} right`, missed((m === 'jev' ? a : b).missedFraud)] : ['Not run yet'])],
       cell: (id: string) => {
         const r = byId.get(id)?.[m];
         if (!r) return { cls: 'none', tip: 'not run' };

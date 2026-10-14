@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { closedReason, firstSentence, toolHeadline } from '@/lib/headlines';
-import { ANSWER_LABEL, GROUPS, VERDICT_LABEL, isAction, money, secs, usd } from '@/lib/labels';
+import { ANSWER_LABEL, GROUPS, VERDICT_LABEL, isAction, modelName, money, secs, usd } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, runOne, saveLive, type Pair, type RunFile } from '@/lib/store';
 import type { Action, RunResult, Step, ToolName, Verdict } from '@/lib/types';
 import { StateIcon, TideyBadge } from '../../brand';
@@ -109,7 +109,7 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
         {pair && (
           <div className="seg" role="tablist" aria-label="Which version">
             <button className={mode === 'jev' ? 'on' : ''} onClick={() => setMode('jev')}>Tidey</button>
-            <button className={mode === 'llm' ? 'on' : ''} onClick={() => setMode('llm')}>Baseline (test only)</button>
+            <button className={mode === 'llm' ? 'on' : ''} onClick={() => setMode('llm')}>One AI model (test only)</button>
           </div>
         )}
       </div>
@@ -117,7 +117,7 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
       {!pair && (
         <div className="panel">
           <h2>Not investigated yet</h2>
-          <p className="muted" style={{ marginTop: 0 }}>Run this alert through Tidey and the baseline to see the investigation.</p>
+          <p className="muted" style={{ marginTop: 0 }}>Run this alert through Tidey and the one-model version to see the investigation.</p>
           <div className="row">
             {!featured && <input className="pass" type="password" placeholder="Owner passcode" value={pass} onChange={(e) => setPass(e.target.value)} />}
             <button className="btn primary" disabled={busy || (!featured && !pass)} onClick={runThis}>{busy ? 'Investigating…' : 'Investigate this alert'}</button>
@@ -157,7 +157,7 @@ const clockTime = (iso: string) => new Date(iso).toLocaleTimeString('en-US', { h
 function Assessment({ r, decided }: { r: RunResult; decided?: Decided }) {
   const d = r.trace.decision;
   const tidey = r.trace.mode === 'jev';
-  const who = tidey ? 'Tidey' : 'The baseline';
+  const who = tidey ? 'Tidey' : `${modelName(r.trace.models.openai)}`;
   const rec = r.trace.summary?.recommendation;
   let title = '', body = '';
   if (d.action === 'close') {
@@ -185,7 +185,7 @@ function Assessment({ r, decided }: { r: RunResult; decided?: Decided }) {
             ) : (
               <span className={`status-pill ${tidey ? d.action : 'baseline'}`}>
                 <i className={d.action === 'close' || !tidey ? '' : 'pulsing'} />
-                {!tidey ? 'Baseline, test only' : d.action === 'close' ? 'Closed by Tidey' : STATUS[d.action]}
+                {!tidey ? 'One AI model, test only' : d.action === 'close' ? 'Closed by Tidey' : STATUS[d.action]}
               </span>
             )}
           </div>
@@ -276,7 +276,7 @@ function CaseView({ r, bar }: { r: RunResult; bar: React.ReactNode }) {
         <div className="stack">
           {t.summary && (
             <section className="panel">
-              <p className="label">{t.mode === 'jev' ? 'Tidey’s summary' : 'The baseline’s summary'}</p>
+              <p className="label">{t.mode === 'jev' ? 'Tidey’s summary' : `${modelName(t.models.openai)}’s summary`}</p>
               <p className="summary">{t.summary.text}</p>
             </section>
           )}

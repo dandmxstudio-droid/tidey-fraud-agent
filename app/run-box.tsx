@@ -85,7 +85,7 @@ export function RunBox({ alerts, featured, settings, mock, live, onUpdate, lead 
             {busy && (
               <>
                 <div className="progress"><b style={{ width: `${(100 * progress.done) / Math.max(1, progress.total)}%` }} /></div>
-                <p className="small muted">Tidey is investigating {progress.done} of {progress.total} alerts, alongside the baseline…</p>
+                <p className="small muted">Tidey is investigating {progress.done} of {progress.total} alerts, alongside the one-model version…</p>
               </>
             )}
             {msg && <p className="small no">{msg}</p>}

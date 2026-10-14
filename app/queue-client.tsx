@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { closedReason, firstSentence } from '@/lib/headlines';
-import { VERDICT_LABEL, isAction, money, secs } from '@/lib/labels';
+import { VERDICT_LABEL, isAction, modelName, money, secs } from '@/lib/labels';
 import { isOk, loadLive, loadOfficial, type RunFile, type Settings } from '@/lib/store';
 import { RunBox } from './run-box';
 import type { Action, RunResult, Verdict } from '@/lib/types';
@@ -122,7 +122,7 @@ export function QueueClient({ alerts, mock, featured, settings }: { alerts: Aler
       mock={mock}
       live={live}
       onUpdate={onRunUpdate}
-      lead="Tidey and the one-model baseline investigate the alerts live, on real Jev and OpenAI calls, and this queue fills in as each one finishes. A live run is kept in this browser only."
+      lead={`Tidey and the one-model version (OpenAI ${modelName(settings.openaiModel)}) investigate the alerts live, and this queue fills in as each one finishes. A live run is kept in this browser only.`}
     />
   );
 

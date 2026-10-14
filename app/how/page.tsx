@@ -4,7 +4,7 @@ import { config } from '@/lib/config';
 import { VERDICT_CRITERIA } from '@/lib/agent-jev';
 import { toolHeadline } from '@/lib/headlines';
 import { TOOLS, TOOL_NAMES } from '@/lib/tools';
-import { VERDICT_LABEL, actionText, money } from '@/lib/labels';
+import { VERDICT_LABEL, actionText, modelName, money } from '@/lib/labels';
 import type { Action, AnswerKey, ToolName, Verdict } from '@/lib/types';
 import { Pipeline, type PipeStep } from './pipeline';
 
@@ -173,7 +173,7 @@ export default function How() {
           <h2>The test</h2>
           <p>
             {key.length} synthetic alerts for a fictional bank: {legit} legitimate, {fraud} fraud and {unclear} unclear cases with mixed signals that a person should see.
-            Each has an answer key that neither version sees. The comparison is the same agent built the obvious way, with one AI model ({config.openaiModel}) choosing checks and
+            Each has an answer key that neither version sees. The comparison is the same agent built the obvious way, with a single OpenAI model ({modelName(config.openaiModel)}, from the family behind ChatGPT) choosing checks and
             deciding everything, with the same tools and the same {limit} limit.
           </p>
         </div>

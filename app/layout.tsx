@@ -13,7 +13,7 @@ import { TidewellMark, TideyBadge } from './brand';
 
 export const metadata: Metadata = {
   title: 'Tidey, fraud alert agent for Tidewell (fictional bank)',
-  description: 'Tidey, a fraud alert investigation agent built two ways: Jev decisions with code rules, vs one AI model doing everything. Synthetic data.',
+  description: 'Tidey, a fraud alert investigation agent built two ways: Jev decisions with code rules, vs a single OpenAI model doing everything. Synthetic data.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
