@@ -93,7 +93,7 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
   const take = (r: RunResult) => {
     const d = r.trace.decision;
     if (d.action === 'close') return `${closedReason(r)}.`;
-    if (d.action === 'escalate') return `${VERDICT_LABEL[d.verdict]}. ${firstSentence(r.trace.summary?.recommendation) || 'Recommends a block.'}`;
+    if (d.action === 'escalate') return `${VERDICT_LABEL[d.verdict]}. ${d.verdict === 'account_takeover' ? 'Recommends freezing online banking and holding the transfer.' : 'Recommends blocking the card.'}`;
     return firstSentence(r.trace.summary?.recommendation) || (d.verdict === 'legitimate' ? 'Probably fine, but something doesn’t add up.' : `Possible ${VERDICT_LABEL[d.verdict].toLowerCase()}.`);
   };
 
@@ -112,8 +112,8 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
   const n = rows.length;
   const closed = of('close').length;
   const sub = closed
-    ? `I investigated yesterday’s ${n} alerts and closed the ${plural(closed, 'clear false alarm', 'clear false alarms')} myself. The other ${n - closed} need you, and I’d start with the fraud approvals.`
-    : `I investigated yesterday’s ${n} alerts. All of them need you, and I’d start with the fraud approvals.`;
+    ? `I investigated yesterday’s **${n} alerts** and closed the **${plural(closed, 'clear false alarm', 'clear false alarms')}** myself. The other **${n - closed}** need you, and I’d start with the fraud approvals.`
+    : `I investigated yesterday’s **${n} alerts**. All of them need you, and I’d start with the fraud approvals.`;
   // Alerts still waiting come first; ones the analyst already decided sink to the bottom.
   const list = [...of(tab).filter((a) => !decisions[a.id]), ...of(tab).filter((a) => decisions[a.id])];
   const firstOpen = list.find((a) => !decisions[a.id]);
@@ -170,13 +170,18 @@ export function QueueClient({ alerts, mock }: { alerts: AlertRow[]; mock: boolea
   );
 }
 
-// Words fade in one after another, the first time only.
+// Words fade in one after another, the first time only. Text between ** markers is set in bold.
 function Reveal({ text, from }: { text: string; from: number }) {
+  const plain = text.replace(/\*\*/g, '');
+  let i = 0;
   return (
-    <span aria-label={text}>
-      {text.split(' ').map((w, i) => (
-        <span key={i} aria-hidden="true" className="w" style={{ '--d': `${from + i * 16}ms` } as CSSProperties}>{w} </span>
-      ))}
+    <span aria-label={plain}>
+      {text.split('**').map((part, k) =>
+        part.split(' ').filter(Boolean).map((w) => {
+          const d = { '--d': `${from + i++ * 16}ms` } as CSSProperties;
+          return k % 2 ? <b key={i} aria-hidden="true" className="w" style={d}>{w} </b> : <span key={i} aria-hidden="true" className="w" style={d}>{w} </span>;
+        }),
+      )}
     </span>
   );
 }

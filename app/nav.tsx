@@ -2,16 +2,27 @@
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-const LINKS = [
-  { href: '/', label: 'Queue' },
-  { href: '/proof', label: 'Test results' },
-  { href: '/how', label: 'How it works' },
-];
+// Two kinds of navigation: the app itself (the queue and its cases), and the pages about the demo
+// (how Tidey was tested and how it works), which sit in a separate strip so they don't read as part of the workflow.
+const sectionOf = (p: string, from?: string | null) =>
+  p.startsWith('/proof') || (p.startsWith('/cases') && from === 'proof') ? '/proof' : p.startsWith('/how') ? '/how' : '/';
 
-function Links({ section }: { section: string }) {
+function AppLinks({ section }: { section: string }) {
   return (
-    <nav className="nav" aria-label="Main">
-      {LINKS.map((l) => (
+    <nav className="nav" aria-label="App">
+      <Link href="/" className={section === '/' ? 'on' : ''} aria-current={section === '/' ? 'page' : undefined}>Queue</Link>
+    </nav>
+  );
+}
+
+function DemoLinks({ section }: { section: string }) {
+  const links = [
+    { href: '/proof', label: 'Test results' },
+    { href: '/how', label: 'How it works' },
+  ];
+  return (
+    <nav className="demo-nav" aria-label="About this demo">
+      {links.map((l) => (
         <Link key={l.href} href={l.href} className={section === l.href ? 'on' : ''} aria-current={section === l.href ? 'page' : undefined}>
           {l.label}
         </Link>
@@ -20,17 +31,15 @@ function Links({ section }: { section: string }) {
   );
 }
 
-const sectionOf = (p: string, from?: string | null) =>
-  p.startsWith('/proof') || (p.startsWith('/cases') && from === 'proof') ? '/proof' : p.startsWith('/how') ? '/how' : '/';
-
-// A case opened from the test results belongs to that section, so the nav reads the ?from= param.
 export function Nav() {
-  const p = usePathname();
-  const from = useSearchParams().get('from');
-  return <Links section={sectionOf(p, from)} />;
+  return <AppLinks section={sectionOf(usePathname(), useSearchParams().get('from'))} />;
 }
-
-// Rendered while search params load, so the nav never flashes empty.
 export function NavFallback() {
-  return <Links section={sectionOf(usePathname())} />;
+  return <AppLinks section={sectionOf(usePathname())} />;
+}
+export function DemoNav() {
+  return <DemoLinks section={sectionOf(usePathname(), useSearchParams().get('from'))} />;
+}
+export function DemoNavFallback() {
+  return <DemoLinks section={sectionOf(usePathname())} />;
 }

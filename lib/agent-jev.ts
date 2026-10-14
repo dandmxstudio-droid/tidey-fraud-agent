@@ -71,11 +71,16 @@ export function decide(p: { legit: number; verdict: Verdict; unexplained: number
   return { action: 'analyst', verdict: p.verdict, confidence: Math.max(p.legit, pFraud), reason: `${why} Sent to an analyst.` };
 }
 
+// The recommendation has to match the buttons the analyst will see for this outcome.
+const NEXT_STEP_GUIDE =
+  'If agent_decision.action is "escalate", the case is already with the fraud analyst, who only approves or rejects a block: recommend what to approve (block the card, or freeze online banking and hold the transfer) and anything to check first; never say "escalate". ' +
+  'If it is "analyst", the analyst will choose between marking it legitimate, escalating it as fraud, or contacting the customer: recommend one of those and say why.';
+
 export async function summarize(ctx: unknown, evidence: unknown, decision: Decision, hint?: unknown) {
   const r = await chat(
     {
       messages: [
-        { role: 'system', content: 'You write case summaries for bank fraud analysts. Plain English, 2-3 short sentences, only facts from the data given. Then one recommended next step. Never invent facts.' },
+        { role: 'system', content: 'You write case summaries for bank fraud analysts. Plain English, 2-3 short sentences, only facts from the data given. Then one recommended next step. Never invent facts. ' + NEXT_STEP_GUIDE },
         { role: 'user', content: JSON.stringify({ alert: ctx, evidence, agent_decision: decision }) },
       ],
       response_format: {

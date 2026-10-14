@@ -7,7 +7,7 @@ import '@fontsource/ibm-plex-mono/600.css';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { Nav, NavFallback } from './nav';
+import { DemoNav, DemoNavFallback, Nav, NavFallback } from './nav';
 import { mockMode } from '@/lib/config';
 import { TidewellMark, TideyBadge } from './brand';
 
@@ -21,6 +21,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        <div className="demo-strip">
+          <div className="wrap">
+            <p><span className="long">A portfolio demo by Dan Mota. Tidewell and all of its data are fictional.</span><span className="short">Demo by Dan Mota</span></p>
+            <Suspense fallback={<DemoNavFallback />}><DemoNav /></Suspense>
+          </div>
+        </div>
         <header className="top">
           <div className="wrap">
             <a className="brand" href="/">

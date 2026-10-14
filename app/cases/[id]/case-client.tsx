@@ -14,6 +14,11 @@ const TOOL_KEY: Record<string, ToolName> = {
   'Past alerts': 'prior_alerts', 'Merchant check': 'merchant_profile', 'Payee check': 'payee_details',
 };
 const STATUS: Record<Exclude<Action, 'close'>, string> = { escalate: 'Waiting for your approval', analyst: 'Waiting for your decision' };
+const PROPOSAL: Partial<Record<Verdict, string>> = {
+  card_not_present_fraud: 'blocking the card and sending the customer a new one',
+  card_testing: 'blocking the card and sending the customer a new one',
+  account_takeover: 'freezing online banking and holding the transfer until the customer verifies',
+};
 const FOUND: Partial<Record<Verdict, string>> = { card_not_present_fraud: 'a stolen card used online', account_takeover: 'an account takeover', card_testing: 'card testing on this card' };
 const TOOL_TITLE: Record<string, string> = Object.fromEntries(Object.entries(TOOL_KEY).map(([k, v]) => [v, k]));
 
@@ -89,6 +94,7 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
           </div>
         )}
       </div>
+      {r && isOk(r) && <Assessment key={`a-${mode}`} r={r} decided={mode === 'jev' ? decisions[alert.id] : undefined} />}
       <div className="case-head">
         <div>
           <p className="kicker">{alert.id}, flagged by the rule “{alert.rule_triggered}”</p>
@@ -119,7 +125,6 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
         <CaseView
           key={mode}
           r={r}
-          assessment={<Assessment r={r} decided={mode === 'jev' ? decisions[alert.id] : undefined} />}
           bar={
             mode === 'jev' && pair && isOk(pair.jev) ? (
               <DecisionBar
@@ -154,7 +159,8 @@ function Assessment({ r, decided }: { r: RunResult; decided?: Decided }) {
     body = tidey ? `${closedReason(r)}.` : 'The model judged it legitimate.';
   } else if (d.action === 'escalate') {
     title = `${who} found ${FOUND[d.verdict] ?? VERDICT_LABEL[d.verdict].toLowerCase()}`;
-    body = rec || 'Recommends blocking the card or holding the transfer.';
+    // Escalation already happened: this is the approval step, so say what will be approved.
+    body = tidey ? `${who} recommends ${PROPOSAL[d.verdict] ?? 'blocking the card'}.` : rec || 'The model recommends a block.';
   } else {
     title = `${who} needs your call`;
     body = rec || firstSentence(d.reason);
@@ -165,16 +171,18 @@ function Assessment({ r, decided }: { r: RunResult; decided?: Decided }) {
     <div className={`verdict ${o ? 'decided' : d.action}`}>
       <div className="verdict-say">
         {tidey && <TideyBadge size={38} />}
-        <div>
-          {o && decided ? (
-            <p className={`status ${o.state}`}><StateIcon state={o.state} />{o.title} at {clockTime(decided.at)}</p>
-          ) : (
-            <p className={`status ${d.action}`}>
-              <i className={d.action === 'close' || !tidey ? '' : 'pulsing'} />
-              {!tidey ? 'Baseline decision, for the test only' : d.action === 'close' ? 'Closed by Tidey' : STATUS[d.action]}
-            </p>
-          )}
-          <h2>{title}</h2>
+        <div className="vs-body">
+          <div className="vs-head">
+            <h2>{title}</h2>
+            {o && decided ? (
+              <span className={`status-pill ${o.state}`}><StateIcon state={o.state} />{o.title}, {clockTime(decided.at)}</span>
+            ) : (
+              <span className={`status-pill ${tidey ? d.action : 'baseline'}`}>
+                <i className={d.action === 'close' || !tidey ? '' : 'pulsing'} />
+                {!tidey ? 'Baseline, test only' : d.action === 'close' ? 'Closed by Tidey' : STATUS[d.action]}
+              </span>
+            )}
+          </div>
           <p>{body}</p>
         </div>
       </div>
@@ -249,7 +257,7 @@ function DecisionBar({ r, group, decided, onDecide, nextOpen, leftText, back }: 
   );
 }
 
-function CaseView({ r, assessment, bar }: { r: RunResult; assessment: React.ReactNode; bar: React.ReactNode }) {
+function CaseView({ r, bar }: { r: RunResult; bar: React.ReactNode }) {
   const t = r.trace;
   const ctx = t.steps[0]?.data as any; // eslint-disable-line @typescript-eslint/no-explicit-any
   const decide = t.steps.find((s) => s.kind === 'decide');
@@ -258,7 +266,6 @@ function CaseView({ r, assessment, bar }: { r: RunResult; assessment: React.Reac
   return (
     <>
       {ctx && <KeyFacts ctx={ctx} />}
-      {assessment}
       <div className="case-grid">
         <div className="stack">
           {t.summary && (

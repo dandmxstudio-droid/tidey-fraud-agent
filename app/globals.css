@@ -610,3 +610,42 @@ table.list td a:hover { color: var(--ocean); }
   .decision-bar.done .resolved-mark { display: none; }
   .db-side { width: 100%; justify-content: space-between; }
 }
+
+/* ---------- the demo strip: pages about the demo, kept apart from the app ---------- */
+.demo-strip { background: var(--navy-deep); color: oklch(0.86 0.025 240); font-size: 14px; }
+.demo-strip .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; }
+.demo-strip p { margin: 0; }
+.demo-strip .short { display: none; }
+.demo-nav { display: flex; gap: 6px; align-items: center; }
+.demo-nav a { white-space: nowrap; color: oklch(0.92 0.02 240); text-decoration: none; padding: 5px 12px; border-radius: 999px; border: 1px solid oklch(1 0 0 / 0.18); font-weight: 500; }
+.demo-nav a:hover { background: oklch(1 0 0 / 0.08); border-color: oklch(1 0 0 / 0.35); }
+.demo-nav a.on { background: var(--paper); color: var(--navy); border-color: var(--paper); }
+
+/* ---------- queue hero: the numbers that matter ---------- */
+.hero-sub b { color: var(--navy); font-weight: 600; }
+
+/* ---------- case: Tidey's card leads the page; its status sits beside the title ---------- */
+.vs-body { flex: 1; min-width: 0; }
+.vs-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px 16px; flex-wrap: wrap; margin-bottom: 4px; }
+.vs-head h2 { margin: 2px 0 0; }
+.status-pill { display: inline-flex; align-items: center; gap: 7px; flex: none; font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: oklch(1 0 0 / 0.75); border: 1px solid oklch(0.3 0.08 255 / 0.08); white-space: nowrap; }
+.status-pill i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; color: inherit; display: block; }
+.status-pill.escalate { color: var(--escalate); }
+.status-pill.analyst { color: var(--review-ink); }
+.status-pill.close, .status-pill.success { color: oklch(0.42 0.1 165); }
+.status-pill.warning { color: var(--review-ink); }
+.status-pill.baseline { color: var(--muted); }
+.status-pill.success, .status-pill.warning { background: var(--st-tint); border-color: var(--st-line); }
+.case-nav + .verdict { margin-top: 22px; }
+.case-nav + .verdict + .case-head { margin-top: 8px; }
+@media (max-width: 640px) {
+  .demo-strip .long { display: none; }
+  .demo-strip .short { display: inline; }
+  .demo-strip { font-size: 13px; }
+  .demo-nav a { padding: 3px 10px; }
+  .demo-strip p { white-space: nowrap; }
+  .top .wrap { flex-wrap: nowrap; padding-bottom: 0; height: 60px; padding-top: 0; }
+  .nav { order: 0; width: auto; margin: 0 0 0 auto; border-top: 0; align-self: stretch; }
+  .nav a { flex: none; height: auto; padding: 0 4px; }
+  .brand .product small { display: none; }
+}
