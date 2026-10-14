@@ -18,6 +18,21 @@ Two sets of 50 synthetic alerts, each with 24 legitimate, 18 fraud (8 stolen car
   - Tuning after v2: three legitimate alerts sat just over the unexplained limit (0.31 to 0.34) while the closest risky alert was at 0.46, so the limit moved from 0.30 to 0.35. Replayed on the stored v2 probabilities: 48/50, 0 closed alone.
 - **Test set** (`data/`, `SET=test python3 gen/generate.py`): generated after tuning, with a new seed, different places, merchants and amounts, and 8 new mixed-signal cases. Nothing was tuned on it. The official results are from this set.
 
+### Official results (test set, `public/results/official.json`)
+| | Tidey (Jev + code rules) | One AI model (GPT-5.4 mini) |
+|---|---|---|
+| Correct decisions | 45 / 50 | 46 / 50 |
+| Fraud closed with nobody looking | 0 | 0 |
+| Unclear cases closed with nobody looking | 2 | 4 |
+| Unclear cases a person saw | 6 / 8 | 4 / 8 |
+| Legitimate alerts sent to a person | 3 | 0 |
+| Right fraud type when escalated | 18 / 18 | 18 / 18 |
+| Cost per alert | $0.0012 | $0.0037 |
+| Time to a decision | 0.30 s | 2.2 s |
+| Broken or invalid outputs | 0 | 0 |
+
+The two unclear cases Tidey closed (a 2:40 AM ATM withdrawal abroad during a booked trip, and a new phone that needed three tries at two-factor) were also closed by the single model. Nothing was re-tuned after this run.
+
 A decision is **correct** when it closes a legitimate alert, escalates fraud, or sends an unclear case to a person. The costly mistake is **a fraud or unclear alert closed with no person looking**.
 
 ## Code rules (version A)
