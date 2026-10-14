@@ -12,7 +12,7 @@ import { mockMode } from '@/lib/config';
 import { TidewellMark, TideyBadge } from './brand';
 
 export const metadata: Metadata = {
-  title: 'Tidey, fraud alert agent for Tidewell (fictional bank)',
+  title: 'Tidey, Fraud Alert Agent for Tidewell (fictional bank)',
   description: 'Tidey, a fraud alert investigation agent built two ways: Jev decisions with code rules, vs a single OpenAI model doing everything. Synthetic data.',
 };
 
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="top">
           <div className="wrap">
             <a className="brand" href="/">
-              <span className="product"><TideyBadge size={30} live />Tidey <small>Fraud alert agent</small></span>
+              <span className="product"><TideyBadge size={30} live />Tidey <small>Fraud Alert Agent</small></span>
             </a>
             <Suspense fallback={<NavFallback />}><Nav /></Suspense>
           </div>
@@ -42,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="foot-top">
               <span className="bank"><TidewellMark size={22} />Tidewell</span>
               <div className="foot-demo">
-                <span>Behind the demo</span>
+                <span>Behind the Demo</span>
                 <Suspense fallback={<DemoNavFallback />}><DemoNav /></Suspense>
               </div>
             </div>

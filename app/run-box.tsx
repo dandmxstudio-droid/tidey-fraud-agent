@@ -64,21 +64,21 @@ export function RunBox({ alerts, featured, settings, mock, live, onUpdate, lead 
   return (
     <section className="section" id="run">
       <div className="section-head">
-        <h2>Run the test yourself</h2>
+        <h2>Run the Test Yourself</h2>
         <p>{lead}</p>
       </div>
       <div className="runbox">
         <div className="run-opt">
-          <h3>Five sample alerts</h3>
+          <h3>Five Sample Alerts</h3>
           <p>Open to anyone. A mix of fraud, false alarms and judgment calls. Takes about a minute.</p>
-          <button className="btn primary" disabled={busy} onClick={() => start(featured, pass)}>Run the sample alerts</button>
+          <button className="btn primary" disabled={busy} onClick={() => start(featured, pass)}>Run the Sample Alerts</button>
         </div>
         <div className="run-opt">
-          <h3>All {alerts.length} alerts</h3>
+          <h3>All {alerts.length} Alerts</h3>
           <p>For the owner. Needs the passcode, because every run costs API credits.</p>
           <div className="row">
             <input className="pass" type="password" placeholder="Owner passcode" aria-label="Owner passcode" value={pass} onChange={(e) => setPass(e.target.value)} />
-            <button className="btn" disabled={busy || !pass} onClick={() => start(alerts.map((a) => a.id), pass)}>Run all {alerts.length}</button>
+            <button className="btn" disabled={busy || !pass} onClick={() => start(alerts.map((a) => a.id), pass)}>Run All {alerts.length}</button>
           </div>
         </div>
         {(busy || msg || (live && !busy)) && (
@@ -92,8 +92,8 @@ export function RunBox({ alerts, featured, settings, mock, live, onUpdate, lead 
             {msg && <p className="small no">{msg}</p>}
             {live && !busy && (
               <div className="row">
-                {failed.length > 0 && <button className="btn" onClick={() => start(failed, pass, live)}>Retry {failed.length} failed</button>}
-                <button className="btn" onClick={download}>Download your live run</button>
+                {failed.length > 0 && <button className="btn" onClick={() => start(failed, pass, live)}>Retry {failed.length} Failed</button>}
+                <button className="btn" onClick={download}>Download Your Live Run</button>
                 <span className="small muted">To publish it as the official run, add the file to <code>public/results/official.json</code> in the repo.</span>
               </div>
             )}

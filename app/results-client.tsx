@@ -33,7 +33,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
 
   return (
     <>
-      <p className="kicker">The test behind Tidey</p>
+      <p className="kicker">The Test Behind Tidey</p>
       <h1>How well does Tidey decide?</h1>
       <p className="lead">
         Tidey runs on Jev plus plain code rules. To test that design, the same agent was also built the usual way, with a single OpenAI model ({modelName(settings.openaiModel)}, from the family behind ChatGPT) making every decision.
@@ -42,13 +42,13 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
 
       <section className="outcomes" aria-label="Every decision, one bar per alert">
         <div className="outcomes-head">
-          <p className="outcomes-title">{shown ? <>Every decision, one bar per alert</> : <>No results yet</>}</p>
+          <p className="outcomes-title">{shown ? <>Every Decision, One Bar per Alert</> : <>No Results Yet</>}</p>
           <ul className="legend">
-            <li><i className="sw close" />Closed as a false alarm</li>
-            <li><i className="sw escalate" />Escalated as fraud</li>
-            <li><i className="sw analyst" />Sent to a person</li>
-            <li><i className="sw wrong" />Wrong call</li>
-            <li><i className="sw missed" />Risky alert closed alone</li>
+            <li><i className="sw close" />Closed as a False Alarm</li>
+            <li><i className="sw escalate" />Escalated as Fraud</li>
+            <li><i className="sw analyst" />Sent to a Person</li>
+            <li><i className="sw wrong" />Wrong Call</li>
+            <li><i className="sw missed" />Risky Alert Closed Alone</li>
           </ul>
         </div>
         <OutcomeStrips key={`${view}-${shown?.run_at ?? 'none'}`} alerts={alerts} byId={byId} a={sj} b={sl} hasRun={complete.length > 0} runKind={shown?.kind ?? 'official'} model={shown?.settings.openaiModel ?? settings.openaiModel} />
@@ -60,8 +60,8 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
           </p>
           {official && live && (
             <div className="seg" role="group" aria-label="Which run to show">
-              <button className={view === 'official' ? 'on' : ''} aria-pressed={view === 'official'} onClick={() => setView('official')}>Official run</button>
-              <button className={view === 'live' ? 'on' : ''} aria-pressed={view === 'live'} onClick={() => setView('live')}>Your live run</button>
+              <button className={view === 'official' ? 'on' : ''} aria-pressed={view === 'official'} onClick={() => setView('official')}>Official Run</button>
+              <button className={view === 'live' ? 'on' : ''} aria-pressed={view === 'live'} onClick={() => setView('live')}>Your Live Run</button>
             </div>
           )}
         </div>
@@ -70,7 +70,7 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
       {complete.length > 0 && (
         <section className="section">
           <div className="section-head">
-            <h2>Head to head</h2>
+            <h2>Head to Head</h2>
             <p>Same alerts, same checks and the same ${settings.maxAutoCloseAmount.toLocaleString()} limit on closing an alert alone. On each measure, the better result is marked.</p>
           </div>
           <Scoreboard a={sj} b={sl} model={shown?.settings.openaiModel ?? settings.openaiModel} />
@@ -79,13 +79,13 @@ export function ResultsClient({ alerts, featured, settings, mock }: { alerts: Al
 
       <section className="section">
         <div className="section-head">
-          <h2>Every alert</h2>
+          <h2>Every Alert</h2>
           <p>Open any alert to see how each version investigated it and what the answer key says.</p>
         </div>
         <div className="wide tablewrap">
           <table className="list">
             <thead>
-              <tr><th>Alert</th><th>What happened</th><th className="num">Amount</th><th>Tidey</th><th>One AI model ({modelName(shown?.settings.openaiModel ?? settings.openaiModel)})</th><th>Right answer</th></tr>
+              <tr><th>Alert</th><th>What Happened</th><th className="num">Amount</th><th>Tidey</th><th>One AI Model ({modelName(shown?.settings.openaiModel ?? settings.openaiModel)})</th><th>Right Answer</th></tr>
             </thead>
             <tbody>
               {alerts.map((a) => {
@@ -137,7 +137,7 @@ function Scoreboard({ a, b, model }: { a: RunSummary; b: RunSummary; model: stri
   return (
     <div className="wide tablewrap">
       <table className="score" style={{ minWidth: 600 }}>
-        <thead><tr><th style={{ width: '38%' }}>Measure</th><th className="j">Tidey<span className="sub">Jev decides, code acts</span></th><th>One AI model<span className="sub">OpenAI {modelName(model)}, doing everything</span></th></tr></thead>
+        <thead><tr><th style={{ width: '38%' }}>Measure</th><th className="j">Tidey<span className="sub">Jev decides, code acts</span></th><th>One AI Model<span className="sub">OpenAI {modelName(model)}, doing everything</span></th></tr></thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.k}>
@@ -157,7 +157,7 @@ const BUCKETS: { key: Bucket; label: string }[] = [
   { key: 'legit', label: 'Legitimate' },
   { key: 'fraud', label: 'Fraud' },
   { key: 'unclear', label: 'Unclear' },
-  { key: 'notrun', label: 'Not run yet' },
+  { key: 'notrun', label: 'Not Run Yet' },
 ];
 const EXPECTED: Record<Exclude<Bucket, 'notrun'>, string> = { legit: 'close', fraud: 'escalate', unclear: 'analyst' };
 
@@ -178,7 +178,7 @@ function OutcomeStrips({ alerts, byId, a, b, hasRun, runKind, model }: { alerts:
 
   const rows: { name: string; note: string[]; cell: (id: string) => { cls: string; tip: string } }[] = [
     {
-      name: 'The right answer',
+      name: 'The Right Answer',
       note: [hasRun ? 'From the answer key' : 'Revealed after a run'],
       cell: (id) => {
         const k = bucketOf(id);
@@ -186,7 +186,7 @@ function OutcomeStrips({ alerts, byId, a, b, hasRun, runKind, model }: { alerts:
       },
     },
     ...(['jev', 'llm'] as const).map((m) => ({
-      name: m === 'jev' ? 'Tidey' : 'One AI model',
+      name: m === 'jev' ? 'Tidey' : 'One AI Model',
       note: [...(m === 'llm' ? [`OpenAI ${modelName(model)}`] : ['Jev plus code rules']), ...(hasRun ? [`${(m === 'jev' ? a : b).correct} of ${(m === 'jev' ? a : b).alerts} right`, missed((m === 'jev' ? a : b).missedFraud)] : ['Not run yet'])],
       cell: (id: string) => {
         const r = byId.get(id)?.[m];

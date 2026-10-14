@@ -18,20 +18,20 @@ const BRIEFED_KEY = 'tidey-briefed';
 const ORDER: Action[] = ['escalate', 'analyst', 'close'];
 const TASK: Record<Action, { name: string; short: string; unit: string; head: string; voice: string; start: string }> = {
   escalate: {
-    name: 'Fraud to approve',
+    name: 'Fraud to Approve',
     short: 'Fraud',
     unit: 'left',
-    head: 'Fraud, waiting for your approval',
+    head: 'Fraud, Waiting for Your Approval',
     voice: 'I’ve recommended a block or hold on each. Nothing happens to a card or account until you approve it.',
-    start: 'Review next alert',
+    start: 'Review Next Alert',
   },
   analyst: {
-    name: 'Judgment calls',
+    name: 'Judgment Calls',
     short: 'Judgment',
     unit: 'left',
-    head: 'Needs your call',
+    head: 'Needs Your Call',
     voice: 'Mixed signals on these. For each one I’ve written what doesn’t add up and what I’d check next.',
-    start: 'Review next alert',
+    start: 'Review Next Alert',
   },
   close: {
     name: 'Closed by Tidey',
@@ -39,7 +39,7 @@ const TASK: Record<Action, { name: string; short: string; unit: string; head: st
     unit: 'to spot-check',
     head: 'Closed by Tidey',
     voice: 'False alarms I closed on my own. Each one keeps its evidence, so you can check my work.',
-    start: 'Spot-check next alert',
+    start: 'Spot-Check Next Alert',
   },
 };
 const DEFAULT_VIEW: Action = 'escalate';
@@ -166,12 +166,12 @@ export function QueueClient({ alerts, mock, featured, settings }: { alerts: Aler
           <section className="inbox" id="inbox" role="tabpanel" aria-labelledby="task-handled">
             <div className="inbox-head">
               <div>
-                <h2>Handled by you</h2>
+                <h2>Handled by You</h2>
                 <p>{decided.length ? 'Everything you’ve decided today. Open any alert to see it again or undo your call.' : 'Nothing yet. Alerts you decide move here from the groups above.'}</p>
               </div>
             </div>
             {[
-              { key: 'open', title: 'Still open', note: 'Waiting on the customer’s reply or the fraud team’s second look.', items: pending },
+              { key: 'open', title: 'Still Open', note: 'Waiting on the customer’s reply or the fraud team’s second look.', items: pending },
               { key: 'done', title: 'Done', note: 'Nothing more to do.', items: finished },
             ].filter((g) => g.items.length).map((g) => (
               <div key={g.key} className="handled-group">
@@ -206,7 +206,7 @@ export function QueueClient({ alerts, mock, featured, settings }: { alerts: Aler
               </div>
               {firstOpen
                 ? <a className="btn primary" href={`/cases/${firstOpen.id}?view=${tab}${runQ}`}>{TASK[tab].start}</a>
-                : of(tab).length > 0 && <span className="all-done"><Check />All done</span>}
+                : of(tab).length > 0 && <span className="all-done"><Check />All Done</span>}
             </div>
             {list.map((al, i) => {
               const r = handled.get(al.id)!;
@@ -343,7 +343,7 @@ function Sorter({ rows, handled, tab, onPick, intro, totalMs, decisions, reviewe
                 <span className="qtab-name"><i className={waiting ? 'pulsing' : ''} /><span className="long">{TASK[k].name}</span><span className="short" aria-hidden="true">{TASK[k].short}</span></span>
                 <span className="qtab-count">
                   {finished
-                    ? <span className="qtab-done"><Check />All done</span>
+                    ? <span className="qtab-done"><Check />All Done</span>
                     : <><b>{shown}</b><span>of {mine.length} {TASK[k].unit}</span></>}
                 </span>
                 <span className="qtab-bar" aria-hidden="true"><b style={{ width: `${mine.length ? (100 * done) / mine.length : 0}%` }} /></span>

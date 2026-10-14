@@ -17,8 +17,8 @@ function AppLinks({ section }: { section: string }) {
 
 function DemoLinks({ section }: { section: string }) {
   const links = [
-    { href: '/proof', label: 'Test results' },
-    { href: '/how', label: 'How it works' },
+    { href: '/proof', label: 'Test Results' },
+    { href: '/how', label: 'How It Works' },
   ];
   return (
     <nav className="demo-nav" aria-label="About this demo">

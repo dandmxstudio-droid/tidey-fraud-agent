@@ -4,7 +4,7 @@ import { config } from '@/lib/config';
 import { VERDICT_CRITERIA } from '@/lib/agent-jev';
 import { toolHeadline } from '@/lib/headlines';
 import { TOOLS, TOOL_NAMES } from '@/lib/tools';
-import { VERDICT_LABEL, actionText, modelName, money } from '@/lib/labels';
+import { VERDICT_LABEL, actionText, modelName, money, titleCase } from '@/lib/labels';
 import type { Action, AnswerKey, ToolName, Verdict } from '@/lib/types';
 import { Pipeline, type PipeStep } from './pipeline';
 
@@ -20,7 +20,7 @@ function exampleSteps(): PipeStep[] {
   const d = example.decision as { action: Action; verdict: Verdict };
   return [
     {
-      lane: 'code', title: 'Read the alert',
+      lane: 'code', title: 'Read the Alert',
       body: 'Plain code pulls the alert and works out the facts before any model sees it: how far from home, whether the device is new, how the amount compares with normal.',
       example: { kind: 'facts', rows: [
         ['What happened', `${money(t.amount)} ${t.channel} purchase at ${t.merchant}`],
@@ -31,35 +31,35 @@ function exampleSteps(): PipeStep[] {
       ] },
     },
     {
-      lane: 'jev', title: 'Choose the checks',
+      lane: 'jev', title: 'Choose the Checks',
       body: `Some checks always run. For each of the others, Jev answers one yes or no question: is this check worth running? Code runs it when the answer is yes with probability ${config.checkAt} or more.`,
       example: { kind: 'bars', question: 'Is this check worth running?', threshold: config.checkAt,
         rows: plan.map(([k, v]) => ({ label: TOOLS[k as ToolName].title, value: v, tag: v >= config.checkAt ? 'Runs' : 'Skipped' })),
         foot: 'Transaction history always runs.' },
     },
     {
-      lane: 'code', title: 'Run the checks',
+      lane: 'code', title: 'Run the Checks',
       body: 'Code reads the bank’s records for each chosen check. No model counts, adds up or looks anything up, so the facts are exact.',
       example: { kind: 'lines', rows: example.tools.map((x) => ({ label: x.label, text: toolHeadline(TITLE_TO_TOOL[x.label], x.data as Record<string, unknown>) })) },
     },
     {
-      lane: 'jev', title: 'Answer the decision questions',
+      lane: 'jev', title: 'Answer the Decision Questions',
       body: 'Jev reads the alert and the evidence and answers fixed questions. Every option gets a probability, so the next step has numbers to work with instead of prose.',
       example: { kind: 'bars', question: 'Who most likely carried out this activity?',
         rows: [...verdict.map(([k, v]) => ({ label: VERDICT_LABEL[k as Verdict], value: v })), { label: 'Could it be a scam?', value: example.decide.scam_risk }] },
     },
     {
-      lane: 'code', title: 'Apply the rules',
+      lane: 'code', title: 'Apply the Rules',
       body: 'Code turns the probabilities into one of three outcomes: close the alert, escalate it as fraud, or send it to an analyst. The same numbers always give the same outcome.',
       example: { kind: 'outcome', pill: actionText(d.action, d.verdict), text: example.rule },
     },
     {
-      lane: 'ai', title: 'Write the summary',
+      lane: 'ai', title: 'Write the Summary',
       body: 'For anything Tidey doesn’t close, an AI model writes the summary and the suggested next step the analyst reads. It writes; it doesn’t decide.',
       example: { kind: 'quote', text: example.summary.text, rec: example.summary.recommendation },
     },
     {
-      lane: 'person', title: 'Approve or decide',
+      lane: 'person', title: 'Approve or Decide',
       body: 'A person approves every card block or account freeze, and makes the call on every case Tidey wasn’t sure about.',
       example: { kind: 'approve', title: 'Tidey found a stolen card used online', body: 'Nothing happens to the card until an analyst approves the block.' },
     },
@@ -78,7 +78,7 @@ export default function How() {
 
   return (
     <>
-      <p className="kicker">How it works</p>
+      <p className="kicker">How It Works</p>
       <h1>Each part of Tidey has one job</h1>
       <p className="lead">
         Jev makes the judgment calls, plain code does everything that has to be exact, an AI model writes for people, and a person keeps the final say.
@@ -89,15 +89,15 @@ export default function How() {
 
       <section className="section">
         <div className="section-head">
-          <h2>Where the lines are drawn</h2>
+          <h2>Where the Lines Are Drawn</h2>
           <p>Jev only answers questions. These rules, written in plain code, decide what happens with the answers. They’re the same for every alert, so every outcome traces back to a number.</p>
         </div>
         <div className="scale-card">
           <p className="scale-q">How likely Jev thinks the activity is legitimate</p>
           <div className="scale" style={{ gridTemplateColumns: `${esc}fr ${config.closeAt - esc}fr ${1 - config.closeAt}fr` }}>
-            <div className="zone escalate"><b>Escalate as fraud</b><span>A person approves any block</span></div>
-            <div className="zone analyst"><b>Send to an analyst</b><span>With a summary and a next step</span></div>
-            <div className="zone close"><b>Close it alone</b><span>Only if the checks below pass</span></div>
+            <div className="zone escalate"><b>Escalate as Fraud</b><span>A person approves any block</span></div>
+            <div className="zone analyst"><b>Send to an Analyst</b><span>With a summary and a next step</span></div>
+            <div className="zone close"><b>Close It Alone</b><span>Only if the checks below pass</span></div>
             <span className="marker" style={{ left: `${exLegit * 100}%` }}><i />{example.alertId}</span>
           </div>
           <div className="scale-ticks">
@@ -108,7 +108,7 @@ export default function How() {
           </div>
           <div className="gates">
             <div>
-              <b>To close it alone, Tidey also needs</b>
+              <b>To Close It Alone, Tidey Also Needs</b>
               <ul>
                 <li>The chance that something is out of character and unexplained at <span className="num-chip">{config.unexplainedMax}</span> or less</li>
                 <li>An amount under <span className="num-chip">{limit}</span></li>
@@ -116,7 +116,7 @@ export default function How() {
               </ul>
             </div>
             <div>
-              <b>Anything that misses a rule</b>
+              <b>Anything That Misses a Rule</b>
               <p>Goes to an analyst. When Tidey isn’t sure, a person decides, which is the safe way to be wrong.</p>
             </div>
           </div>
@@ -125,12 +125,12 @@ export default function How() {
 
       <section className="section">
         <div className="section-head">
-          <h2>What Jev is asked</h2>
+          <h2>What Jev Is Asked</h2>
           <p>Three questions with fixed options. Jev returns a probability for every option and can’t answer outside them, so there is nothing to parse or repair.</p>
         </div>
         <div className="asks">
           <div className="ask big">
-            <p className="ask-type">Pick one</p>
+            <p className="ask-type">Pick One</p>
             <h3>Who most likely carried out this activity?</h3>
             <div className="ask-opts">
               {(Object.keys(VERDICT_CRITERIA) as Verdict[]).map((k) => (
@@ -154,13 +154,13 @@ export default function How() {
 
       <section className="section">
         <div className="section-head">
-          <h2>The checks</h2>
+          <h2>The Checks</h2>
           <p>Six read-only lookups into the bank’s records. Both versions of the agent in the test get exactly the same ones.</p>
         </div>
         <div className="check-grid">
           {TOOL_NAMES.map((t) => (
             <div key={t}>
-              <b>{TOOLS[t].title}</b>
+              <b>{titleCase(TOOLS[t].title)}</b>
               {ALWAYS[t] && <span className="tag">{ALWAYS[t]}</span>}
               <p>{TOOLS[t].description}</p>
             </div>
@@ -170,7 +170,7 @@ export default function How() {
 
       <section className="section">
         <div className="section-head">
-          <h2>The test</h2>
+          <h2>The Test</h2>
           <p>
             {key.length} synthetic alerts for a fictional bank: {legit} legitimate, {fraud} fraud and {unclear} unclear cases with mixed signals that a person should see.
             Each has an answer key that neither version sees. Tidey’s rules were tuned on a separate development set of 50 alerts; this set was generated afterwards and never used for tuning. The comparison is the same agent built the obvious way, with a single OpenAI model ({modelName(config.openaiModel)}, from the family behind ChatGPT) choosing checks and
@@ -178,9 +178,9 @@ export default function How() {
           </p>
         </div>
         <div className="test-facts">
-          <div><b>A right call</b><p>Closes a legitimate alert, escalates fraud, or sends an unclear case to a person.</p></div>
-          <div><b>The costly mistake</b><p>Fraud, or an unclear case, closed with nobody looking.</p></div>
-          <div><b>The results</b><p>Every decision, scored, on the <a href="/proof">Test results</a> page.</p></div>
+          <div><b>A Right Call</b><p>Closes a legitimate alert, escalates fraud, or sends an unclear case to a person.</p></div>
+          <div><b>The Costly Mistake</b><p>Fraud, or an unclear case, closed with nobody looking.</p></div>
+          <div><b>The Results</b><p>Every decision, scored, on the <a href="/proof">Test results</a> page.</p></div>
         </div>
       </section>
     </>

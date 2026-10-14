@@ -36,17 +36,17 @@ export const stillOpen = (d?: Decided) => !!d && (d.choice === 'contact' || d.ch
 // What the analyst can do, by the group Tidey put the alert in.
 export const CHOICES: Record<Action, { choice: Choice; label: string; cls: string }[]> = {
   escalate: [
-    { choice: 'override', label: 'Not fraud', cls: 'btn' },
-    { choice: 'approve', label: 'Approve block', cls: 'btn danger' },
+    { choice: 'override', label: 'Not Fraud', cls: 'btn' },
+    { choice: 'approve', label: 'Approve Block', cls: 'btn danger' },
   ],
   analyst: [
-    { choice: 'legit', label: 'Mark legitimate', cls: 'btn' },
-    { choice: 'fraud', label: 'Escalate as fraud', cls: 'btn danger' },
-    { choice: 'contact', label: 'Contact customer', cls: 'btn primary' },
+    { choice: 'legit', label: 'Mark Legitimate', cls: 'btn' },
+    { choice: 'fraud', label: 'Escalate as Fraud', cls: 'btn danger' },
+    { choice: 'contact', label: 'Contact Customer', cls: 'btn primary' },
   ],
   close: [
     { choice: 'reopen', label: 'Reopen', cls: 'btn' },
-    { choice: 'confirm', label: 'Looks right', cls: 'btn primary' },
+    { choice: 'confirm', label: 'Looks Right', cls: 'btn primary' },
   ],
 };
 
@@ -56,19 +56,19 @@ export function outcome(choice: Choice, verdict: Verdict): { working: string; ti
   switch (choice) {
     case 'approve':
       return takeover
-        ? { working: 'Freezing online banking and holding the transfer…', title: 'Account frozen', body: 'Online banking is locked, the transfer is on hold, and Tidey asked the customer to call the bank to verify.', short: 'Account frozen', state: 'success' }
-        : { working: 'Blocking the card…', title: 'Card blocked', body: 'Tidey blocked the card, ordered a replacement and texted the customer.', short: 'Card blocked', state: 'success' };
+        ? { working: 'Freezing online banking and holding the transfer…', title: 'Account Frozen', body: 'Online banking is locked, the transfer is on hold, and Tidey asked the customer to call the bank to verify.', short: 'Account Frozen', state: 'success' }
+        : { working: 'Blocking the card…', title: 'Card Blocked', body: 'Tidey blocked the card, ordered a replacement and texted the customer.', short: 'Card Blocked', state: 'success' };
     case 'override':
-      return { working: 'Closing the alert…', title: 'Closed as not fraud', body: 'Nothing was blocked. Your call is logged next to Tidey’s, so the disagreement can be reviewed.', short: 'Closed, not fraud', state: 'success' };
+      return { working: 'Closing the alert…', title: 'Closed as Not Fraud', body: 'Nothing was blocked. Your call is logged next to Tidey’s, so the disagreement can be reviewed.', short: 'Closed, Not Fraud', state: 'success' };
     case 'legit':
-      return { working: 'Closing the alert…', title: 'Closed as legitimate', body: 'No action on the account. Your call is logged with Tidey’s notes.', short: 'Legitimate', state: 'success' };
+      return { working: 'Closing the alert…', title: 'Closed as Legitimate', body: 'No action on the account. Your call is logged with Tidey’s notes.', short: 'Legitimate', state: 'success' };
     case 'fraud':
-      return { working: 'Sending it to the fraud team…', title: 'Escalated as fraud', body: 'The fraud team has the case with Tidey’s notes, and the card is on hold until they review it.', short: 'Escalated', state: 'success' };
+      return { working: 'Sending it to the fraud team…', title: 'Escalated as Fraud', body: 'The fraud team has the case with Tidey’s notes, and the card is on hold until they review it.', short: 'Escalated', state: 'success' };
     case 'contact':
-      return { working: 'Texting the customer…', title: 'Customer texted', body: 'Tidey asked the customer to confirm the activity. The alert stays open until they reply.', short: 'Customer texted', state: 'success' };
+      return { working: 'Texting the customer…', title: 'Customer Texted', body: 'Tidey asked the customer to confirm the activity. The alert stays open until they reply.', short: 'Customer Texted', state: 'success' };
     case 'confirm':
-      return { working: 'Saving your check…', title: 'Spot-checked', body: 'You agreed with Tidey’s close. It’s logged as checked.', short: 'Checked', state: 'success' };
+      return { working: 'Saving your check…', title: 'Spot-Checked', body: 'You agreed with Tidey’s close. It’s logged as checked.', short: 'Checked', state: 'success' };
     case 'reopen':
-      return { working: 'Reopening…', title: 'Sent for a second look', body: 'Tidey’s close is marked as overturned, and the fraud team will review the alert.', short: 'Second look', state: 'warning' };
+      return { working: 'Reopening…', title: 'Sent for a Second Look', body: 'Tidey’s close is marked as overturned, and the fraud team will review the alert.', short: 'Second Look', state: 'warning' };
   }
 }

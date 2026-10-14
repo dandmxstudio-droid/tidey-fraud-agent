@@ -14,7 +14,7 @@ export type PipeStep = { lane: Lane; title: string; body: string; example: Examp
 const LANES: { key: Lane; name: string; job: string }[] = [
   { key: 'code', name: 'Code', job: 'Exact work: facts, records, rules' },
   { key: 'jev', name: 'Jev', job: 'Judgment calls, with probabilities' },
-  { key: 'ai', name: 'AI model', job: 'Writes for people' },
+  { key: 'ai', name: 'AI Model', job: 'Writes for people' },
   { key: 'person', name: 'Person', job: 'Has the final say' },
 ];
 const laneIdx = (l: Lane) => LANES.findIndex((x) => x.key === l);
@@ -169,7 +169,7 @@ function ExampleView({ ex, lane }: { ex: Example; lane: Lane }) {
       return (
         <div className="ex-approve">
           <div><b>{ex.title}</b><p>{ex.body}</p></div>
-          <div className="acts" aria-hidden="true"><span className="btn danger">Approve block</span><span className="btn">Override</span></div>
+          <div className="acts" aria-hidden="true"><span className="btn">Not Fraud</span><span className="btn danger">Approve Block</span></div>
         </div>
       );
   }

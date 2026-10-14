@@ -14,7 +14,7 @@ const TOOL_KEY: Record<string, ToolName> = {
   'Transaction history': 'transaction_history', 'Devices and sign-ins': 'devices_and_signins', 'Account changes': 'account_changes',
   'Past alerts': 'prior_alerts', 'Merchant check': 'merchant_profile', 'Payee check': 'payee_details',
 };
-const STATUS: Record<Exclude<Action, 'close'>, string> = { escalate: 'Waiting for your approval', analyst: 'Waiting for your decision' };
+const STATUS: Record<Exclude<Action, 'close'>, string> = { escalate: 'Waiting for Your Approval', analyst: 'Waiting for Your Decision' };
 const PROPOSAL: Partial<Record<Verdict, string>> = {
   card_not_present_fraud: 'blocking the card and sending the customer a new one',
   card_testing: 'blocking the card and sending the customer a new one',
@@ -75,7 +75,7 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
   const caseHref = (id?: string) => (id ? `/cases/${id}${query}` : undefined);
   const prev = caseHref(list[idx - 1]);
   const next = caseHref(list[idx + 1]);
-  const back = from === 'proof' ? { href: '/proof', label: 'Back to test results' } : fromHandled ? { href: '/?view=handled', label: 'Back to handled' } : { href: !view || view === 'escalate' ? '/' : `/?view=${view}`, label: 'Back to the queue' };
+  const back = from === 'proof' ? { href: '/proof', label: 'Back to Test Results' } : fromHandled ? { href: '/?view=handled', label: 'Back to Handled' } : { href: !view || view === 'escalate' ? '/' : `/?view=${view}`, label: 'Back to the Queue' };
   const where = from === 'proof' ? 'in the test' : fromHandled ? 'handled' : GROUPS.find((g) => g.key === view)?.short ?? '';
   // After a call, "Next alert" skips to the next one nobody has decided yet.
   const open = list.filter((id) => !decisions[id]);
@@ -110,18 +110,18 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
         {pair && (
           <div className="seg" role="tablist" aria-label="Which version">
             <button className={mode === 'jev' ? 'on' : ''} onClick={() => setMode('jev')}>Tidey</button>
-            <button className={mode === 'llm' ? 'on' : ''} onClick={() => setMode('llm')}>One AI model (test only)</button>
+            <button className={mode === 'llm' ? 'on' : ''} onClick={() => setMode('llm')}>One AI Model (Test Only)</button>
           </div>
         )}
       </div>
 
       {!pair && (
         <div className="panel">
-          <h2>Not investigated yet</h2>
+          <h2>Not Investigated Yet</h2>
           <p className="muted" style={{ marginTop: 0 }}>Run this alert through Tidey and the one-model version to see the investigation.</p>
           <div className="row">
             {!featured && <input className="pass" type="password" placeholder="Owner passcode" value={pass} onChange={(e) => setPass(e.target.value)} />}
-            <button className="btn primary" disabled={busy || (!featured && !pass)} onClick={runThis}>{busy ? 'Investigating…' : 'Investigate this alert'}</button>
+            <button className="btn primary" disabled={busy || (!featured && !pass)} onClick={runThis}>{busy ? 'Investigating…' : 'Investigate This Alert'}</button>
           </div>
           {err && <p className="no small">{err}</p>}
         </div>
@@ -186,7 +186,7 @@ function Assessment({ r, decided }: { r: RunResult; decided?: Decided }) {
             ) : (
               <span className={`status-pill ${tidey ? d.action : 'baseline'}`}>
                 <i className={d.action === 'close' || !tidey ? '' : 'pulsing'} />
-                {!tidey ? 'One AI model, test only' : d.action === 'close' ? 'Closed by Tidey' : STATUS[d.action]}
+                {!tidey ? 'One AI Model, Test Only' : d.action === 'close' ? 'Closed by Tidey' : STATUS[d.action]}
               </span>
             )}
           </div>
@@ -239,7 +239,7 @@ function DecisionBar({ r, group, decided, onDecide, nextOpen, leftText, back }: 
           <span className="left">{leftText}</span>
           <div className="acts-row">
             <button className="btn quiet" onClick={() => onDecide(null)}>Undo</button>
-            {nextOpen ? <a className="btn primary" href={nextOpen}>Next alert</a> : <a className="btn primary" href={back.href}>{back.label}</a>}
+            {nextOpen ? <a className="btn primary" href={nextOpen}>Next Alert</a> : <a className="btn primary" href={back.href}>{back.label}</a>}
           </div>
         </div>
       </div>
@@ -277,30 +277,30 @@ function CaseView({ r, bar }: { r: RunResult; bar: React.ReactNode }) {
         <div className="stack">
           {t.summary && (
             <section className="panel">
-              <p className="label">{t.mode === 'jev' ? 'Tidey’s summary' : `${modelName(t.models.openai)}’s summary`}</p>
+              <p className="label">{t.mode === 'jev' ? 'Tidey’s Summary' : `${modelName(t.models.openai)}’s Summary`}</p>
               <p className="summary">{t.summary.text}</p>
             </section>
           )}
           <section className="panel">
-            <p className="label">How the case was investigated</p>
+            <p className="label">How the Case Was Investigated</p>
             <Timeline r={r} />
           </section>
         </div>
 
         <div className="stack">
           <section className="panel">
-            <p className="label">The customer</p>
+            <p className="label">The Customer</p>
             <dl className="facts">
               <dt>Name</dt><dd>{ctx?.customer?.name}</dd>
-              <dt>Customer since</dt><dd>{ctx?.customer?.customer_since?.slice(0, 4)}</dd>
+              <dt>Customer Since</dt><dd>{ctx?.customer?.customer_since?.slice(0, 4)}</dd>
               <dt>Home</dt><dd>{ctx?.customer?.home_city}</dd>
               <dt>Account</dt><dd>{ctx?.customer?.account_type}</dd>
-              <dt>Usual purchase</dt><dd>{money(ctx?.customer_average_purchase_90d ?? 0)}</dd>
+              <dt>Usual Purchase</dt><dd>{money(ctx?.customer_average_purchase_90d ?? 0)}</dd>
             </dl>
           </section>
 
           <section className="panel">
-            <p className="label">How the decision was made</p>
+            <p className="label">How the Decision Was Made</p>
             {t.mode === 'jev' ? <JevAnswers step={decide} /> : <ModelAnswer r={r} />}
             {rule?.detail && <div className="rule"><b>{t.mode === 'jev' ? 'Code rule: ' : ''}</b>{rule.detail}</div>}
             <div className="key-note">
@@ -450,7 +450,7 @@ function KeyFacts({ ctx }: { ctx: Ctx }) {
 
   const facts: { label: string; value: string; sub: string; flag?: boolean }[] = [
     {
-      label: n > 1 ? 'Amount approved' : 'Amount',
+      label: n > 1 ? 'Amount Approved' : 'Amount',
       value: money(total),
       sub: n > 1 ? `${n} charges, ${declined ? `${declined} declined` : 'all approved'}` : times && times >= 2 ? `${times}× their usual ${money(avg)}` : `Usual purchase ${money(avg)}`,
       flag: !!times && times >= 3,
@@ -458,7 +458,7 @@ function KeyFacts({ ctx }: { ctx: Ctx }) {
     { label: 'When', value: when, sub: whenSub, flag: last.hour_of_day < 6 },
     { label: 'Where', value: where, sub: whereSub, flag: last.location_hidden_by_proxy || last.distance_from_home_miles > 100 },
     last.channel === 'transfer'
-      ? { label: 'Sent to', value: last.payee ?? 'Unknown payee', sub: last.device ? `From ${deviceName(last.device.label)}${last.device.first_seen_today ? ', new that day' : ''}` : 'Transfer', flag: !!last.device?.first_seen_today }
+      ? { label: 'Sent To', value: last.payee ?? 'Unknown payee', sub: last.device ? `From ${deviceName(last.device.label)}${last.device.first_seen_today ? ', new that day' : ''}` : 'Transfer', flag: !!last.device?.first_seen_today }
       : last.device
         ? { label: 'Device', value: last.device.label, sub: last.device.first_seen_today ? 'First seen that day' : `Known since ${last.device.first_seen.slice(0, 4)}`, flag: last.device.first_seen_today }
         : { label: 'How', value: last.channel === 'atm' ? 'Card and PIN' : 'Card present', sub: 'Used in person' },
