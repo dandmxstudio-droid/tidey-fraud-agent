@@ -119,16 +119,19 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
         <CaseView
           key={mode}
           r={r}
-          verdictSlot={
-            <Verdict
-              r={r}
-              group={pair && isOk(pair.jev) ? pair.jev.trace.decision.action : null}
-              decided={decisions[alert.id]}
-              onDecide={decide}
-              nextOpen={caseHref(after)}
-              leftText={leftText}
-              back={back}
-            />
+          assessment={<Assessment r={r} decided={mode === 'jev' ? decisions[alert.id] : undefined} />}
+          bar={
+            mode === 'jev' && pair && isOk(pair.jev) ? (
+              <DecisionBar
+                r={r}
+                group={pair.jev.trace.decision.action}
+                decided={decisions[alert.id]}
+                onDecide={decide}
+                nextOpen={caseHref(after)}
+                leftText={leftText}
+                back={back}
+              />
+            ) : null
           }
         />
       )}
@@ -136,27 +139,15 @@ export function CaseClient({ alert, featured, from, view: viewParam, runKind }: 
   );
 }
 
-type VerdictProps = {
-  r: RunResult;
-  group: Action | null;
-  decided?: Decided;
-  onDecide: (d: Decided | null) => void;
-  nextOpen?: string;
-  leftText: string;
-  back: { href: string; label: string };
-};
-
 const WORK_MS = 1100;
 const clockTime = (iso: string) => new Date(iso).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
-// Tidey's call, the analyst's buttons, and what happens after a click: Tidey does the work, then the whole card turns into the result.
-function Verdict({ r, group, decided, onDecide, nextOpen, leftText, back }: VerdictProps) {
+// Tidey's assessment, shown near the top so the analyst knows what they're checking. The decision itself lives in the bar at the bottom.
+function Assessment({ r, decided }: { r: RunResult; decided?: Decided }) {
   const d = r.trace.decision;
   const tidey = r.trace.mode === 'jev';
   const who = tidey ? 'Tidey' : 'The baseline';
-  const [working, setWorking] = useState<Choice | null>(null);
   const rec = r.trace.summary?.recommendation;
-
   let title = '', body = '';
   if (d.action === 'close') {
     title = `${who} closed this as a false alarm`;
@@ -168,7 +159,50 @@ function Verdict({ r, group, decided, onDecide, nextOpen, leftText, back }: Verd
     title = `${who} needs your call`;
     body = rec || firstSentence(d.reason);
   }
+  const o = decided ? outcome(decided.choice, d.verdict) : null;
 
+  return (
+    <div className={`verdict ${o ? 'decided' : d.action}`}>
+      <div className="verdict-say">
+        {tidey && <TideyBadge size={38} />}
+        <div>
+          {o && decided ? (
+            <p className={`status ${o.state}`}><StateIcon state={o.state} />{o.title} at {clockTime(decided.at)}</p>
+          ) : (
+            <p className={`status ${d.action}`}>
+              <i className={d.action === 'close' || !tidey ? '' : 'pulsing'} />
+              {!tidey ? 'Baseline decision, for the test only' : d.action === 'close' ? 'Closed by Tidey' : STATUS[d.action]}
+            </p>
+          )}
+          <h2>{title}</h2>
+          <p>{body}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const ASK: Record<Action, { q: string; hint: string }> = {
+  escalate: { q: 'Approve Tidey’s block?', hint: 'Nothing happens to the card or account until you do.' },
+  analyst: { q: 'What’s your call?', hint: 'Tidey wasn’t sure. Decide once you’ve checked the evidence above.' },
+  close: { q: 'Was Tidey right to close this?', hint: 'Spot-check the evidence above.' },
+};
+
+type BarProps = {
+  r: RunResult;
+  group: Action;
+  decided?: Decided;
+  onDecide: (d: Decided | null) => void;
+  nextOpen?: string;
+  leftText: string;
+  back: { href: string; label: string };
+};
+
+// The decision, pinned to the bottom of the screen so it's in reach after reading the whole case.
+// After a click, Tidey does the work in the bar, then the bar shows the result.
+function DecisionBar({ r, group, decided, onDecide, nextOpen, leftText, back }: BarProps) {
+  const d = r.trace.decision;
+  const [working, setWorking] = useState<Choice | null>(null);
   const act = (c: Choice) => {
     setWorking(c);
     window.setTimeout(() => {
@@ -177,23 +211,16 @@ function Verdict({ r, group, decided, onDecide, nextOpen, leftText, back }: Verd
     }, WORK_MS);
   };
 
-  // The analyst's calls belong to Tidey's view; the baseline is shown for the test only.
-  if (tidey && decided && !working && group) {
+  if (decided && !working) {
     const o = outcome(decided.choice, d.verdict);
     return (
-      <div className={`verdict resolved ${o.state}`} role="status">
-        <div className="res-main">
-          <span className="resolved-mark"><StateIcon state={o.state} size={22} /></span>
-          <div className="res-text">
-            <div className="res-title">
-              <h2>{o.title}</h2>
-              <span className="demo-tag" title="Nothing real was blocked, sent or saved outside this browser tab">Demo</span>
-            </div>
-            <p>{o.body}</p>
-          </div>
-          <span className="res-time">{clockTime(decided.at)}</span>
+      <div className={`decision-bar done ${o.state}`} role="status">
+        <span className="resolved-mark"><StateIcon state={o.state} size={20} /></span>
+        <div className="db-text">
+          <b>{o.title}<span className="demo-tag" title="Nothing real was blocked, sent or saved outside this browser tab">Demo</span></b>
+          <span>{o.body}</span>
         </div>
-        <div className="res-foot">
+        <div className="db-side">
           <span className="left">{leftText}</span>
           <div className="acts-row">
             <button className="btn quiet" onClick={() => onDecide(null)}>Undo</button>
@@ -206,32 +233,23 @@ function Verdict({ r, group, decided, onDecide, nextOpen, leftText, back }: Verd
 
   const o = working ? outcome(working, d.verdict) : null;
   return (
-    <div className={`verdict ${d.action}${working ? ' working' : ''}`}>
-      <div className="verdict-say">
-        {tidey && <TideyBadge size={38} live={!!working} />}
-        <div>
-          <p className={`status ${d.action}`}>
-            <i className={d.action === 'close' || !tidey ? '' : 'pulsing'} />
-            {!tidey ? 'Baseline decision, for the test only' : d.action === 'close' ? 'Closed by Tidey' : STATUS[d.action]}
-          </p>
-          <h2>{title}</h2>
-          <p>{body}</p>
-        </div>
+    <div className={`decision-bar${working ? ' working' : ''}`}>
+      <div className="db-text">
+        <b>{ASK[group].q}</b>
+        <span>{ASK[group].hint}</span>
       </div>
-      {tidey && group && (
-        <div className="acts">
-          {o ? (
-            <span className="working-note" role="status"><span className="spinner" aria-hidden="true" />{o.working}</span>
-          ) : (
-            CHOICES[group].map((a) => <button key={a.choice} className={a.cls} onClick={() => act(a.choice)}>{a.label}</button>)
-          )}
-        </div>
-      )}
+      <div className="acts-row">
+        {o ? (
+          <span className="working-note" role="status"><span className="spinner" aria-hidden="true" />{o.working}</span>
+        ) : (
+          CHOICES[group].map((a) => <button key={a.choice} className={a.cls} onClick={() => act(a.choice)}>{a.label}</button>)
+        )}
+      </div>
     </div>
   );
 }
 
-function CaseView({ r, verdictSlot }: { r: RunResult; verdictSlot: React.ReactNode }) {
+function CaseView({ r, assessment, bar }: { r: RunResult; assessment: React.ReactNode; bar: React.ReactNode }) {
   const t = r.trace;
   const ctx = t.steps[0]?.data as any; // eslint-disable-line @typescript-eslint/no-explicit-any
   const decide = t.steps.find((s) => s.kind === 'decide');
@@ -240,7 +258,7 @@ function CaseView({ r, verdictSlot }: { r: RunResult; verdictSlot: React.ReactNo
   return (
     <>
       {ctx && <KeyFacts ctx={ctx} />}
-      {verdictSlot}
+      {assessment}
       <div className="case-grid">
         <div className="stack">
           {t.summary && (
@@ -282,6 +300,7 @@ function CaseView({ r, verdictSlot }: { r: RunResult; verdictSlot: React.ReactNo
           </section>
         </div>
       </div>
+      {bar}
     </>
   );
 }

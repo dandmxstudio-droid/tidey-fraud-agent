@@ -32,8 +32,8 @@ export function saveDecision(id: string, d: Decided | null): Record<string, Deci
 // What the analyst can do, by the group Tidey put the alert in.
 export const CHOICES: Record<Action, { choice: Choice; label: string; cls: string }[]> = {
   escalate: [
-    { choice: 'approve', label: 'Approve block', cls: 'btn danger' },
     { choice: 'override', label: 'Not fraud', cls: 'btn' },
+    { choice: 'approve', label: 'Approve block', cls: 'btn danger' },
   ],
   analyst: [
     { choice: 'legit', label: 'Mark legitimate', cls: 'btn' },
@@ -41,8 +41,8 @@ export const CHOICES: Record<Action, { choice: Choice; label: string; cls: strin
     { choice: 'contact', label: 'Contact customer', cls: 'btn primary' },
   ],
   close: [
-    { choice: 'confirm', label: 'Looks right', cls: 'btn primary' },
     { choice: 'reopen', label: 'Reopen', cls: 'btn' },
+    { choice: 'confirm', label: 'Looks right', cls: 'btn primary' },
   ],
 };
 
