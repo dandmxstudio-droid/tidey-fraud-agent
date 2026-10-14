@@ -2,6 +2,8 @@
 
 Tidey is a fraud alert investigation agent, built two ways and tested head to head on 50 synthetic alerts.
 
+**Live demo:** https://tidey-fraud-agent.vercel.app · **Test results:** https://tidey-fraud-agent.vercel.app/proof
+
 - **Version A: Jev decides, code acts.** Code reads the alert and always runs the required checks. [Jev](https://docs.typesafe.ai) (TypeSafe's decision model) answers yes/no questions on which extra checks to run, then answers the decision questions with probabilities. Plain code rules turn those probabilities into **close**, **escalate** or **send to an analyst**. An AI model writes the summary a person reads.
 - **Version B: one AI model does everything.** A single OpenAI model (GPT-5.4 mini) gets the same checks as tools, the same definitions and the same guardrail, but picks the checks and makes the call itself.
 
